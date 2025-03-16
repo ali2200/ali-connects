@@ -7,10 +7,10 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+import { ChartContainer, ChartTooltipContent } from '@/components/ui/chart';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { DollarSign, TrendingUp, ArrowUpRight, Calendar, Download, Filter, CreditCard } from 'lucide-react';
-import { AreaChart, BarChart } from "recharts";
+import { AreaChart, BarChart, Area, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 
 const LecturerEarnings = () => {
   const [period, setPeriod] = useState("monthly");
@@ -183,24 +183,24 @@ const LecturerEarnings = () => {
                         <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
                       </linearGradient>
                     </defs>
-                    <AreaChart.XAxis
+                    <XAxis
                       dataKey="name"
                       tickLine={false}
                       axisLine={false}
                       stroke="#888888"
                       fontSize={12}
                     />
-                    <AreaChart.YAxis
+                    <YAxis
                       tickLine={false}
                       axisLine={false}
                       stroke="#888888"
                       fontSize={12}
                       width={70}
-                      tickFormatter={(value: number) => `${value} ريال`}
+                      tickFormatter={(value) => `${value} ريال`}
                     />
-                    <AreaChart.CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
-                    <AreaChart.Tooltip content={<ChartTooltipContent />} />
-                    <AreaChart.Area
+                    <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
+                    <Tooltip content={<ChartTooltipContent />} />
+                    <Area
                       dataKey="total"
                       stroke="#3b82f6"
                       strokeWidth={2}
@@ -301,24 +301,24 @@ const LecturerEarnings = () => {
                           bottom: 0,
                         }}
                       >
-                        <BarChart.XAxis
+                        <XAxis
                           dataKey="name"
                           tickLine={false}
                           axisLine={false}
                           stroke="#888888"
                           fontSize={12}
                         />
-                        <BarChart.YAxis
+                        <YAxis
                           tickLine={false}
                           axisLine={false}
                           stroke="#888888"
                           fontSize={12}
                           width={70}
-                          tickFormatter={(value: number) => `${value} ريال`}
+                          tickFormatter={(value) => `${value} ريال`}
                         />
-                        <BarChart.CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
-                        <BarChart.Tooltip content={<ChartTooltipContent />} />
-                        <BarChart.Bar dataKey="total" fill="#3b82f6" radius={[4, 4, 0, 0]} />
+                        <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
+                        <Tooltip content={<ChartTooltipContent />} />
+                        <Bar dataKey="total" fill="#3b82f6" radius={[4, 4, 0, 0]} />
                       </BarChart>
                     </ChartContainer>
                   </div>

@@ -7,9 +7,10 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { AreaChart, BarChart } from '@/components/ui/chart';
+import { ChartContainer, ChartTooltipContent } from '@/components/ui/chart';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { DollarSign, TrendingUp, ArrowUpRight, Calendar, Download, Filter, CreditCard } from 'lucide-react';
+import { AreaChart, BarChart, Area, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 
 const FreelancerEarnings = () => {
   const [period, setPeriod] = useState("monthly");
@@ -136,27 +137,61 @@ const FreelancerEarnings = () => {
             </CardHeader>
             <CardContent>
               <div className="h-[300px]">
-                <AreaChart 
-                  data={[
-                    { name: 'يناير', total: 1500 },
-                    { name: 'فبراير', total: 2300 },
-                    { name: 'مارس', total: 3200 },
-                    { name: 'أبريل', total: 2800 },
-                    { name: 'مايو', total: 3800 },
-                    { name: 'يونيو', total: 4200 },
-                    { name: 'يوليو', total: 3700 },
-                    { name: 'أغسطس', total: 4800 },
-                    { name: 'سبتمبر', total: 5100 },
-                    { name: 'أكتوبر', total: 5800 },
-                    { name: 'نوفمبر', total: 4900 },
-                    { name: 'ديسمبر', total: 5250 }
-                  ]}
-                  categories={['total']}
-                  index="name"
-                  colors={['#3b82f6']}
-                  valueFormatter={(value) => `${value} ريال`}
-                  yAxisWidth={70}
-                />
+                <ChartContainer
+                  config={{
+                    total: {
+                      label: "الإجمالي",
+                      color: "#3b82f6",
+                    },
+                  }}
+                >
+                  <AreaChart 
+                    data={[
+                      { name: 'يناير', total: 1500 },
+                      { name: 'فبراير', total: 2300 },
+                      { name: 'مارس', total: 3200 },
+                      { name: 'أبريل', total: 2800 },
+                      { name: 'مايو', total: 3800 },
+                      { name: 'يونيو', total: 4200 },
+                      { name: 'يوليو', total: 3700 },
+                      { name: 'أغسطس', total: 4800 },
+                      { name: 'سبتمبر', total: 5100 },
+                      { name: 'أكتوبر', total: 5800 },
+                      { name: 'نوفمبر', total: 4900 },
+                      { name: 'ديسمبر', total: 5250 }
+                    ]}
+                    margin={{
+                      top: 5,
+                      right: 10,
+                      left: 10,
+                      bottom: 0,
+                    }}
+                  >
+                    <defs>
+                      <linearGradient id="total" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.35} />
+                        <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
+                      </linearGradient>
+                    </defs>
+                    <XAxis dataKey="name" tickLine={false} axisLine={false} stroke="#888888" fontSize={12} />
+                    <YAxis 
+                      tickLine={false} 
+                      axisLine={false} 
+                      stroke="#888888" 
+                      fontSize={12} 
+                      width={70}
+                      tickFormatter={(value) => `${value} ريال`}
+                    />
+                    <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
+                    <Tooltip content={<ChartTooltipContent />} />
+                    <Area
+                      dataKey="total"
+                      stroke="#3b82f6"
+                      strokeWidth={2}
+                      fill="url(#total)"
+                    />
+                  </AreaChart>
+                </ChartContainer>
               </div>
             </CardContent>
           </Card>
@@ -233,20 +268,43 @@ const FreelancerEarnings = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="h-[300px]">
-                    <BarChart 
-                      data={[
-                        { name: 'تطوير مواقع', total: 18500 },
-                        { name: 'تطوير تطبيقات', total: 12300 },
-                        { name: 'تصميم واجهات', total: 8200 },
-                        { name: 'خدمات SEO', total: 5100 },
-                        { name: 'تصميم جرافيك', total: 3500 }
-                      ]}
-                      categories={['total']}
-                      index="name"
-                      colors={['#3b82f6']}
-                      valueFormatter={(value) => `${value} ريال`}
-                      yAxisWidth={70}
-                    />
+                    <ChartContainer
+                      config={{
+                        total: {
+                          label: "الإجمالي",
+                          color: "#3b82f6",
+                        },
+                      }}
+                    >
+                      <BarChart 
+                        data={[
+                          { name: 'تطوير مواقع', total: 18500 },
+                          { name: 'تطوير تطبيقات', total: 12300 },
+                          { name: 'تصميم واجهات', total: 8200 },
+                          { name: 'خدمات SEO', total: 5100 },
+                          { name: 'تصميم جرافيك', total: 3500 }
+                        ]}
+                        margin={{
+                          top: 5,
+                          right: 10,
+                          left: 10,
+                          bottom: 0,
+                        }}
+                      >
+                        <XAxis dataKey="name" tickLine={false} axisLine={false} stroke="#888888" fontSize={12} />
+                        <YAxis 
+                          tickLine={false} 
+                          axisLine={false} 
+                          stroke="#888888" 
+                          fontSize={12} 
+                          width={70}
+                          tickFormatter={(value) => `${value} ريال`}
+                        />
+                        <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
+                        <Tooltip content={<ChartTooltipContent />} />
+                        <Bar dataKey="total" fill="#3b82f6" radius={[4, 4, 0, 0]} />
+                      </BarChart>
+                    </ChartContainer>
                   </div>
                 </CardContent>
               </Card>

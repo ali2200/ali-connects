@@ -9,6 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Progress } from '@/components/ui/progress';
 import { Star, MessageSquare, ThumbsUp } from 'lucide-react';
+import { useToast } from '@/components/ui/use-toast';
 
 const FreelancerReviews = () => {
   const [activeTab, setActiveTab] = useState("all");
@@ -202,7 +203,7 @@ interface Review {
 }
 
 const ReviewsList = ({ reviews }: { reviews: Review[] }) => {
-  const { toast } = useState();
+  const { toast } = useToast();
   
   const handleAddReply = (id: string, reply: string) => {
     toast({
@@ -225,56 +226,55 @@ const ReviewsList = ({ reviews }: { reviews: Review[] }) => {
     <div className="space-y-4">
       {reviews.map(review => (
         <Card key={review.id}>
-          <CardContent className="p-5">
-            <div className="space-y-4">
-              {/* معلومات العميل والتقييم */}
-              <div className="flex justify-between items-start">
-                <div className="flex items-center gap-3">
-                  <Avatar>
-                    <AvatarImage src={review.client.image} alt={review.client.name} />
-                    <AvatarFallback>{review.client.name.slice(0, 2)}</AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <h3 className="font-semibold">{review.client.name}</h3>
-                    <div className="flex items-center">
-                      <span className="text-sm text-gray-500 ml-2">{review.project}</span>
-                      <span className="text-xs text-gray-500">{new Date(review.date).toLocaleDateString('ar-SA')}</span>
+          <CardContent className="p-4 space-y-4">
+            <div className="flex items-start justify-between">
+              <div className="flex items-center gap-3">
+                <Avatar>
+                  <AvatarImage src={review.client.image} alt={review.client.name} />
+                  <AvatarFallback>{review.client.name.slice(0, 2)}</AvatarFallback>
+                </Avatar>
+                <div>
+                  <h3 className="font-semibold">{review.client.name}</h3>
+                  <div className="flex items-center gap-2 text-sm text-gray-600">
+                    <div className="flex">
+                      {[1, 2, 3, 4, 5].map(star => (
+                        <Star
+                          key={star}
+                          className={`h-3.5 w-3.5 ${star <= review.rating ? 'text-yellow-500 fill-yellow-500' : 'text-gray-300'}`}
+                        />
+                      ))}
                     </div>
+                    <span>•</span>
+                    <span>{review.project}</span>
+                  </div>
+                  <div className="text-xs text-gray-500 mt-1">
+                    {new Date(review.date).toLocaleDateString('ar-SA')}
                   </div>
                 </div>
-                <div className="flex items-center">
-                  {[1, 2, 3, 4, 5].map(star => (
-                    <Star
-                      key={star}
-                      className={`h-4 w-4 ${star <= review.rating ? 'text-yellow-500 fill-yellow-500' : 'text-gray-300'}`}
-                    />
-                  ))}
-                </div>
               </div>
-              
-              {/* محتوى التقييم */}
-              <div>
-                <p className="text-gray-700">{review.content}</p>
-              </div>
-              
-              {/* الرد على التقييم */}
-              {review.reply ? (
-                <div className="bg-gray-50 p-3 rounded-md border border-gray-100">
-                  <div className="flex items-center gap-2 mb-2">
-                    <MessageSquare className="h-4 w-4 text-blue-600" />
-                    <span className="text-sm font-medium">ردك على التقييم</span>
-                  </div>
-                  <p className="text-gray-700 text-sm">{review.reply}</p>
-                </div>
-              ) : (
-                <div className="flex justify-end">
-                  <Button variant="outline" size="sm">
-                    <MessageSquare className="ml-1 h-4 w-4" />
-                    الرد على التقييم
-                  </Button>
-                </div>
-              )}
             </div>
+            
+            <div>
+              <p className="text-gray-700">{review.content}</p>
+            </div>
+            
+            {review.reply && (
+              <div className="bg-gray-50 p-3 rounded-lg border-r-4 border-blue-500">
+                <p className="text-sm text-gray-700">
+                  <span className="font-semibold">ردك: </span>
+                  {review.reply}
+                </p>
+              </div>
+            )}
+            
+            {!review.reply && (
+              <div className="flex justify-end">
+                <Button variant="outline" size="sm" onClick={() => handleAddReply(review.id, 'شكراً لتقييمك')}>
+                  <MessageSquare className="ml-1 h-4 w-4" />
+                  إضافة رد
+                </Button>
+              </div>
+            )}
           </CardContent>
         </Card>
       ))}

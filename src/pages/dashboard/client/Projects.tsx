@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
@@ -17,7 +16,7 @@ import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Briefcase, DollarSign, Clock, CheckCircle2, AlertCircle, User, Calendar, MessageSquare, FileText, Filter, Plus } from 'lucide-react';
+import { Briefcase, DollarSign, Clock, CheckCircle2, AlertCircle, User, Calendar, MessageSquare, FileText, Filter, Plus, Star } from 'lucide-react';
 
 // صفحة المشاريع (عرض جميع المشاريع أو مشروع واحد)
 const ClientProjects = () => {
