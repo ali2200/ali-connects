@@ -21,13 +21,6 @@ import Contact from "./pages/Contact";
 import Faq from "./pages/Faq";
 import Terms from "./pages/Terms";
 import Blog from "./pages/Blog";
-import BlogPost from "./pages/BlogPost";
-
-// سوق الخدمات
-import Marketplace from "./pages/marketplace/Marketplace";
-
-// صفحات الدورات
-import Courses from "./pages/courses/Courses";
 
 const queryClient = new QueryClient();
 
@@ -47,13 +40,6 @@ const App = () => (
           <Route path="/faq" element={<Faq />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="/blog" element={<Blog />} />
-          <Route path="/blog/:slug" element={<BlogPost />} />
-          
-          {/* الدورات والتدريب */}
-          <Route path="/courses" element={<Courses />} />
-          
-          {/* سوق الخدمات */}
-          <Route path="/marketplace" element={<Marketplace />} />
           
           {/* لوحة تحكم المستقلين */}
           <Route path="/dashboard/freelancer" element={<FreelancerDashboard />} />
