@@ -42,11 +42,16 @@ type LectureType = {
   order: number;
 };
 
+// Define the type for the current lecture being edited
+type CurrentLectureType = Partial<LectureType> & {
+  type?: 'video' | 'quiz' | 'article';
+};
+
 const LecturerCourseUpload = () => {
   const [thumbnail, setThumbnail] = React.useState<File | null>(null);
   const [lectures, setLectures] = React.useState<LectureType[]>([]);
   const [formVisible, setFormVisible] = React.useState(false);
-  const [currentLecture, setCurrentLecture] = React.useState<Partial<LectureType>>({});
+  const [currentLecture, setCurrentLecture] = React.useState<CurrentLectureType>({});
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -82,7 +87,7 @@ const LecturerCourseUpload = () => {
       id: Math.random().toString(36).substring(2, 9),
       title: currentLecture.title || '',
       description: currentLecture.description || '',
-      type: (currentLecture.type as 'video' | 'quiz' | 'article') || 'video',
+      type: currentLecture.type,
       duration: currentLecture.duration || '00:00',
       order: lectures.length + 1,
     };
@@ -151,6 +156,11 @@ const LecturerCourseUpload = () => {
       title: "تم رفع الدورة بنجاح",
       description: "سيتم مراجعة الدورة ونشرها قريبًا.",
     });
+  };
+
+  // Type-safe function to update the currentLecture type
+  const handleLectureTypeChange = (value: 'video' | 'quiz' | 'article') => {
+    setCurrentLecture({...currentLecture, type: value});
   };
 
   return (
@@ -419,7 +429,7 @@ const LecturerCourseUpload = () => {
                                   <div className="space-y-2">
                                     <Label htmlFor="lecture-type">نوع المحاضرة</Label>
                                     <Select 
-                                      onValueChange={(value) => setCurrentLecture({...currentLecture, type: value})}
+                                      onValueChange={(value: 'video' | 'article' | 'quiz') => handleLectureTypeChange(value)}
                                       value={currentLecture.type}
                                     >
                                       <SelectTrigger id="lecture-type">
