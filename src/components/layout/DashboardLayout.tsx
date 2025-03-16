@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 import CustomButton from '@/components/ui/CustomButton';
 import { Separator } from '@/components/ui/separator';
 
-type DashboardType = 'freelancer' | 'client' | 'admin';
+type DashboardType = 'freelancer' | 'client' | 'admin' | 'lecturer';
 
 type MenuItem = {
   name: string;
@@ -26,8 +26,8 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, type, title
   const [mobileOpen, setMobileOpen] = React.useState(false);
   
   const menuItems: MenuItem[] = [
-    { name: 'لوحة التحكم', path: `/dashboard/${type}`, icon: Home, permissions: ['freelancer', 'client', 'admin'] },
-    { name: 'الملف الشخصي', path: `/dashboard/${type}/profile`, icon: User, permissions: ['freelancer', 'client', 'admin'] },
+    { name: 'لوحة التحكم', path: `/dashboard/${type}`, icon: Home, permissions: ['freelancer', 'client', 'admin', 'lecturer'] },
+    { name: 'الملف الشخصي', path: `/dashboard/${type}/profile`, icon: User, permissions: ['freelancer', 'client', 'admin', 'lecturer'] },
     
     // المستقلين
     { name: 'المشاريع', path: `/dashboard/freelancer/projects`, icon: Briefcase, permissions: ['freelancer'] },
@@ -49,6 +49,12 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, type, title
     { name: 'التحليلات', path: `/dashboard/admin/analytics`, icon: BarChart2, permissions: ['admin'] },
     { name: 'إدارة المحتوى', path: `/dashboard/admin/content`, icon: FileText, permissions: ['admin'] },
     { name: 'المدونة', path: `/dashboard/admin/blog`, icon: MessageSquare, permissions: ['admin'] },
+    
+    // المحاضرين
+    { name: 'الدورات', path: `/dashboard/lecturer/courses`, icon: Book, permissions: ['lecturer'] },
+    { name: 'الطلاب', path: `/dashboard/lecturer/students`, icon: Users, permissions: ['lecturer'] },
+    { name: 'المحاضرات', path: `/dashboard/lecturer/lectures`, icon: FileText, permissions: ['lecturer'] },
+    { name: 'الإيرادات', path: `/dashboard/lecturer/earnings`, icon: DollarSign, permissions: ['lecturer'] },
   ];
   
   const filteredMenuItems = menuItems.filter(item => item.permissions.includes(type));

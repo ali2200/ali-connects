@@ -11,7 +11,58 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Separator } from '@/components/ui/separator';
 import { CheckCircle, Clock, BookOpen, Star, Users, Award, Play, ShoppingCart, Calendar, User } from 'lucide-react';
 
-const courseData = {
+// Define proper types for our data
+type Review = {
+  id: number;
+  user: string;
+  rating: number;
+  date: string;
+  comment: string;
+};
+
+type Lesson = {
+  title: string;
+  duration: string;
+  isFree: boolean;
+};
+
+type Section = {
+  title: string;
+  lessons: Lesson[];
+};
+
+type Instructor = {
+  name: string;
+  title: string;
+  image: string;
+  courses: number;
+  students: number;
+  rating: number;
+};
+
+type CourseData = {
+  id: number;
+  title: string;
+  description: string;
+  image: string;
+  instructor: Instructor;
+  price: number;
+  originalPrice: number;
+  discount: number;
+  duration: string;
+  lessons: number;
+  students: number;
+  language: string;
+  lastUpdate: string;
+  level: string;
+  rating: number;
+  reviews: number;
+  features: string[];
+  curriculum: Section[];
+  reviewsList: Review[];
+};
+
+const courseData: CourseData = {
   id: 1,
   title: 'التسويق الرقمي للمبتدئين: دليل شامل من الصفر للاحتراف',
   description: 'دورة شاملة للمبتدئين في مجال التسويق الرقمي، تغطي جميع أساسيات وتقنيات التسويق الإلكتروني بأسلوب عملي وتطبيقي. ستتعلم كيفية إنشاء استراتيجيات تسويقية ناجحة، وإدارة حملات إعلانية فعالة، وتحسين ظهور موقعك في محركات البحث، والتسويق عبر وسائل التواصل الاجتماعي.',
@@ -84,13 +135,13 @@ const courseData = {
       ]
     }
   ],
-  reviews: [
+  reviewsList: [
     {
       id: 1,
       user: 'محمد السعيد',
       rating: 5,
       date: 'منذ شهر',
-      comment: 'دورة ممتازة ومفيدة جداً للمبتدئين في مجال التسويق الرقمي. شرح المدرب واضح ومفصل، والأمثلة العملية ساعدتني كثيراً في فهم المفاهيم.'
+      comment: 'دورة ممتازة ومفيدة جداً للمبتدئين في مجال التسويق الرقمي. شرح المدرس واضح ومفصل، والأمثلة العملية ساعدتني كثيراً في فهم المفاهيم.'
     },
     {
       id: 2,
@@ -104,7 +155,7 @@ const courseData = {
       user: 'خالد الغامدي',
       rating: 5,
       date: 'منذ 3 أشهر',
-      comment: 'من أفضل الدورات التي حضرتها في مجال التسويق الرقمي. المدرب متمكن من المادة العلمية ويشرح بأسلوب سلس وواضح. أنصح بها بشدة لكل من يريد دخول عالم التسويق الرقمي.'
+      comment: 'من أفضل الدورات التي حضرتها في مجال التسويق الرقمي. المدرس متمكن من المادة العلمية ويشرح بأسلوب سلس وواضح. أنصح بها بشدة لكل من يريد دخول عالم التسويق الرقمي.'
     }
   ]
 };
@@ -504,7 +555,7 @@ const CourseDetail = () => {
                       </div>
                       
                       <div className="space-y-6">
-                        {courseData.reviews.map((review) => (
+                        {courseData.reviewsList.map((review) => (
                           <div key={review.id} className="border-b pb-6 last:border-0">
                             <div className="flex justify-between mb-2">
                               <div className="flex items-center">
