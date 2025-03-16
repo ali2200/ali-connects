@@ -14,7 +14,36 @@
         font-style: normal;
         font-display: swap;
       }
+      
+      /* Hide lovable badge right away */
+      #lovable-badge {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+      }
     </style>
+    <script>
+      // Remove lovable badge element if it exists
+      document.addEventListener('DOMContentLoaded', function() {
+        const badge = document.getElementById('lovable-badge');
+        if (badge) {
+          badge.remove();
+        }
+        
+        // Also use MutationObserver to catch if it's added later
+        const observer = new MutationObserver(function(mutations) {
+          const badge = document.getElementById('lovable-badge');
+          if (badge) {
+            badge.remove();
+          }
+        });
+        
+        observer.observe(document.body, { 
+          childList: true,
+          subtree: true
+        });
+      });
+    </script>
   </head>
   <body>
     <div id="root"></div>
