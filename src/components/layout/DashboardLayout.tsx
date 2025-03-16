@@ -1,12 +1,13 @@
 
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Home, Users, Briefcase, Book, MessageSquare, Settings, Search, ChevronLeft, LogOut, User, DollarSign, Star, Package, FileText, BarChart2, CreditCard, Upload, BookOpen } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import CustomButton from '@/components/ui/CustomButton';
 import { Separator } from '@/components/ui/separator';
+import { useToast } from '@/components/ui/use-toast';
 
-type DashboardType = 'freelancer' | 'client' | 'admin' | 'lecturer';
+export type DashboardType = 'freelancer' | 'client' | 'admin' | 'lecturer';
 
 type MenuItem = {
   name: string;
@@ -23,6 +24,8 @@ interface DashboardLayoutProps {
 
 const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, type, title }) => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { toast } = useToast();
   const [mobileOpen, setMobileOpen] = React.useState(false);
   
   const menuItems: MenuItem[] = [
@@ -70,6 +73,15 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, type, title
       case 'lecturer': return 'لوحة تحكم المحاضر';
       default: return 'لوحة التحكم';
     }
+  };
+
+  const handleLogout = () => {
+    toast({
+      title: "تم تسجيل الخروج بنجاح",
+      description: "نتمنى أن نراك قريبًا مرة أخرى!",
+    });
+    // في الواقع، هنا ستقوم بمسح بيانات المستخدم من الذاكرة/التخزين
+    navigate('/login');
   };
   
   return (
@@ -163,13 +175,13 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, type, title
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    to="/login"
-                    className="flex items-center py-2 px-3 rounded-lg text-red-600 hover:bg-red-50 transition-colors"
+                  <button
+                    onClick={handleLogout}
+                    className="flex items-center py-2 px-3 rounded-lg text-red-600 hover:bg-red-50 transition-colors w-full text-right"
                   >
                     <LogOut className="h-5 w-5 ml-3" />
                     <span>تسجيل الخروج</span>
-                  </Link>
+                  </button>
                 </li>
               </ul>
             </nav>

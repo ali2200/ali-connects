@@ -12,9 +12,18 @@ import Login from "./pages/Login";
 
 // لوحة التحكم - المستقلين
 import FreelancerDashboard from "./pages/dashboard/freelancer/Dashboard";
+import FreelancerProfile from "./pages/dashboard/freelancer/Profile";
+import FreelancerProjects from "./pages/dashboard/freelancer/Projects";
+import FreelancerServices from "./pages/dashboard/freelancer/Services";
+import FreelancerEarnings from "./pages/dashboard/freelancer/Earnings";
+import FreelancerReviews from "./pages/dashboard/freelancer/Reviews";
 
 // لوحة التحكم - أصحاب الأعمال
 import ClientDashboard from "./pages/dashboard/client/Dashboard";
+import ClientProfile from "./pages/dashboard/client/Profile";
+import ClientProjects from "./pages/dashboard/client/Projects";
+import ClientNewProject from "./pages/dashboard/client/NewProject";
+import ClientPayments from "./pages/dashboard/client/Payments";
 
 // لوحة التحكم - المحاضرين
 import LecturerDashboard from "./pages/dashboard/lecturer/Dashboard";
@@ -23,6 +32,13 @@ import LecturerCourses from "./pages/dashboard/lecturer/Courses";
 import LecturerCourseUpload from "./pages/dashboard/lecturer/CourseUpload";
 import LecturerBooks from "./pages/dashboard/lecturer/Books";
 import LecturerBookUpload from "./pages/dashboard/lecturer/BookUpload";
+import LecturerStudents from "./pages/dashboard/lecturer/Students";
+import LecturerLectures from "./pages/dashboard/lecturer/Lectures";
+import LecturerEarnings from "./pages/dashboard/lecturer/Earnings";
+
+// الإشعارات المشتركة
+import Notifications from "./pages/dashboard/shared/Notifications";
+import Settings from "./pages/Settings";
 
 // صفحات أساسية
 import About from "./pages/About";
@@ -63,6 +79,7 @@ const App = () => (
             <Route path="/terms" element={<Terms />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:slug" element={<BlogPost />} />
+            <Route path="/settings" element={<Settings />} />
             
             {/* صفحات الدورات والتعليم */}
             <Route path="/courses" element={<Courses />} />
@@ -74,12 +91,27 @@ const App = () => (
             
             {/* صفحة المستقلين */}
             <Route path="/freelancers" element={<Freelancers />} />
+            <Route path="/freelancers/:id" element={<FreelancerProfile />} />
+            
+            {/* الإشعارات المشتركة */}
+            <Route path="/dashboard/notifications" element={<Notifications />} />
             
             {/* لوحة تحكم المستقلين */}
             <Route path="/dashboard/freelancer" element={<FreelancerDashboard />} />
+            <Route path="/dashboard/freelancer/profile" element={<FreelancerProfile />} />
+            <Route path="/dashboard/freelancer/projects" element={<FreelancerProjects />} />
+            <Route path="/dashboard/freelancer/projects/:id" element={<FreelancerProjects />} />
+            <Route path="/dashboard/freelancer/services" element={<FreelancerServices />} />
+            <Route path="/dashboard/freelancer/earnings" element={<FreelancerEarnings />} />
+            <Route path="/dashboard/freelancer/reviews" element={<FreelancerReviews />} />
             
             {/* لوحة تحكم أصحاب الأعمال */}
             <Route path="/dashboard/client" element={<ClientDashboard />} />
+            <Route path="/dashboard/client/profile" element={<ClientProfile />} />
+            <Route path="/dashboard/client/projects" element={<ClientProjects />} />
+            <Route path="/dashboard/client/projects/:id" element={<ClientProjects />} />
+            <Route path="/dashboard/client/projects/new" element={<ClientNewProject />} />
+            <Route path="/dashboard/client/payments" element={<ClientPayments />} />
             
             {/* لوحة تحكم المحاضرين */}
             <Route path="/dashboard/lecturer" element={<LecturerDashboard />} />
@@ -88,6 +120,9 @@ const App = () => (
             <Route path="/dashboard/lecturer/courses/upload" element={<LecturerCourseUpload />} />
             <Route path="/dashboard/lecturer/books" element={<LecturerBooks />} />
             <Route path="/dashboard/lecturer/books/upload" element={<LecturerBookUpload />} />
+            <Route path="/dashboard/lecturer/students" element={<LecturerStudents />} />
+            <Route path="/dashboard/lecturer/lectures" element={<LecturerLectures />} />
+            <Route path="/dashboard/lecturer/earnings" element={<LecturerEarnings />} />
             
             {/* صفحة 404 */}
             <Route path="*" element={<NotFound />} />
