@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import CustomButton from '../ui/CustomButton';
@@ -15,11 +16,11 @@ const CTASection = () => {
       <div className="container-custom">
         <div className="max-w-3xl mx-auto text-center text-white">
           <h2 className="heading-md mb-6">
-            Ready to Transform Your Marketing?
+            هل أنت جاهز لتحويل التسويق الخاص بك؟
           </h2>
           <p className="text-lg md:text-xl opacity-90 mb-10">
-            Join Ali for Business today and connect with top marketing talent, access expert 
-            education, and leverage our smart assistant to grow your business.
+            انضم إلى علي للأعمال اليوم وتواصل مع أفضل المواهب التسويقية، واحصل على تعليم من الخبراء، 
+            واستفد من المساعد الذكي لدينا لتنمية عملك.
           </p>
           
           <div className="flex flex-col sm:flex-row justify-center gap-4">
@@ -28,20 +29,20 @@ const CTASection = () => {
                 size="lg" 
                 variant="glass" 
                 className="bg-white bg-opacity-20 text-white border-white/30 hover:bg-white/30"
-                rightIcon={<ArrowRight className="ml-1" />}
+                rightIcon={<ArrowRight className="mr-1 rotate-180" />}
               >
-                Get Started Free
+                ابدأ مجاناً
               </CustomButton>
             </Link>
             <Link to="/contact">
               <CustomButton size="lg" variant="outline" className="text-white border-white hover:bg-white/10">
-                Contact Sales
+                اتصل بالمبيعات
               </CustomButton>
             </Link>
           </div>
           
           <p className="mt-8 text-sm opacity-80">
-            No credit card required. Start with a free account and upgrade anytime.
+            لا حاجة لبطاقة ائتمان. ابدأ بحساب مجاني وقم بالترقية في أي وقت.
           </p>
         </div>
       </div>

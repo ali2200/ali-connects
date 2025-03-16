@@ -1,0 +1,49 @@
+
+/* أنماط RTL لموقع باللغة العربية */
+.rtl {
+  direction: rtl;
+  text-align: right;
+}
+
+.ltr {
+  direction: ltr;
+  text-align: left;
+}
+
+/* تعديل أنماط الهوامش والمحاذاة للغة العربية */
+[dir="rtl"] .ml-auto {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+[dir="rtl"] .mr-auto {
+  margin-right: 0;
+  margin-left: auto;
+}
+
+/* تعديل أنماط الحدود للغة العربية */
+[dir="rtl"] .border-l {
+  border-left: 0;
+  border-right: 1px solid;
+}
+
+[dir="rtl"] .border-r {
+  border-right: 0;
+  border-left: 1px solid;
+}
+
+/* تعديل أنماط الحوار والقوائم للغة العربية */
+[dir="rtl"] .left-0 {
+  left: auto;
+  right: 0;
+}
+
+[dir="rtl"] .right-0 {
+  right: auto;
+  left: 0;
+}
+
+/* تعديل الأيقونات للغة العربية */
+[dir="rtl"] .rotate-arrow {
+  transform: rotate(180deg);
+}

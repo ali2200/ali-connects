@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Star, VerifiedIcon } from 'lucide-react';
 import AnimatedCard from '../ui/AnimatedCard';
@@ -7,53 +8,53 @@ import { Link } from 'react-router-dom';
 const freelancers = [
   {
     id: 1,
-    name: 'Jennifer Lee',
-    title: 'Social Media Strategist',
+    name: 'منى العمري',
+    title: 'استراتيجية وسائل التواصل الاجتماعي',
     image: 'https://randomuser.me/api/portraits/women/23.jpg',
     rating: 4.9,
     reviews: 127,
     projects: 98,
-    skills: ['Social Media', 'Content Creation', 'Campaign Management', 'Analytics'],
-    description: 'Experienced social media strategist helping businesses grow their online presence and engagement.',
+    skills: ['وسائل التواصل', 'إنشاء المحتوى', 'إدارة الحملات', 'تحليلات'],
+    description: 'استراتيجية وسائل تواصل اجتماعي ذات خبرة تساعد الشركات على تنمية وجودها وتفاعلها عبر الإنترنت.',
     verified: true,
     delay: 0,
   },
   {
     id: 2,
-    name: 'Michael Carter',
-    title: 'SEO Specialist',
+    name: 'محمد القحطاني',
+    title: 'متخصص SEO',
     image: 'https://randomuser.me/api/portraits/men/42.jpg',
     rating: 4.8,
     reviews: 93,
     projects: 76,
-    skills: ['SEO', 'Keyword Research', 'Link Building', 'Google Analytics'],
-    description: 'SEO expert with proven track record of increasing organic traffic and improving search rankings.',
+    skills: ['SEO', 'بحث الكلمات المفتاحية', 'بناء الروابط', 'تحليلات جوجل'],
+    description: 'خبير SEO مع سجل حافل في زيادة حركة المرور العضوية وتحسين تصنيفات البحث.',
     verified: true,
     delay: 150,
   },
   {
     id: 3,
-    name: 'Sophia Wang',
-    title: 'Content Marketing Expert',
+    name: 'سارة العتيبي',
+    title: 'خبيرة تسويق المحتوى',
     image: 'https://randomuser.me/api/portraits/women/36.jpg',
     rating: 4.7,
     reviews: 85,
     projects: 64,
-    skills: ['Content Strategy', 'Copywriting', 'Blogging', 'Email Marketing'],
-    description: 'Creative content marketer specializing in engaging storytelling that converts readers into customers.',
+    skills: ['استراتيجية المحتوى', 'كتابة', 'مدونات', 'البريد الإلكتروني'],
+    description: 'مسوقة محتوى مبدعة متخصصة في سرد القصص الجذابة التي تحول القراء إلى عملاء.',
     verified: false,
     delay: 300,
   },
   {
     id: 4,
-    name: 'James Wilson',
-    title: 'PPC & Google Ads Specialist',
+    name: 'يوسف المالكي',
+    title: 'متخصص PPC وإعلانات جوجل',
     image: 'https://randomuser.me/api/portraits/men/29.jpg',
     rating: 4.9,
     reviews: 113,
     projects: 82,
-    skills: ['Google Ads', 'Facebook Ads', 'Campaign Optimization', 'Conversion Tracking'],
-    description: 'Results-driven PPC expert helping businesses maximize ROI through targeted ad campaigns.',
+    skills: ['إعلانات جوجل', 'إعلانات فيسبوك', 'تحسين الحملات', 'تتبع التحويل'],
+    description: 'خبير PPC يركز على النتائج يساعد الشركات على تحقيق أقصى عائد من خلال حملات إعلانية مستهدفة.',
     verified: true,
     delay: 450,
   },
@@ -64,17 +65,17 @@ const FreelancerShowcase = () => {
     <section className="py-20 bg-white">
       <div className="container-custom">
         <div className="flex flex-col md:flex-row justify-between items-center mb-12">
-          <div className="text-center md:text-left mb-6 md:mb-0">
+          <div className="text-center md:text-right mb-6 md:mb-0">
             <h2 className="heading-md text-gray-900 mb-4">
-              Connect with Top Marketing Talent
+              تواصل مع أفضل مواهب التسويق
             </h2>
             <p className="subtitle text-gray-600 max-w-2xl">
-              Find and hire skilled marketing professionals with proven expertise to help your business succeed.
+              ابحث وقم بتوظيف محترفي تسويق مهرة ذوي خبرة مثبتة لمساعدة عملك على النجاح.
             </p>
           </div>
           <Link to="/freelancers">
             <CustomButton variant="outline">
-              Browse All Freelancers
+              تصفح جميع المستقلين
             </CustomButton>
           </Link>
         </div>
@@ -103,9 +104,9 @@ const FreelancerShowcase = () => {
                 <h3 className="text-lg font-semibold text-gray-900">
                   {freelancer.name}
                   {freelancer.verified && (
-                    <span className="ml-1 inline-flex items-center text-xs font-medium text-ali-blue">
-                      <VerifiedIcon className="w-3 h-3 mr-0.5" />
-                      Verified
+                    <span className="mr-1 inline-flex items-center text-xs font-medium text-ali-blue">
+                      <VerifiedIcon className="w-3 h-3 ml-0.5" />
+                      موثق
                     </span>
                   )}
                 </h3>
@@ -114,9 +115,9 @@ const FreelancerShowcase = () => {
                 <div className="flex items-center justify-center mt-2">
                   <div className="flex items-center text-yellow-400">
                     <Star className="w-4 h-4 fill-current" />
-                    <span className="ml-1 text-sm font-medium text-gray-900">{freelancer.rating}</span>
+                    <span className="mx-1 text-sm font-medium text-gray-900">{freelancer.rating}</span>
                   </div>
-                  <span className="text-xs text-gray-500 ml-1">({freelancer.reviews} reviews)</span>
+                  <span className="text-xs text-gray-500">({freelancer.reviews} تقييم)</span>
                 </div>
               </div>
               
@@ -138,11 +139,11 @@ const FreelancerShowcase = () => {
                 
                 <div className="flex justify-between items-center">
                   <div className="text-xs text-gray-600">
-                    <span className="font-medium text-gray-900">{freelancer.projects}</span> projects
+                    <span className="font-medium text-gray-900">{freelancer.projects}</span> مشروع
                   </div>
                   <Link to={`/freelancers/${freelancer.id}`}>
                     <CustomButton size="sm" variant="outline">
-                      View Profile
+                      عرض الملف
                     </CustomButton>
                   </Link>
                 </div>

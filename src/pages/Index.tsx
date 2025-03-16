@@ -8,9 +8,14 @@ import CoursePreview from '@/components/home/CoursePreview';
 import MarketplacePreview from '@/components/home/MarketplacePreview';
 import FreelancerShowcase from '@/components/home/FreelancerShowcase';
 import CTASection from '@/components/home/CTASection';
+import '../styles/rtl.css';
 
 const Index = () => {
   useEffect(() => {
+    // تطبيق اتجاه RTL على عنصر html
+    document.documentElement.setAttribute('dir', 'rtl');
+    document.documentElement.classList.add('rtl');
+    
     // Animation for elements with animate-on-scroll class
     const observerCallback = (entries: IntersectionObserverEntry[]) => {
       entries.forEach(entry => {
@@ -33,11 +38,15 @@ const Index = () => {
       elements.forEach(element => {
         observer.unobserve(element);
       });
+      
+      // إزالة اتجاه RTL عند تفكيك المكون
+      document.documentElement.removeAttribute('dir');
+      document.documentElement.classList.remove('rtl');
     };
   }, []);
   
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col rtl">
       <Navbar />
       
       <main className="flex-grow">

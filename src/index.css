@@ -1,4 +1,3 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
@@ -45,12 +44,12 @@
   }
   
   html {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Hacen Maghreb Bd', sans-serif;
     scroll-behavior: smooth;
   }
   
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-hacen;
   }
   
   /* Glass morphism and other custom styles */

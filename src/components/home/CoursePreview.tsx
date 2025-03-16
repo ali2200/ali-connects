@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Star, Clock, BookOpen } from 'lucide-react';
 import AnimatedCard from '../ui/AnimatedCard';
@@ -7,27 +8,27 @@ import { Link } from 'react-router-dom';
 const courses = [
   {
     id: 1,
-    title: 'Social Media Marketing Mastery',
-    description: 'Learn to create effective social media strategies and campaigns for business growth.',
+    title: 'إتقان التسويق عبر وسائل التواصل الاجتماعي',
+    description: 'تعلم كيفية إنشاء استراتيجيات وحملات وسائل التواصل الاجتماعي الفعالة لنمو الأعمال.',
     image: 'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?q=80&w=1974&auto=format&fit=crop',
-    instructor: 'Sarah Johnson',
+    instructor: 'سارة الجوهري',
     rating: 4.9,
     reviews: 245,
-    duration: '12 hours',
+    duration: '12 ساعة',
     lessons: 54,
     price: '$99',
-    category: 'Social Media',
+    category: 'وسائل التواصل',
     delay: 0,
   },
   {
     id: 2,
-    title: 'SEO Fundamentals & Strategy',
-    description: 'Master search engine optimization techniques to drive organic traffic to your website.',
+    title: 'أساسيات واستراتيجية تحسين محركات البحث',
+    description: 'إتقان تقنيات تحسين محركات البحث لتوجيه حركة المرور العضوية إلى موقع الويب الخاص بك.',
     image: 'https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?q=80&w=2074&auto=format&fit=crop',
-    instructor: 'David Chen',
+    instructor: 'أحمد الشمري',
     rating: 4.8,
     reviews: 189,
-    duration: '10 hours',
+    duration: '10 ساعات',
     lessons: 42,
     price: '$89',
     category: 'SEO',
@@ -35,16 +36,16 @@ const courses = [
   },
   {
     id: 3,
-    title: 'Content Marketing Excellence',
-    description: 'Create compelling content that engages your audience and drives conversion.',
+    title: 'التميز في تسويق المحتوى',
+    description: 'إنشاء محتوى جذاب يجذب جمهورك ويدفع التحويل.',
     image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop',
-    instructor: 'Emma Rodriguez',
+    instructor: 'منى العتيبي',
     rating: 4.7,
     reviews: 163,
-    duration: '8 hours',
+    duration: '8 ساعات',
     lessons: 36,
     price: '$79',
-    category: 'Content',
+    category: 'محتوى',
     delay: 300,
   },
 ];
@@ -54,17 +55,17 @@ const CoursePreview = () => {
     <section className="py-20 bg-white">
       <div className="container-custom">
         <div className="flex flex-col md:flex-row justify-between items-center mb-12">
-          <div className="text-center md:text-left mb-6 md:mb-0">
+          <div className="text-center md:text-right mb-6 md:mb-0">
             <h2 className="heading-md text-gray-900 mb-4">
-              Expand Your Marketing Skills
+              طور مهاراتك التسويقية
             </h2>
             <p className="subtitle text-gray-600 max-w-2xl">
-              Access expert-led courses and certifications to master the latest digital marketing strategies and tools.
+              الوصول إلى الدورات التدريبية والشهادات التي يقودها الخبراء لإتقان أحدث استراتيجيات وأدوات التسويق الرقمي.
             </p>
           </div>
           <Link to="/courses">
             <CustomButton variant="outline">
-              View All Courses
+              عرض جميع الدورات
             </CustomButton>
           </Link>
         </div>
@@ -83,7 +84,7 @@ const CoursePreview = () => {
                   alt={course.title} 
                   className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                 />
-                <div className="absolute top-3 left-3">
+                <div className="absolute top-3 right-3">
                   <span className="inline-block bg-white/90 backdrop-blur-sm text-ali-blue text-xs font-medium px-2.5 py-1 rounded-full">
                     {course.category}
                   </span>
@@ -94,11 +95,11 @@ const CoursePreview = () => {
                 <div className="flex items-center mb-3">
                   <div className="flex items-center text-yellow-400">
                     <Star className="w-4 h-4 fill-current" />
-                    <span className="ml-1 text-sm font-medium text-gray-900">{course.rating}</span>
+                    <span className="mx-1 text-sm font-medium text-gray-900">{course.rating}</span>
                   </div>
-                  <span className="text-xs text-gray-500 ml-1">({course.reviews} reviews)</span>
-                  <div className="ml-auto flex items-center text-gray-500 text-sm">
-                    <Clock className="w-4 h-4 mr-1" />
+                  <span className="text-xs text-gray-500">({course.reviews} تقييم)</span>
+                  <div className="mr-auto flex items-center text-gray-500 text-sm">
+                    <Clock className="w-4 h-4 ml-1" />
                     {course.duration}
                   </div>
                 </div>
@@ -109,22 +110,22 @@ const CoursePreview = () => {
                 <div className="mt-auto">
                   <div className="flex items-center mb-4">
                     <div className="flex items-center text-gray-600 text-sm">
-                      <BookOpen className="w-4 h-4 mr-1" />
-                      {course.lessons} lessons
+                      <BookOpen className="w-4 h-4 ml-1" />
+                      {course.lessons} درس
                     </div>
-                    <div className="ml-auto">
+                    <div className="mr-auto">
                       <span className="text-lg font-bold text-ali-blue">{course.price}</span>
                     </div>
                   </div>
                   
                   <div className="border-t border-gray-100 pt-4 flex items-center justify-between">
                     <div className="text-sm">
-                      <span className="text-gray-500">Instructor:</span>
-                      <span className="ml-1 text-gray-900 font-medium">{course.instructor}</span>
+                      <span className="text-gray-500">المدرب:</span>
+                      <span className="mr-1 text-gray-900 font-medium">{course.instructor}</span>
                     </div>
                     <Link to={`/courses/${course.id}`}>
                       <CustomButton size="sm" variant="ghost" className="text-ali-blue hover:bg-ali-blue/10">
-                        View Course
+                        عرض الدورة
                       </CustomButton>
                     </Link>
                   </div>

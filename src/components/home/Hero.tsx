@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef } from 'react';
 import { ArrowRight } from 'lucide-react';
 import CustomButton from '../ui/CustomButton';
@@ -41,40 +42,40 @@ const Hero = () => {
       
       <div className="container-custom">
         <div className="grid lg:grid-cols-5 gap-12 items-center">
-          <div className="lg:col-span-3 text-center lg:text-left">
+          <div className="lg:col-span-3 text-center lg:text-right">
             <div className="inline-block animate-fade-in">
               <span className="inline-flex items-center rounded-full bg-ali-blue/10 px-3 py-1 text-sm font-medium text-ali-blue ring-1 ring-inset ring-ali-blue/20">
-                New Platform
+                منصة جديدة
               </span>
             </div>
             
             <h1 className="mt-6 heading-lg text-gray-900 animate-fade-in" style={{ animationDelay: '100ms' }}>
-              Connect with Top Marketing Talent for Your Business
+              تواصل مع أفضل خبراء التسويق لعملك
             </h1>
             
-            <p className="mt-6 subtitle max-w-xl mx-auto lg:mx-0 animate-fade-in" style={{ animationDelay: '200ms' }}>
-              Ali for Business connects you with skilled marketing professionals,
-              provides educational resources, and offers smart assistance to help 
-              your business grow in the digital landscape.
+            <p className="mt-6 subtitle max-w-xl mx-auto lg:mr-0 lg:ml-auto animate-fade-in" style={{ animationDelay: '200ms' }}>
+              علي للأعمال يربطك بمحترفي التسويق المهرة،
+              ويوفر موارد تعليمية، ويقدم مساعدة ذكية لمساعدة 
+              عملك على النمو في البيئة الرقمية.
             </p>
             
             <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start animate-fade-in" style={{ animationDelay: '300ms' }}>
               <Link to="/register">
-                <CustomButton size="lg" rightIcon={<ArrowRight className="ml-1" />}>
-                  Get Started
+                <CustomButton size="lg" rightIcon={<ArrowRight className="mr-1 rotate-180" />}>
+                  ابدأ الآن
                 </CustomButton>
               </Link>
               <Link to="/marketplace">
                 <CustomButton size="lg" variant="outline">
-                  Explore Services
+                  استكشف الخدمات
                 </CustomButton>
               </Link>
             </div>
             
             <div className="mt-12 animate-fade-in" style={{ animationDelay: '400ms' }}>
-              <p className="text-sm text-gray-500 mb-3">Trusted by companies worldwide</p>
-              <div className="flex flex-wrap justify-center lg:justify-start gap-6">
-                {['Google', 'Microsoft', 'Adobe', 'Shopify', 'Slack'].map((company) => (
+              <p className="text-sm text-gray-500 mb-3">موثوق به من قبل شركات في جميع أنحاء العالم</p>
+              <div className="flex flex-wrap justify-center lg:justify-end gap-6">
+                {['جوجل', 'مايكروسوفت', 'أدوبي', 'شوبيفاي', 'سلاك'].map((company) => (
                   <div key={company} className="text-gray-400 font-semibold">
                     {company}
                   </div>
@@ -93,7 +94,7 @@ const Hero = () => {
                     <div className="w-2.5 h-2.5 rounded-full bg-yellow-500"></div>
                     <div className="w-2.5 h-2.5 rounded-full bg-green-500"></div>
                   </div>
-                  <div className="text-white text-xs font-medium">Ali Smart Assistant</div>
+                  <div className="text-white text-xs font-medium mr-2">المساعد الذكي علي</div>
                 </div>
                 <div className="p-6 bg-white/80">
                   <div className="space-y-4">
@@ -101,17 +102,17 @@ const Hero = () => {
                       <div className="flex-shrink-0 h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center">
                         <span className="text-gray-500 text-xs">AI</span>
                       </div>
-                      <div className="ml-3 bg-gray-100 rounded-2xl rounded-tl-none px-4 py-2">
-                        <p className="text-sm text-gray-800">Hello! How can I help your business today?</p>
+                      <div className="mr-3 bg-gray-100 rounded-2xl rounded-tr-none px-4 py-2">
+                        <p className="text-sm text-gray-800">مرحباً! كيف يمكنني مساعدة عملك اليوم؟</p>
                       </div>
                     </div>
                     
                     <div className="flex items-start">
-                      <div className="ml-auto bg-ali-blue text-white rounded-2xl rounded-tr-none px-4 py-2">
-                        <p className="text-sm">I need help with social media marketing</p>
+                      <div className="mr-auto bg-ali-blue text-white rounded-2xl rounded-tl-none px-4 py-2">
+                        <p className="text-sm">أحتاج مساعدة في التسويق عبر وسائل التواصل الاجتماعي</p>
                       </div>
-                      <div className="flex-shrink-0 h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center ml-3">
-                        <span className="text-gray-500 text-xs">You</span>
+                      <div className="flex-shrink-0 h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center mr-3">
+                        <span className="text-gray-500 text-xs">أنت</span>
                       </div>
                     </div>
                     
@@ -119,20 +120,20 @@ const Hero = () => {
                       <div className="flex-shrink-0 h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center">
                         <span className="text-gray-500 text-xs">AI</span>
                       </div>
-                      <div className="ml-3 bg-gray-100 rounded-2xl rounded-tl-none px-4 py-2">
-                        <p className="text-sm text-gray-800">I'll connect you with our top social media experts. Would you like to see available services or freelancer profiles?</p>
+                      <div className="mr-3 bg-gray-100 rounded-2xl rounded-tr-none px-4 py-2">
+                        <p className="text-sm text-gray-800">سأقوم بتوصيلك بأفضل خبراء وسائل التواصل الاجتماعي لدينا. هل ترغب في رؤية الخدمات المتاحة أو ملفات المستقلين؟</p>
                       </div>
                     </div>
                     
                     <div className="flex space-x-2">
                       <button className="text-xs bg-white border border-gray-200 rounded-full px-3 py-1 hover:border-ali-blue hover:text-ali-blue transition-colors">
-                        Show services
+                        عرض الخدمات
+                      </button>
+                      <button className="text-xs bg-white border border-gray-200 rounded-full px-3 py-1 hover:border-ali-blue hover:text-ali-blue transition-colors mx-2">
+                        عرض المستقلين
                       </button>
                       <button className="text-xs bg-white border border-gray-200 rounded-full px-3 py-1 hover:border-ali-blue hover:text-ali-blue transition-colors">
-                        Show freelancers
-                      </button>
-                      <button className="text-xs bg-white border border-gray-200 rounded-full px-3 py-1 hover:border-ali-blue hover:text-ali-blue transition-colors">
-                        Learn more
+                        معرفة المزيد
                       </button>
                     </div>
                   </div>

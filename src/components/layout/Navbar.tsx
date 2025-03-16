@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, X, ChevronDown } from 'lucide-react';
@@ -18,19 +19,19 @@ const Navbar = () => {
   }, []);
   
   const navItems = [
-    { name: 'Home', path: '/' },
+    { name: 'الرئيسية', path: '/' },
     { 
-      name: 'Courses & Training', 
+      name: 'الدورات والتدريب', 
       path: '/courses',
       submenu: [
-        { name: 'All Courses', path: '/courses' },
-        { name: 'Certifications', path: '/certifications' },
-        { name: 'Learning Paths', path: '/learning-paths' }
+        { name: 'جميع الدورات', path: '/courses' },
+        { name: 'الشهادات', path: '/certifications' },
+        { name: 'مسارات التعلم', path: '/learning-paths' }
       ]
     },
-    { name: 'Service Marketplace', path: '/marketplace' },
-    { name: 'Find a Freelancer', path: '/freelancers' },
-    { name: 'Blog', path: '/blog' },
+    { name: 'سوق الخدمات', path: '/marketplace' },
+    { name: 'ابحث عن مستقل', path: '/freelancers' },
+    { name: 'المدونة', path: '/blog' },
   ];
   
   return (
@@ -45,25 +46,25 @@ const Navbar = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center">
             <h1 className="text-2xl font-bold text-ali-blue">
-              Ali<span className="text-gray-800">for</span>Business
+              علي<span className="text-gray-800">للأعمال</span>
             </h1>
           </Link>
           
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-0 space-x-reverse space-x-8">
             {navItems.map((item) => (
               item.submenu ? (
                 <div key={item.name} className="relative group">
                   <button className="flex items-center text-gray-700 hover:text-ali-blue transition-colors">
                     {item.name}
-                    <ChevronDown className="ml-1 h-4 w-4" />
+                    <ChevronDown className="mr-1 h-4 w-4" />
                   </button>
-                  <div className="absolute top-full left-0 transform -translate-y-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-300 min-w-[200px] glass rounded-lg shadow-lg mt-2 py-2">
+                  <div className="absolute top-full right-0 transform -translate-y-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-300 min-w-[200px] glass rounded-lg shadow-lg mt-2 py-2">
                     {item.submenu.map((subitem) => (
                       <Link 
                         key={subitem.name}
                         to={subitem.path}
-                        className="block px-4 py-2 hover:bg-white/60 text-gray-700 hover:text-ali-blue transition-colors"
+                        className="block px-4 py-2 hover:bg-white/60 text-gray-700 hover:text-ali-blue transition-colors text-right"
                       >
                         {subitem.name}
                       </Link>
@@ -83,15 +84,15 @@ const Navbar = () => {
           </div>
           
           {/* Authentication Buttons */}
-          <div className="hidden md:flex items-center space-x-4">
+          <div className="hidden md:flex items-center space-x-0 space-x-reverse space-x-4">
             <Link to="/login">
               <CustomButton variant="ghost" size="sm">
-                Login
+                تسجيل الدخول
               </CustomButton>
             </Link>
             <Link to="/register">
               <CustomButton variant="primary" size="sm">
-                Sign Up
+                إنشاء حساب
               </CustomButton>
             </Link>
           </div>
@@ -117,15 +118,15 @@ const Navbar = () => {
                 <React.Fragment key={item.name}>
                   {item.submenu ? (
                     <div className="space-y-2">
-                      <div className="font-medium px-3 py-2">
+                      <div className="font-medium px-3 py-2 text-right">
                         {item.name}
                       </div>
-                      <div className="pl-4 border-l-2 border-gray-200 ml-3 space-y-1">
+                      <div className="pr-4 border-r-2 border-gray-200 mr-3 space-y-1">
                         {item.submenu.map((subitem) => (
                           <Link 
                             key={subitem.name}
                             to={subitem.path}
-                            className="block px-3 py-2 text-sm text-gray-600 hover:text-ali-blue transition-colors"
+                            className="block px-3 py-2 text-sm text-gray-600 hover:text-ali-blue transition-colors text-right"
                             onClick={() => setIsOpen(false)}
                           >
                             {subitem.name}
@@ -136,7 +137,7 @@ const Navbar = () => {
                   ) : (
                     <Link 
                       to={item.path}
-                      className="block px-3 py-2 hover:bg-white/60 rounded-lg"
+                      className="block px-3 py-2 hover:bg-white/60 rounded-lg text-right"
                       onClick={() => setIsOpen(false)}
                     >
                       {item.name}
@@ -148,10 +149,10 @@ const Navbar = () => {
               <div className="pt-4 mt-2 border-t border-gray-200">
                 <div className="flex flex-col space-y-3 px-3">
                   <Link to="/login" onClick={() => setIsOpen(false)}>
-                    <CustomButton variant="outline" isFullWidth>Login</CustomButton>
+                    <CustomButton variant="outline" isFullWidth>تسجيل الدخول</CustomButton>
                   </Link>
                   <Link to="/register" onClick={() => setIsOpen(false)}>
-                    <CustomButton variant="primary" isFullWidth>Sign Up</CustomButton>
+                    <CustomButton variant="primary" isFullWidth>إنشاء حساب</CustomButton>
                   </Link>
                 </div>
               </div>
