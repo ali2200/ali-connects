@@ -1,8 +1,7 @@
-
 import React from 'react';
 import { Star, Clock, BookOpen } from 'lucide-react';
 import AnimatedCard from '../ui/AnimatedCard';
-import Button from '../ui/Button';
+import CustomButton from '../ui/CustomButton';
 import { Link } from 'react-router-dom';
 
 const courses = [
@@ -64,9 +63,9 @@ const CoursePreview = () => {
             </p>
           </div>
           <Link to="/courses">
-            <Button variant="outline">
+            <CustomButton variant="outline">
               View All Courses
-            </Button>
+            </CustomButton>
           </Link>
         </div>
         
@@ -124,9 +123,9 @@ const CoursePreview = () => {
                       <span className="ml-1 text-gray-900 font-medium">{course.instructor}</span>
                     </div>
                     <Link to={`/courses/${course.id}`}>
-                      <Button size="sm" variant="ghost" className="text-ali-blue hover:bg-ali-blue/10">
+                      <CustomButton size="sm" variant="ghost" className="text-ali-blue hover:bg-ali-blue/10">
                         View Course
-                      </Button>
+                      </CustomButton>
                     </Link>
                   </div>
                 </div>

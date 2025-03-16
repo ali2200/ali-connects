@@ -1,8 +1,7 @@
-
 import React from 'react';
 import { Star, VerifiedIcon } from 'lucide-react';
 import AnimatedCard from '../ui/AnimatedCard';
-import Button from '../ui/Button';
+import CustomButton from '../ui/CustomButton';
 import { Link } from 'react-router-dom';
 
 const freelancers = [
@@ -74,9 +73,9 @@ const FreelancerShowcase = () => {
             </p>
           </div>
           <Link to="/freelancers">
-            <Button variant="outline">
+            <CustomButton variant="outline">
               Browse All Freelancers
-            </Button>
+            </CustomButton>
           </Link>
         </div>
         
@@ -142,9 +141,9 @@ const FreelancerShowcase = () => {
                     <span className="font-medium text-gray-900">{freelancer.projects}</span> projects
                   </div>
                   <Link to={`/freelancers/${freelancer.id}`}>
-                    <Button size="sm" variant="outline">
+                    <CustomButton size="sm" variant="outline">
                       View Profile
-                    </Button>
+                    </CustomButton>
                   </Link>
                 </div>
               </div>

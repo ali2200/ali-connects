@@ -1,8 +1,7 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, X, ChevronDown } from 'lucide-react';
-import Button from '../ui/Button';
+import CustomButton from '../ui/CustomButton';
 import { cn } from '@/lib/utils';
 
 const Navbar = () => {
@@ -86,14 +85,14 @@ const Navbar = () => {
           {/* Authentication Buttons */}
           <div className="hidden md:flex items-center space-x-4">
             <Link to="/login">
-              <Button variant="ghost" size="sm">
+              <CustomButton variant="ghost" size="sm">
                 Login
-              </Button>
+              </CustomButton>
             </Link>
             <Link to="/register">
-              <Button variant="primary" size="sm">
+              <CustomButton variant="primary" size="sm">
                 Sign Up
-              </Button>
+              </CustomButton>
             </Link>
           </div>
           
@@ -149,10 +148,10 @@ const Navbar = () => {
               <div className="pt-4 mt-2 border-t border-gray-200">
                 <div className="flex flex-col space-y-3 px-3">
                   <Link to="/login" onClick={() => setIsOpen(false)}>
-                    <Button variant="outline" isFullWidth>Login</Button>
+                    <CustomButton variant="outline" isFullWidth>Login</CustomButton>
                   </Link>
                   <Link to="/register" onClick={() => setIsOpen(false)}>
-                    <Button variant="primary" isFullWidth>Sign Up</Button>
+                    <CustomButton variant="primary" isFullWidth>Sign Up</CustomButton>
                   </Link>
                 </div>
               </div>

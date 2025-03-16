@@ -1,8 +1,7 @@
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { User, Briefcase, Check, ArrowLeft } from 'lucide-react';
-import Button from '@/components/ui/Button';
+import CustomButton from '@/components/ui/CustomButton';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import { toast } from '@/hooks/use-toast';
@@ -159,14 +158,14 @@ const Register = () => {
                 </div>
                 
                 <div className="flex justify-center">
-                  <Button
+                  <CustomButton
                     variant="primary"
                     size="lg"
                     disabled={!accountType}
                     onClick={() => setStep(2)}
                   >
                     Continue
-                  </Button>
+                  </CustomButton>
                 </div>
               </div>
             ) : (
@@ -299,14 +298,14 @@ const Register = () => {
                   </div>
                   
                   <div className="flex justify-center">
-                    <Button
+                    <CustomButton
                       type="submit"
                       variant="primary"
                       size="lg"
                       isFullWidth
                     >
                       Create Account
-                    </Button>
+                    </CustomButton>
                   </div>
                 </form>
                 

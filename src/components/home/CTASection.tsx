@@ -1,7 +1,6 @@
-
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
-import Button from '../ui/Button';
+import CustomButton from '../ui/CustomButton';
 import { Link } from 'react-router-dom';
 
 const CTASection = () => {
@@ -25,19 +24,19 @@ const CTASection = () => {
           
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Link to="/register">
-              <Button 
+              <CustomButton 
                 size="lg" 
                 variant="glass" 
                 className="bg-white bg-opacity-20 text-white border-white/30 hover:bg-white/30"
                 rightIcon={<ArrowRight className="ml-1" />}
               >
                 Get Started Free
-              </Button>
+              </CustomButton>
             </Link>
             <Link to="/contact">
-              <Button size="lg" variant="outline" className="text-white border-white hover:bg-white/10">
+              <CustomButton size="lg" variant="outline" className="text-white border-white hover:bg-white/10">
                 Contact Sales
-              </Button>
+              </CustomButton>
             </Link>
           </div>
           
