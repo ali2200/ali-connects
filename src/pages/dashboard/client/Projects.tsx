@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import DashboardLayout from '@/components/layout/DashboardLayout';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import { 
@@ -12,14 +12,15 @@ import {
   TabsList, 
   TabsTrigger 
 } from '@/components/ui/tabs';
+import { Separator } from '@/components/ui/separator';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Separator } from '@/components/ui/separator';
-import { Briefcase, DollarSign, Clock, CheckCircle2, AlertCircle, User, Calendar, MessageSquare, FileText } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Briefcase, DollarSign, Clock, CheckCircle2, AlertCircle, User, Calendar, MessageSquare, FileText, Filter, Plus } from 'lucide-react';
 
 // صفحة المشاريع (عرض جميع المشاريع أو مشروع واحد)
-const FreelancerProjects = () => {
+const ClientProjects = () => {
   const { id } = useParams(); // معرف المشروع (إذا كان موجودًا)
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState(id ? "details" : "all");
@@ -33,16 +34,21 @@ const FreelancerProjects = () => {
   return (
     <>
       <Helmet>
-        <title>المشاريع | لوحة تحكم المستقل</title>
+        <title>المشاريع | لوحة تحكم صاحب الأعمال</title>
       </Helmet>
       
-      <DashboardLayout type="freelancer" title="المشاريع">
+      <DashboardLayout type="client" title="المشاريع">
         <div className="space-y-6">
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
             <h1 className="text-2xl font-bold">المشاريع</h1>
-            <div>
-              <Button variant="outline" onClick={() => window.open('/marketplace', '_blank')}>
-                تصفح المشاريع المتاحة
+            <div className="flex gap-2">
+              <Button variant="outline">
+                <Filter className="ml-1 h-4 w-4" />
+                تصفية
+              </Button>
+              <Button>
+                <Plus className="ml-1 h-4 w-4" />
+                <Link to="/dashboard/client/projects/new">مشروع جديد</Link>
               </Button>
             </div>
           </div>
@@ -52,17 +58,17 @@ const FreelancerProjects = () => {
               <TabsTrigger value="all">الكل</TabsTrigger>
               <TabsTrigger value="active">جارية</TabsTrigger>
               <TabsTrigger value="completed">مكتملة</TabsTrigger>
-              <TabsTrigger value="pending">معلقة</TabsTrigger>
+              <TabsTrigger value="open">مفتوحة</TabsTrigger>
             </TabsList>
             
             <TabsContent value="all" className="space-y-4 mt-4">
               <ProjectsList 
                 projects={[
-                  { id: '1', title: 'تطوير موقع ويب لشركة تجارية', status: 'active', progress: 65, client: 'شركة الفا للتجارة', amount: 4500, deadline: '15 يوم', category: 'تطوير مواقع' },
-                  { id: '2', title: 'تصميم هوية بصرية', status: 'completed', progress: 100, client: 'مؤسسة الإبداع', amount: 3500, deadline: 'تم الانتهاء', category: 'تصميم جرافيك' },
-                  { id: '3', title: 'تطوير تطبيق موبايل', status: 'active', progress: 40, client: 'شركة تقنية', amount: 7800, deadline: '30 يوم', category: 'تطوير تطبيقات' },
-                  { id: '4', title: 'إنشاء محتوى تسويقي', status: 'pending', progress: 0, client: 'مؤسسة الريادة', amount: 2200, deadline: 'بانتظار الموافقة', category: 'تسويق' },
-                  { id: '5', title: 'تصميم واجهة مستخدم', status: 'completed', progress: 100, client: 'شركة تك سوليوشنز', amount: 3200, deadline: 'تم الانتهاء', category: 'تصميم' }
+                  { id: '1', title: 'تطوير موقع ويب للشركة', status: 'active', progress: 65, freelancer: 'علي أحمد', amount: 4500, deadline: '15 يوم', category: 'تطوير مواقع' },
+                  { id: '2', title: 'تصميم هوية بصرية', status: 'completed', progress: 100, freelancer: 'سارة محمد', amount: 3500, deadline: 'تم الانتهاء', category: 'تصميم جرافيك' },
+                  { id: '3', title: 'تطوير تطبيق موبايل', status: 'active', progress: 40, freelancer: 'أحمد خالد', amount: 7800, deadline: '30 يوم', category: 'تطوير تطبيقات' },
+                  { id: '4', title: 'تسويق عبر مواقع التواصل', status: 'open', progress: 0, freelancer: 'غير محدد', amount: 2200, deadline: 'غير محدد', category: 'تسويق' },
+                  { id: '5', title: 'تصميم واجهة مستخدم', status: 'completed', progress: 100, freelancer: 'نورا علي', amount: 3200, deadline: 'تم الانتهاء', category: 'تصميم' }
                 ]} 
               />
             </TabsContent>
@@ -70,8 +76,8 @@ const FreelancerProjects = () => {
             <TabsContent value="active" className="space-y-4 mt-4">
               <ProjectsList 
                 projects={[
-                  { id: '1', title: 'تطوير موقع ويب لشركة تجارية', status: 'active', progress: 65, client: 'شركة الفا للتجارة', amount: 4500, deadline: '15 يوم', category: 'تطوير مواقع' },
-                  { id: '3', title: 'تطوير تطبيق موبايل', status: 'active', progress: 40, client: 'شركة تقنية', amount: 7800, deadline: '30 يوم', category: 'تطوير تطبيقات' }
+                  { id: '1', title: 'تطوير موقع ويب للشركة', status: 'active', progress: 65, freelancer: 'علي أحمد', amount: 4500, deadline: '15 يوم', category: 'تطوير مواقع' },
+                  { id: '3', title: 'تطوير تطبيق موبايل', status: 'active', progress: 40, freelancer: 'أحمد خالد', amount: 7800, deadline: '30 يوم', category: 'تطوير تطبيقات' }
                 ]} 
               />
             </TabsContent>
@@ -79,16 +85,16 @@ const FreelancerProjects = () => {
             <TabsContent value="completed" className="space-y-4 mt-4">
               <ProjectsList 
                 projects={[
-                  { id: '2', title: 'تصميم هوية بصرية', status: 'completed', progress: 100, client: 'مؤسسة الإبداع', amount: 3500, deadline: 'تم الانتهاء', category: 'تصميم جرافيك' },
-                  { id: '5', title: 'تصميم واجهة مستخدم', status: 'completed', progress: 100, client: 'شركة تك سوليوشنز', amount: 3200, deadline: 'تم الانتهاء', category: 'تصميم' }
+                  { id: '2', title: 'تصميم هوية بصرية', status: 'completed', progress: 100, freelancer: 'سارة محمد', amount: 3500, deadline: 'تم الانتهاء', category: 'تصميم جرافيك' },
+                  { id: '5', title: 'تصميم واجهة مستخدم', status: 'completed', progress: 100, freelancer: 'نورا علي', amount: 3200, deadline: 'تم الانتهاء', category: 'تصميم' }
                 ]} 
               />
             </TabsContent>
             
-            <TabsContent value="pending" className="space-y-4 mt-4">
+            <TabsContent value="open" className="space-y-4 mt-4">
               <ProjectsList 
                 projects={[
-                  { id: '4', title: 'إنشاء محتوى تسويقي', status: 'pending', progress: 0, client: 'مؤسسة الريادة', amount: 2200, deadline: 'بانتظار الموافقة', category: 'تسويق' }
+                  { id: '4', title: 'تسويق عبر مواقع التواصل', status: 'open', progress: 0, freelancer: 'غير محدد', amount: 2200, deadline: 'غير محدد', category: 'تسويق' }
                 ]} 
               />
             </TabsContent>
@@ -103,9 +109,9 @@ const FreelancerProjects = () => {
 interface Project {
   id: string;
   title: string;
-  status: 'active' | 'completed' | 'pending' | 'cancelled';
+  status: 'active' | 'completed' | 'open' | 'cancelled';
   progress: number;
-  client: string;
+  freelancer: string;
   amount: number;
   deadline: string;
   category: string;
@@ -134,16 +140,16 @@ const ProjectsList = ({ projects }: { projects: Project[] }) => {
                   <Badge variant="outline" className={
                     project.status === 'active' ? "bg-blue-50 text-blue-700 border-blue-200" :
                     project.status === 'completed' ? "bg-green-50 text-green-700 border-green-200" :
-                    project.status === 'pending' ? "bg-yellow-50 text-yellow-700 border-yellow-200" :
+                    project.status === 'open' ? "bg-amber-50 text-amber-700 border-amber-200" :
                     "bg-red-50 text-red-700 border-red-200"
                   }>
                     {project.status === 'active' ? 'قيد التنفيذ' :
                      project.status === 'completed' ? 'مكتمل' :
-                     project.status === 'pending' ? 'معلق' : 'ملغي'}
+                     project.status === 'open' ? 'مفتوح للعروض' : 'ملغي'}
                   </Badge>
                 </div>
                 <p className="text-sm text-gray-600 line-clamp-2">
-                  {project.title} - مشروع مع {project.client}
+                  {project.title} - {project.status === 'open' ? 'مشروع مفتوح للعروض' : `بواسطة ${project.freelancer}`}
                 </p>
                 <div className="flex items-center gap-4 text-sm text-gray-600 flex-wrap">
                   <div className="flex items-center">
@@ -166,9 +172,9 @@ const ProjectsList = ({ projects }: { projects: Project[] }) => {
                   <span className="font-semibold">{project.progress}%</span>
                 </div>
                 <Progress value={project.progress} className="h-2" />
-                <Link to={`/dashboard/freelancer/projects/${project.id}`}>
+                <Link to={`/dashboard/client/projects/${project.id}`}>
                   <Button variant="outline" size="sm" className="w-full">
-                    إدارة المشروع
+                    {project.status === 'open' ? 'عرض العروض' : 'إدارة المشروع'}
                   </Button>
                 </Link>
               </div>
@@ -188,21 +194,21 @@ const ProjectDetails = ({ id }: { id: string }) => {
   // بيانات المشروع (محاكاة)
   const project = {
     id,
-    title: id === '1' ? 'تطوير موقع ويب لشركة تجارية' : 
+    title: id === '1' ? 'تطوير موقع ويب للشركة' : 
            id === '2' ? 'تصميم هوية بصرية' : 
            id === '3' ? 'تطوير تطبيق موبايل' : 
-           id === '4' ? 'إنشاء محتوى تسويقي' : 'مشروع',
-    description: 'تطوير موقع ويب احترافي متكامل باستخدام React و Node.js، مع لوحة تحكم وصفحات متعددة ودعم لكافة أحجام الشاشات...',
+           id === '4' ? 'تسويق عبر مواقع التواصل' : 'مشروع',
+    description: 'تطوير موقع ويب احترافي متكامل للشركة باستخدام React و Node.js، مع لوحة تحكم وصفحات متعددة ودعم لكافة أحجام الشاشات...',
     status: id === '1' || id === '3' ? 'active' : 
-            id === '2' || id === '5' ? 'completed' : 'pending',
+            id === '2' || id === '5' ? 'completed' : 'open',
     progress: id === '1' ? 65 : 
               id === '3' ? 40 : 
               id === '2' || id === '5' ? 100 : 0,
-    client: id === '1' ? 'شركة الفا للتجارة' : 
-            id === '2' ? 'مؤسسة الإبداع' : 
-            id === '3' ? 'شركة تقنية' : 
-            id === '4' ? 'مؤسسة الريادة' : 'شركة',
-    clientImage: "https://i.pravatar.cc/150?img=3",
+    freelancer: id === '1' ? 'علي أحمد' : 
+               id === '2' ? 'سارة محمد' : 
+               id === '3' ? 'أحمد خالد' :
+               id === '5' ? 'نورا علي' : 'غير محدد',
+    freelancerImage: id !== '4' ? "https://i.pravatar.cc/150?img=3" : null,
     amount: id === '1' ? 4500 : 
             id === '2' ? 3500 : 
             id === '3' ? 7800 : 
@@ -215,25 +221,48 @@ const ProjectDetails = ({ id }: { id: string }) => {
               id === '2' ? 'تصميم جرافيك' : 
               id === '3' ? 'تطوير تطبيقات' : 
               id === '4' ? 'تسويق' : 'تصميم',
-    startDate: '2023-10-15',
-    tasks: [
+    startDate: id !== '4' ? '2023-10-15' : null,
+    tasks: id !== '4' ? [
       { id: 't1', title: 'تحليل متطلبات المشروع', status: 'completed', deadline: '2023-10-20' },
       { id: 't2', title: 'تصميم واجهات المستخدم', status: 'completed', deadline: '2023-11-05' },
       { id: 't3', title: 'برمجة الواجهة الأمامية', status: 'active', deadline: '2023-11-30' },
       { id: 't4', title: 'برمجة الواجهة الخلفية', status: 'pending', deadline: '2023-12-15' },
       { id: 't5', title: 'اختبار وإصلاح الأخطاء', status: 'pending', deadline: '2023-12-25' }
-    ],
-    messages: [
-      { id: 'm1', sender: 'client', content: 'مرحبًا، كيف تسير الأمور في المشروع؟', timestamp: '2023-10-16 09:30' },
-      { id: 'm2', sender: 'freelancer', content: 'الأمور تسير بشكل جيد، انتهيت من تحليل المتطلبات وبدأت في التصميم.', timestamp: '2023-10-16 10:45' },
-      { id: 'm3', sender: 'client', content: 'رائع! هل يمكنك إرسال بعض النماذج الأولية عندما تنتهي من التصميم؟', timestamp: '2023-10-16 11:15' },
-      { id: 'm4', sender: 'freelancer', content: 'بالتأكيد، سأرسلها لك خلال يومين.', timestamp: '2023-10-16 11:30' }
-    ],
-    files: [
+    ] : [],
+    messages: id !== '4' ? [
+      { id: 'm1', sender: 'freelancer', content: 'مرحبًا، كيف يمكنني مساعدتك في هذا المشروع؟', timestamp: '2023-10-16 09:30' },
+      { id: 'm2', sender: 'client', content: 'مرحباً، أريد التأكد من أن الموقع سيكون متوافقاً مع جميع الأجهزة', timestamp: '2023-10-16 10:45' },
+      { id: 'm3', sender: 'freelancer', content: 'بالتأكيد، سأقوم بتطوير الموقع ليكون متجاوباً مع جميع أحجام الشاشات.', timestamp: '2023-10-16 11:15' },
+      { id: 'm4', sender: 'client', content: 'رائع، شكراً لك.', timestamp: '2023-10-16 11:30' }
+    ] : [],
+    files: id !== '4' ? [
       { id: 'f1', name: 'متطلبات المشروع.pdf', size: '1.2 MB', uploadDate: '2023-10-15', uploadedBy: 'client' },
       { id: 'f2', name: 'التصميم المبدئي.zip', size: '4.5 MB', uploadDate: '2023-10-25', uploadedBy: 'freelancer' },
       { id: 'f3', name: 'ملاحظات على التصميم.docx', size: '0.8 MB', uploadDate: '2023-10-27', uploadedBy: 'client' }
-    ]
+    ] : [],
+    proposals: id === '4' ? [
+      { 
+        id: 'p1', 
+        freelancer: { name: 'خالد العلي', image: 'https://i.pravatar.cc/150?img=12', rating: 4.7, completedProjects: 38 },
+        price: 2300,
+        duration: '15 يوم',
+        description: 'يمكنني تقديم خدمات تسويق احترافية عبر منصات التواصل الاجتماعي مع تحليل للبيانات وتقارير أسبوعية.'
+      },
+      { 
+        id: 'p2', 
+        freelancer: { name: 'سارة محمد', image: 'https://i.pravatar.cc/150?img=5', rating: 4.9, completedProjects: 52 },
+        price: 2500,
+        duration: '20 يوم',
+        description: 'خبرة أكثر من 5 سنوات في التسويق الرقمي وإدارة الحملات الإعلانية مع ضمان زيادة التفاعل ونسبة الوصول.'
+      },
+      { 
+        id: 'p3', 
+        freelancer: { name: 'أحمد خالد', image: 'https://i.pravatar.cc/150?img=3', rating: 4.5, completedProjects: 27 },
+        price: 2000,
+        duration: '14 يوم',
+        description: 'أقدم خدمات تسويق متكاملة تشمل إنشاء المحتوى والتصاميم وإدارة الحملات الإعلانية بأفضل الأسعار.'
+      }
+    ] : [],
   };
   
   const handleUpdateStatus = (status: string) => {
@@ -243,10 +272,10 @@ const ProjectDetails = ({ id }: { id: string }) => {
     });
   };
   
-  const handleDeliverTask = (taskId: string) => {
+  const handleAcceptProposal = (proposalId: string) => {
     toast({
-      title: "تم تسليم المهمة",
-      description: "تم إرسال إشعار إلى العميل بتسليم المهمة",
+      title: "تم قبول العرض",
+      description: "سيتم التواصل مع المستقل وبدء العمل على المشروع",
     });
   };
   
@@ -280,18 +309,155 @@ const ProjectDetails = ({ id }: { id: string }) => {
     return diffDays > 0 ? diffDays : 0;
   };
   
+  // مشروع مفتوح للعروض
+  if (project.status === 'open') {
+    return (
+      <>
+        <Helmet>
+          <title>{project.title} | عروض المشروع</title>
+        </Helmet>
+        
+        <DashboardLayout type="client" title="عروض المشروع">
+          <div className="space-y-6">
+            <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+              <div>
+                <div className="flex items-center gap-2">
+                  <Link to="/dashboard/client/projects" className="text-blue-600 hover:underline text-sm">
+                    المشاريع
+                  </Link>
+                  <span className="text-gray-500">/</span>
+                  <span className="text-gray-500 text-sm">{project.title}</span>
+                </div>
+                <h1 className="text-2xl font-bold mt-2">{project.title}</h1>
+              </div>
+              
+              <div className="flex flex-wrap gap-2">
+                <Button variant="outline">
+                  تعديل المشروع
+                </Button>
+                <Button variant="destructive" size="sm">
+                  إلغاء المشروع
+                </Button>
+              </div>
+            </div>
+            
+            <Card>
+              <CardHeader>
+                <CardTitle>تفاصيل المشروع</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <h3 className="font-semibold mb-2">وصف المشروع</h3>
+                  <p className="text-gray-700">{project.description}</p>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-sm text-gray-500">حالة المشروع</p>
+                    <Badge className="bg-amber-50 text-amber-700 border-amber-200">
+                      مفتوح للعروض
+                    </Badge>
+                  </div>
+                  
+                  <div>
+                    <p className="text-sm text-gray-500">التصنيف</p>
+                    <p className="font-medium">{project.category}</p>
+                  </div>
+                  
+                  <div>
+                    <p className="text-sm text-gray-500">الميزانية</p>
+                    <p className="font-medium">{project.amount} ريال</p>
+                  </div>
+                  
+                  <div>
+                    <p className="text-sm text-gray-500">المدة المتوقعة للتنفيذ</p>
+                    <p className="font-medium">{project.deadline}</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+            
+            <Card>
+              <CardHeader>
+                <CardTitle>العروض المقدمة</CardTitle>
+                <CardDescription>
+                  {project.proposals?.length} عروض متاحة للمشروع
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-6">
+                  {project.proposals?.length === 0 ? (
+                    <p className="text-gray-500 text-center">لا توجد عروض مقدمة لهذا المشروع بعد</p>
+                  ) : (
+                    project.proposals?.map(proposal => (
+                      <div key={proposal.id} className="border rounded-lg p-4 space-y-4">
+                        <div className="flex justify-between items-start">
+                          <div className="flex items-center gap-3">
+                            <Avatar>
+                              <AvatarImage src={proposal.freelancer.image} alt={proposal.freelancer.name} />
+                              <AvatarFallback>{proposal.freelancer.name.slice(0, 2)}</AvatarFallback>
+                            </Avatar>
+                            <div>
+                              <h3 className="font-semibold">{proposal.freelancer.name}</h3>
+                              <div className="flex items-center gap-3 text-sm text-gray-600">
+                                <div className="flex items-center">
+                                  <Star className="h-4 w-4 text-yellow-500 fill-yellow-500 ml-1" />
+                                  <span>{proposal.freelancer.rating}</span>
+                                </div>
+                                <div className="flex items-center">
+                                  <Briefcase className="h-4 w-4 text-gray-400 ml-1" />
+                                  <span>{proposal.freelancer.completedProjects} مشروع منجز</span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="flex flex-col items-end">
+                            <Badge className="bg-blue-50 text-blue-700 border-blue-200 mb-1">
+                              {proposal.price} ريال
+                            </Badge>
+                            <span className="text-sm text-gray-600">{proposal.duration}</span>
+                          </div>
+                        </div>
+                        
+                        <div>
+                          <h4 className="font-medium mb-1">تفاصيل العرض</h4>
+                          <p className="text-gray-700 text-sm">{proposal.description}</p>
+                        </div>
+                        
+                        <div className="flex justify-end gap-2">
+                          <Button variant="outline" size="sm">
+                            <MessageSquare className="ml-1 h-4 w-4" />
+                            تواصل مع المستقل
+                          </Button>
+                          <Button size="sm" onClick={() => handleAcceptProposal(proposal.id)}>
+                            قبول العرض
+                          </Button>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </DashboardLayout>
+      </>
+    );
+  }
+  
+  // مشروع قيد التنفيذ أو مكتمل
   return (
     <>
       <Helmet>
         <title>{project.title} | إدارة المشروع</title>
       </Helmet>
       
-      <DashboardLayout type="freelancer" title="إدارة المشروع">
+      <DashboardLayout type="client" title="إدارة المشروع">
         <div className="space-y-6">
           <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
             <div>
               <div className="flex items-center gap-2">
-                <Link to="/dashboard/freelancer/projects" className="text-blue-600 hover:underline text-sm">
+                <Link to="/dashboard/client/projects" className="text-blue-600 hover:underline text-sm">
                   المشاريع
                 </Link>
                 <span className="text-gray-500">/</span>
@@ -301,13 +467,27 @@ const ProjectDetails = ({ id }: { id: string }) => {
             </div>
             
             <div className="flex flex-wrap gap-2">
-              {project.status !== 'completed' && (
-                <Button 
-                  variant="outline" 
-                  onClick={() => handleUpdateStatus('تم تسليمه')}
-                  className="bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100"
-                >
-                  تسليم المشروع
+              {project.status === 'active' && (
+                <>
+                  <Select>
+                    <SelectTrigger className="w-[180px]">
+                      <SelectValue placeholder="تغيير حالة المشروع" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="complete" onClick={() => handleUpdateStatus('مكتمل')}>
+                        تم الإكمال
+                      </SelectItem>
+                      <SelectItem value="cancel" onClick={() => handleUpdateStatus('ملغي')}>
+                        إلغاء المشروع
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                </>
+              )}
+              
+              {project.status === 'completed' && (
+                <Button variant="outline">
+                  تقييم المستقل
                 </Button>
               )}
             </div>
@@ -331,11 +511,9 @@ const ProjectDetails = ({ id }: { id: string }) => {
                       <p className="text-sm text-gray-500">حالة المشروع</p>
                       <Badge className={
                         project.status === 'active' ? "bg-blue-50 text-blue-700 border-blue-200" :
-                        project.status === 'completed' ? "bg-green-50 text-green-700 border-green-200" :
-                        "bg-yellow-50 text-yellow-700 border-yellow-200"
+                        "bg-green-50 text-green-700 border-green-200"
                       }>
-                        {project.status === 'active' ? 'قيد التنفيذ' :
-                         project.status === 'completed' ? 'مكتمل' : 'معلق'}
+                        {project.status === 'active' ? 'قيد التنفيذ' : 'مكتمل'}
                       </Badge>
                     </div>
                     
@@ -356,7 +534,9 @@ const ProjectDetails = ({ id }: { id: string }) => {
                     
                     <div>
                       <p className="text-sm text-gray-500">المدة المتبقية</p>
-                      <p className="font-medium">{getRemainingDays(project.deadline)} يوم</p>
+                      <p className="font-medium">
+                        {project.status === 'completed' ? 'تم الإنجاز' : `${getRemainingDays(project.deadline)} يوم`}
+                      </p>
                     </div>
                     
                     <div>
@@ -407,15 +587,23 @@ const ProjectDetails = ({ id }: { id: string }) => {
                                   </p>
                                 </div>
                               </div>
-                              {task.status === 'active' && (
-                                <Button 
-                                  variant="outline" 
-                                  size="sm"
-                                  onClick={() => handleDeliverTask(task.id)}
-                                >
-                                  تسليم
-                                </Button>
-                              )}
+                              <Badge 
+                                variant="outline" 
+                                className={
+                                  task.status === 'completed' 
+                                    ? 'bg-green-50 text-green-700 border-green-200' 
+                                    : task.status === 'active'
+                                    ? 'bg-blue-50 text-blue-700 border-blue-200'
+                                    : 'bg-amber-50 text-amber-700 border-amber-200'
+                                }
+                              >
+                                {task.status === 'completed' 
+                                  ? 'مكتملة' 
+                                  : task.status === 'active'
+                                  ? 'قيد التنفيذ'
+                                  : 'قادمة'
+                                }
+                              </Badge>
                             </div>
                           </li>
                         ))}
@@ -435,11 +623,11 @@ const ProjectDetails = ({ id }: { id: string }) => {
                           {project.messages.map(message => (
                             <div 
                               key={message.id} 
-                              className={`flex ${message.sender === 'freelancer' ? 'justify-end' : 'justify-start'}`}
+                              className={`flex ${message.sender === 'client' ? 'justify-end' : 'justify-start'}`}
                             >
                               <div 
                                 className={`max-w-[80%] rounded-lg p-3 ${
-                                  message.sender === 'freelancer' 
+                                  message.sender === 'client' 
                                     ? 'bg-blue-50 text-blue-900' 
                                     : 'bg-gray-100 text-gray-900'
                                 }`}
@@ -485,7 +673,7 @@ const ProjectDetails = ({ id }: { id: string }) => {
                                 <div>
                                   <p className="font-medium">{file.name}</p>
                                   <p className="text-xs text-gray-500">
-                                    {file.size} • {file.uploadDate} • بواسطة {file.uploadedBy === 'client' ? 'العميل' : 'أنت'}
+                                    {file.size} • {file.uploadDate} • بواسطة {file.uploadedBy === 'client' ? 'أنت' : 'المستقل'}
                                   </p>
                                 </div>
                               </div>
@@ -516,19 +704,19 @@ const ProjectDetails = ({ id }: { id: string }) => {
               </Tabs>
             </div>
             
-            {/* معلومات العميل */}
+            {/* معلومات المستقل */}
             <div className="space-y-6">
               <Card>
                 <CardHeader>
-                  <CardTitle>معلومات العميل</CardTitle>
+                  <CardTitle>معلومات المستقل</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="flex flex-col items-center">
                     <Avatar className="h-16 w-16">
-                      <AvatarImage src={project.clientImage} alt={project.client} />
-                      <AvatarFallback>{project.client.slice(0, 2)}</AvatarFallback>
+                      <AvatarImage src={project.freelancerImage!} alt={project.freelancer} />
+                      <AvatarFallback>{project.freelancer.slice(0, 2)}</AvatarFallback>
                     </Avatar>
-                    <h3 className="font-semibold mt-3">{project.client}</h3>
+                    <h3 className="font-semibold mt-3">{project.freelancer}</h3>
                     <div className="flex mt-4 gap-4">
                       <Button variant="outline" size="sm" className="w-full">
                         <MessageSquare className="h-4 w-4 ml-1" />
@@ -547,6 +735,19 @@ const ProjectDetails = ({ id }: { id: string }) => {
                         <p className="text-sm text-gray-500">عدد المشاريع المشتركة</p>
                         <p className="font-medium">3 مشاريع</p>
                       </div>
+                      {project.status === 'completed' && (
+                        <div>
+                          <p className="text-sm text-gray-500">تقييمك للمستقل</p>
+                          <div className="flex mt-1">
+                            {[1, 2, 3, 4, 5].map(star => (
+                              <Star
+                                key={star}
+                                className="h-4 w-4 text-gray-300 cursor-pointer hover:text-yellow-500 hover:fill-yellow-500"
+                              />
+                            ))}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </CardContent>
@@ -559,4 +760,4 @@ const ProjectDetails = ({ id }: { id: string }) => {
   );
 };
 
-export default FreelancerProjects;
+export default ClientProjects;
