@@ -1,8 +1,7 @@
-
 import React from 'react';
 import { Star, Check } from 'lucide-react';
 import AnimatedCard from '../ui/AnimatedCard';
-import Button from '../ui/Button';
+import CustomButton from '../ui/CustomButton';
 import { Link } from 'react-router-dom';
 
 const services = [
@@ -64,9 +63,9 @@ const MarketplacePreview = () => {
             </p>
           </div>
           <Link to="/marketplace">
-            <Button variant="outline">
+            <CustomButton variant="outline">
               Explore Marketplace
-            </Button>
+            </CustomButton>
           </Link>
         </div>
         
@@ -131,9 +130,9 @@ const MarketplacePreview = () => {
                       <span className="text-xs font-normal text-gray-500 ml-1">/ month</span>
                     </div>
                     <Link to={`/marketplace/${service.id}`}>
-                      <Button size="sm">
+                      <CustomButton size="sm">
                         View Details
-                      </Button>
+                      </CustomButton>
                     </Link>
                   </div>
                 </div>

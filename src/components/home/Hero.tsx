@@ -1,7 +1,6 @@
-
 import React, { useEffect, useRef } from 'react';
 import { ArrowRight } from 'lucide-react';
-import Button from '../ui/Button';
+import CustomButton from '../ui/CustomButton';
 import { Link } from 'react-router-dom';
 
 const Hero = () => {
@@ -61,14 +60,14 @@ const Hero = () => {
             
             <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start animate-fade-in" style={{ animationDelay: '300ms' }}>
               <Link to="/register">
-                <Button size="lg" rightIcon={<ArrowRight className="ml-1" />}>
+                <CustomButton size="lg" rightIcon={<ArrowRight className="ml-1" />}>
                   Get Started
-                </Button>
+                </CustomButton>
               </Link>
               <Link to="/marketplace">
-                <Button size="lg" variant="outline">
+                <CustomButton size="lg" variant="outline">
                   Explore Services
-                </Button>
+                </CustomButton>
               </Link>
             </div>
             
