@@ -25,12 +25,29 @@ const Navbar = () => {
       path: '/courses',
       submenu: [
         { name: 'جميع الدورات', path: '/courses' },
-        { name: 'الشهادات', path: '/certifications' },
+        { name: 'الشهادات والإختبارات', path: '/certifications' },
         { name: 'مسارات التعلم', path: '/learning-paths' }
       ]
     },
-    { name: 'سوق الخدمات', path: '/marketplace' },
+    { 
+      name: 'سوق الخدمات', 
+      path: '/marketplace',
+      submenu: [
+        { name: 'تصفح الخدمات', path: '/marketplace' },
+        { name: 'إدارة الطلبات', path: '/marketplace/orders' },
+      ]
+    },
     { name: 'ابحث عن مستقل', path: '/freelancers' },
+    { 
+      name: 'من نحن', 
+      path: '/about',
+      submenu: [
+        { name: 'عن المنصة', path: '/about' },
+        { name: 'تواصل معنا', path: '/contact' },
+        { name: 'الأسئلة الشائعة', path: '/faq' },
+        { name: 'شروط الإستخدام', path: '/terms' },
+      ]
+    },
     { name: 'المدونة', path: '/blog' },
   ];
   
@@ -59,7 +76,7 @@ const Navbar = () => {
                     {item.name}
                     <ChevronDown className="mr-1 h-4 w-4" />
                   </button>
-                  <div className="absolute top-full right-0 transform -translate-y-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-300 min-w-[200px] glass rounded-lg shadow-lg mt-2 py-2">
+                  <div className="absolute top-full right-0 transform -translate-y-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-300 min-w-[200px] glass rounded-lg shadow-lg mt-2 py-2 z-50 bg-white/90">
                     {item.submenu.map((subitem) => (
                       <Link 
                         key={subitem.name}
