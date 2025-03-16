@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import Navbar from '@/components/layout/Navbar';
@@ -9,6 +8,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Search, Clock, User, Star, BookOpen, Users } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Courses = () => {
   return (
@@ -148,7 +148,9 @@ const Courses = () => {
           <div className="container mx-auto px-4">
             <div className="flex justify-between items-center mb-8">
               <h2 className="text-2xl font-bold">المسارات التعليمية</h2>
-              <Button variant="link" href="/learning-paths">عرض الكل</Button>
+              <Button variant="link" asChild>
+                <Link to="/learning-paths">عرض الكل</Link>
+              </Button>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
