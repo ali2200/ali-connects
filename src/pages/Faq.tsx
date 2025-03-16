@@ -131,7 +131,7 @@ const Faq = () => {
         <meta name="description" content="الإجابات على الأسئلة الشائعة حول منصة علي للأعمال، العمل الحر، والمدفوعات" />
       </Helmet>
       <Navbar />
-      <main className="container mx-auto px-4 py-12">
+      <main className="container mx-auto px-4 py-12 pt-28">
         <section className="max-w-4xl mx-auto">
           <h1 className="text-3xl font-bold mb-8 text-center">الأسئلة الشائعة</h1>
           

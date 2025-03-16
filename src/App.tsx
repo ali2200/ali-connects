@@ -4,6 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HelmetProvider } from "react-helmet-async";
 import Index from "./pages/Index";
 import Register from "./pages/Register";
 import NotFound from "./pages/NotFound";
@@ -37,46 +38,48 @@ import Freelancers from "./pages/Freelancers";
 const queryClient = new QueryClient();
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          {/* الصفحة الرئيسية والصفحات العامة */}
-          <Route path="/" element={<Index />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/faq" element={<Faq />} />
-          <Route path="/terms" element={<Terms />} />
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/blog/:slug" element={<BlogPost />} />
-          
-          {/* صفحات الدورات والتعليم */}
-          <Route path="/courses" element={<Courses />} />
-          <Route path="/learning-paths" element={<LearningPaths />} />
-          <Route path="/certifications" element={<Certifications />} />
-          
-          {/* سوق الخدمات */}
-          <Route path="/marketplace" element={<Marketplace />} />
-          
-          {/* صفحة المستقلين */}
-          <Route path="/freelancers" element={<Freelancers />} />
-          
-          {/* لوحة تحكم المستقلين */}
-          <Route path="/dashboard/freelancer" element={<FreelancerDashboard />} />
-          
-          {/* لوحة تحكم أصحاب الأعمال */}
-          <Route path="/dashboard/client" element={<ClientDashboard />} />
-          
-          {/* صفحة 404 */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
+  <HelmetProvider>
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            {/* الصفحة الرئيسية والصفحات العامة */}
+            <Route path="/" element={<Index />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/faq" element={<Faq />} />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:slug" element={<BlogPost />} />
+            
+            {/* صفحات الدورات والتعليم */}
+            <Route path="/courses" element={<Courses />} />
+            <Route path="/learning-paths" element={<LearningPaths />} />
+            <Route path="/certifications" element={<Certifications />} />
+            
+            {/* سوق الخدمات */}
+            <Route path="/marketplace" element={<Marketplace />} />
+            
+            {/* صفحة المستقلين */}
+            <Route path="/freelancers" element={<Freelancers />} />
+            
+            {/* لوحة تحكم المستقلين */}
+            <Route path="/dashboard/freelancer" element={<FreelancerDashboard />} />
+            
+            {/* لوحة تحكم أصحاب الأعمال */}
+            <Route path="/dashboard/client" element={<ClientDashboard />} />
+            
+            {/* صفحة 404 */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </QueryClientProvider>
+  </HelmetProvider>
 );
 
 export default App;

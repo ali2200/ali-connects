@@ -12,7 +12,7 @@ const About = () => {
         <meta name="description" content="تعرف على منصة علي للأعمال - المنصة الرائدة للعمل الحر وتوظيف المستقلين في المملكة العربية السعودية والوطن العربي" />
       </Helmet>
       <Navbar />
-      <main className="container mx-auto px-4 py-12">
+      <main className="container mx-auto px-4 py-12 pt-28">
         <section className="max-w-4xl mx-auto">
           <h1 className="text-3xl font-bold mb-8 text-center">عن منصة علي للأعمال</h1>
           

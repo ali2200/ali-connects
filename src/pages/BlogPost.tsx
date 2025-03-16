@@ -45,7 +45,7 @@ const BlogPost = () => {
         <meta name="description" content={post.excerpt} />
       </Helmet>
       <Navbar />
-      <main className="container mx-auto px-4 py-12">
+      <main className="container mx-auto px-4 py-12 pt-28">
         <div className="max-w-4xl mx-auto">
           {/* مسار التنقل */}
           <div className="flex items-center text-sm text-gray-500 mb-6">
