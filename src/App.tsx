@@ -16,6 +16,14 @@ import FreelancerDashboard from "./pages/dashboard/freelancer/Dashboard";
 // لوحة التحكم - أصحاب الأعمال
 import ClientDashboard from "./pages/dashboard/client/Dashboard";
 
+// لوحة التحكم - المحاضرين
+import LecturerDashboard from "./pages/dashboard/lecturer/Dashboard";
+import LecturerProfile from "./pages/dashboard/lecturer/Profile";
+import LecturerCourses from "./pages/dashboard/lecturer/Courses";
+import LecturerCourseUpload from "./pages/dashboard/lecturer/CourseUpload";
+import LecturerBooks from "./pages/dashboard/lecturer/Books";
+import LecturerBookUpload from "./pages/dashboard/lecturer/BookUpload";
+
 // صفحات أساسية
 import About from "./pages/About";
 import Contact from "./pages/Contact";
@@ -72,6 +80,14 @@ const App = () => (
             
             {/* لوحة تحكم أصحاب الأعمال */}
             <Route path="/dashboard/client" element={<ClientDashboard />} />
+            
+            {/* لوحة تحكم المحاضرين */}
+            <Route path="/dashboard/lecturer" element={<LecturerDashboard />} />
+            <Route path="/dashboard/lecturer/profile" element={<LecturerProfile />} />
+            <Route path="/dashboard/lecturer/courses" element={<LecturerCourses />} />
+            <Route path="/dashboard/lecturer/courses/upload" element={<LecturerCourseUpload />} />
+            <Route path="/dashboard/lecturer/books" element={<LecturerBooks />} />
+            <Route path="/dashboard/lecturer/books/upload" element={<LecturerBookUpload />} />
             
             {/* صفحة 404 */}
             <Route path="*" element={<NotFound />} />

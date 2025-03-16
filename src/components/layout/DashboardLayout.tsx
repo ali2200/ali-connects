@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, Users, Briefcase, Book, MessageSquare, Settings, Search, ChevronLeft, LogOut, User, DollarSign, Star, Package, FileText, BarChart2, CreditCard } from 'lucide-react';
+import { Home, Users, Briefcase, Book, MessageSquare, Settings, Search, ChevronLeft, LogOut, User, DollarSign, Star, Package, FileText, BarChart2, CreditCard, Upload, BookOpen } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import CustomButton from '@/components/ui/CustomButton';
 import { Separator } from '@/components/ui/separator';
@@ -52,6 +52,9 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, type, title
     
     // المحاضرين
     { name: 'الدورات', path: `/dashboard/lecturer/courses`, icon: Book, permissions: ['lecturer'] },
+    { name: 'رفع دورة جديدة', path: `/dashboard/lecturer/courses/upload`, icon: Upload, permissions: ['lecturer'] },
+    { name: 'الكتب', path: `/dashboard/lecturer/books`, icon: BookOpen, permissions: ['lecturer'] },
+    { name: 'رفع كتاب جديد', path: `/dashboard/lecturer/books/upload`, icon: Upload, permissions: ['lecturer'] },
     { name: 'الطلاب', path: `/dashboard/lecturer/students`, icon: Users, permissions: ['lecturer'] },
     { name: 'المحاضرات', path: `/dashboard/lecturer/lectures`, icon: FileText, permissions: ['lecturer'] },
     { name: 'الإيرادات', path: `/dashboard/lecturer/earnings`, icon: DollarSign, permissions: ['lecturer'] },
@@ -64,6 +67,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, type, title
       case 'freelancer': return 'لوحة تحكم المستقل';
       case 'client': return 'لوحة تحكم صاحب العمل';
       case 'admin': return 'لوحة تحكم المشرف';
+      case 'lecturer': return 'لوحة تحكم المحاضر';
       default: return 'لوحة التحكم';
     }
   };
