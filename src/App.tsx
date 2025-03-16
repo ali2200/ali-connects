@@ -21,6 +21,18 @@ import Contact from "./pages/Contact";
 import Faq from "./pages/Faq";
 import Terms from "./pages/Terms";
 import Blog from "./pages/Blog";
+import BlogPost from "./pages/BlogPost";
+
+// سوق الخدمات
+import Marketplace from "./pages/marketplace/Marketplace";
+
+// صفحات الدورات
+import Courses from "./pages/courses/Courses";
+import LearningPaths from "./pages/LearningPaths";
+import Certifications from "./pages/Certifications";
+
+// صفحة المستقلين
+import Freelancers from "./pages/Freelancers";
 
 const queryClient = new QueryClient();
 
@@ -40,6 +52,18 @@ const App = () => (
           <Route path="/faq" element={<Faq />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:slug" element={<BlogPost />} />
+          
+          {/* صفحات الدورات والتعليم */}
+          <Route path="/courses" element={<Courses />} />
+          <Route path="/learning-paths" element={<LearningPaths />} />
+          <Route path="/certifications" element={<Certifications />} />
+          
+          {/* سوق الخدمات */}
+          <Route path="/marketplace" element={<Marketplace />} />
+          
+          {/* صفحة المستقلين */}
+          <Route path="/freelancers" element={<Freelancers />} />
           
           {/* لوحة تحكم المستقلين */}
           <Route path="/dashboard/freelancer" element={<FreelancerDashboard />} />

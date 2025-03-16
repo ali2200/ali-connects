@@ -46,9 +46,9 @@ const Navbar = () => {
         { name: 'تواصل معنا', path: '/contact' },
         { name: 'الأسئلة الشائعة', path: '/faq' },
         { name: 'شروط الإستخدام', path: '/terms' },
+        { name: 'المدونة', path: '/blog' },
       ]
     },
-    { name: 'المدونة', path: '/blog' },
   ];
   
   return (
