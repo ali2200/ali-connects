@@ -50,9 +50,11 @@ import BlogPost from "./pages/BlogPost";
 
 // سوق الخدمات
 import Marketplace from "./pages/marketplace/Marketplace";
+import ServiceDetail from "./pages/marketplace/ServiceDetail";
 
 // صفحات الدورات
 import Courses from "./pages/courses/Courses";
+import CourseDetail from "./pages/courses/CourseDetail";
 import LearningPaths from "./pages/LearningPaths";
 import Certifications from "./pages/Certifications";
 
@@ -83,11 +85,13 @@ const App = () => (
             
             {/* صفحات الدورات والتعليم */}
             <Route path="/courses" element={<Courses />} />
+            <Route path="/courses/:id" element={<CourseDetail />} />
             <Route path="/learning-paths" element={<LearningPaths />} />
             <Route path="/certifications" element={<Certifications />} />
             
             {/* سوق الخدمات */}
             <Route path="/marketplace" element={<Marketplace />} />
+            <Route path="/marketplace/:id" element={<ServiceDetail />} />
             
             {/* صفحة المستقلين */}
             <Route path="/freelancers" element={<Freelancers />} />
