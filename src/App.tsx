@@ -37,7 +37,8 @@ import FreelancerDashboard from "./pages/dashboard/freelancer/Dashboard";
 import FreelancerProjects from "./pages/dashboard/freelancer/Projects";
 import FreelancerEarnings from "./pages/dashboard/freelancer/Earnings";
 import FreelancerReviews from "./pages/dashboard/freelancer/Reviews";
-import FreelancerProfile as FreelancerProfileSettings from "./pages/dashboard/freelancer/Profile";
+// Renamed the import to avoid using 'as' which is causing the syntax error
+import { default as FreelancerProfileSettings } from "./pages/dashboard/freelancer/Profile";
 import FreelancerServices from "./pages/dashboard/freelancer/Services";
 
 // لوحة التحكم - أصحاب الأعمال
