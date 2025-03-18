@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { Link } from 'react-router-dom';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -63,9 +64,11 @@ const AboutPageContent = () => {
       
       <DashboardLayout type="admin" title="إدارة محتوى صفحة من نحن">
         <div className="mb-4">
-          <Button variant="outline" onClick={() => window.history.back()}>
-            <ArrowLeft className="h-4 w-4 ml-2" />
-            العودة للإعدادات
+          <Button variant="outline" asChild>
+            <Link to="/dashboard/admin/settings">
+              <ArrowLeft className="h-4 w-4 ml-2" />
+              العودة للإعدادات
+            </Link>
           </Button>
         </div>
         

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Home, Users, Briefcase, Book, MessageSquare, Settings, Search, ChevronLeft, LogOut, User, DollarSign, Star, Package, FileText, BarChart2, CreditCard, Upload, BookOpen } from 'lucide-react';
@@ -46,12 +45,11 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, type, title
     // المشرفين
     { name: 'المستخدمين', path: `/dashboard/admin/users`, icon: Users, permissions: ['admin'] },
     { name: 'الدورات', path: `/dashboard/admin/courses`, icon: Book, permissions: ['admin'] },
-    { name: 'سوق الخدمات', path: `/dashboard/admin/marketplace`, icon: Package, permissions: ['admin'] },
+    { name: 'سوق الخدمات', path: `/dashboard/admin/services`, icon: Package, permissions: ['admin'] },
     { name: 'المدفوعات', path: `/dashboard/admin/finance`, icon: DollarSign, permissions: ['admin'] },
-    { name: 'التقييمات', path: `/dashboard/admin/reviews`, icon: Star, permissions: ['admin'] },
-    { name: 'التحليلات', path: `/dashboard/admin/analytics`, icon: BarChart2, permissions: ['admin'] },
-    { name: 'إدارة المحتوى', path: `/dashboard/admin/content`, icon: FileText, permissions: ['admin'] },
-    { name: 'المدونة', path: `/dashboard/admin/blog`, icon: MessageSquare, permissions: ['admin'] },
+    { name: 'الإحصائيات', path: `/dashboard/admin/stats`, icon: BarChart2, permissions: ['admin'] },
+    { name: 'إدارة المحتوى', path: `/dashboard/admin/settings`, icon: Settings, permissions: ['admin'] },
+    { name: 'المدونة', path: `/dashboard/admin/blogs`, icon: MessageSquare, permissions: ['admin'] },
     
     // المحاضرين
     { name: 'الدورات', path: `/dashboard/lecturer/courses`, icon: Book, permissions: ['lecturer'] },

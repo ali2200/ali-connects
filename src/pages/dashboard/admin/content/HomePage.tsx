@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { Link } from 'react-router-dom';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -8,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Switch } from '@/components/ui/switch';
-import { Save, ArrowLeft, Image as ImageIcon } from 'lucide-react';
+import { Save, ArrowLeft, Image as ImageIcon, Plus, Trash2 } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 
 const HomePageContent = () => {
@@ -44,6 +45,21 @@ const HomePageContent = () => {
     ]
   });
   
+  const [coursesContent, setCoursesContent] = useState({
+    title: 'أحدث الدورات التعليمية',
+    subtitle: 'استكشف أحدث الدورات التعليمية في مختلف المجالات',
+    count: 3,
+    showPopular: true
+  });
+  
+  const [ctaContent, setCtaContent] = useState({
+    title: 'انضم إلى مجتمع منصة علي اليوم',
+    subtitle: 'سجل الآن واستفد من جميع الخدمات والمميزات التي تقدمها منصة علي',
+    freelancerButtonText: 'انضم كمستقل',
+    clientButtonText: 'انضم كصاحب عمل',
+    imageUrl: '/placeholder.svg'
+  });
+  
   const handleSaveHero = () => {
     // هنا سيتم حفظ البيانات في قاعدة البيانات
     toast({
@@ -60,6 +76,42 @@ const HomePageContent = () => {
     });
   };
   
+  const handleSaveCourses = () => {
+    // هنا سيتم حفظ البيانات في قاعدة البيانات
+    toast({
+      title: "تم الحفظ",
+      description: "تم حفظ تغييرات قسم الدورات بنجاح",
+    });
+  };
+  
+  const handleSaveCta = () => {
+    // هنا سيتم حفظ البيانات في قاعدة البيانات
+    toast({
+      title: "تم الحفظ",
+      description: "تم حفظ تغييرات قسم دعوة للإنضمام بنجاح",
+    });
+  };
+  
+  const handleAddFeature = () => {
+    const newFeature = {
+      id: Date.now(),
+      title: 'ميزة جديدة',
+      description: 'وصف الميزة الجديدة',
+      icon: 'users'
+    };
+    setFeaturesContent({
+      ...featuresContent, 
+      features: [...featuresContent.features, newFeature]
+    });
+  };
+  
+  const handleRemoveFeature = (id) => {
+    setFeaturesContent({
+      ...featuresContent,
+      features: featuresContent.features.filter(feature => feature.id !== id)
+    });
+  };
+  
   return (
     <>
       <Helmet>
@@ -68,9 +120,11 @@ const HomePageContent = () => {
       
       <DashboardLayout type="admin" title="إدارة محتوى الصفحة الرئيسية">
         <div className="mb-4">
-          <Button variant="outline" onClick={() => window.history.back()}>
-            <ArrowLeft className="h-4 w-4 ml-2" />
-            العودة للإعدادات
+          <Button variant="outline" asChild>
+            <Link to="/dashboard/admin/settings">
+              <ArrowLeft className="h-4 w-4 ml-2" />
+              العودة للإعدادات
+            </Link>
           </Button>
         </div>
         
@@ -173,13 +227,30 @@ const HomePageContent = () => {
                   </div>
                   
                   <div className="space-y-4">
-                    <label className="text-sm font-medium">المميزات</label>
+                    <div className="flex justify-between items-center">
+                      <label className="text-sm font-medium">المميزات</label>
+                      <Button 
+                        variant="outline" 
+                        onClick={handleAddFeature}
+                      >
+                        <Plus className="h-4 w-4 ml-2" />
+                        إضافة ميزة جديدة
+                      </Button>
+                    </div>
                     
                     {featuresContent.features.map((feature, index) => (
                       <Card key={feature.id} className="p-4">
                         <div className="space-y-3">
                           <div className="flex justify-between items-center">
                             <h4 className="font-medium">ميزة {index + 1}</h4>
+                            <Button 
+                              variant="ghost" 
+                              size="sm" 
+                              className="h-8 w-8 p-0 text-red-500"
+                              onClick={() => handleRemoveFeature(feature.id)}
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
                           </div>
                           
                           <div className="space-y-2">
@@ -228,25 +299,6 @@ const HomePageContent = () => {
                         </div>
                       </Card>
                     ))}
-                    
-                    <Button 
-                      variant="outline" 
-                      className="w-full"
-                      onClick={() => {
-                        const newFeature = {
-                          id: Date.now(),
-                          title: 'ميزة جديدة',
-                          description: 'وصف الميزة الجديدة',
-                          icon: 'users'
-                        };
-                        setFeaturesContent({
-                          ...featuresContent, 
-                          features: [...featuresContent.features, newFeature]
-                        });
-                      }}
-                    >
-                      إضافة ميزة جديدة
-                    </Button>
                   </div>
                 </CardContent>
                 <CardFooter>
@@ -270,20 +322,30 @@ const HomePageContent = () => {
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
                     <label className="text-sm font-medium">العنوان الرئيسي</label>
-                    <Input defaultValue="أحدث الدورات التعليمية" />
+                    <Input 
+                      value={coursesContent.title}
+                      onChange={(e) => setCoursesContent({...coursesContent, title: e.target.value})}
+                    />
                   </div>
                   
                   <div className="space-y-2">
                     <label className="text-sm font-medium">النص التوضيحي</label>
                     <Textarea 
-                      defaultValue="استكشف أحدث الدورات التعليمية في مختلف المجالات"
+                      value={coursesContent.subtitle}
+                      onChange={(e) => setCoursesContent({...coursesContent, subtitle: e.target.value})}
                       className="min-h-[100px]"
                     />
                   </div>
                   
                   <div className="space-y-2">
                     <label className="text-sm font-medium">عدد الدورات المعروضة</label>
-                    <Input type="number" defaultValue="3" min="1" max="6" />
+                    <Input 
+                      type="number" 
+                      value={coursesContent.count} 
+                      onChange={(e) => setCoursesContent({...coursesContent, count: Number(e.target.value)})}
+                      min="1" 
+                      max="6" 
+                    />
                     <p className="text-xs text-muted-foreground">
                       عدد الدورات التي سيتم عرضها في الصفحة الرئيسية
                     </p>
@@ -296,11 +358,14 @@ const HomePageContent = () => {
                         اختر الدورات حسب عدد المشتركين
                       </p>
                     </div>
-                    <Switch defaultChecked />
+                    <Switch 
+                      checked={coursesContent.showPopular}
+                      onCheckedChange={(checked) => setCoursesContent({...coursesContent, showPopular: checked})}
+                    />
                   </div>
                 </CardContent>
                 <CardFooter>
-                  <Button>
+                  <Button onClick={handleSaveCourses}>
                     <Save className="h-4 w-4 ml-2" />
                     حفظ التغييرات
                   </Button>
@@ -320,25 +385,35 @@ const HomePageContent = () => {
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
                     <label className="text-sm font-medium">العنوان الرئيسي</label>
-                    <Input defaultValue="انضم إلى مجتمع منصة علي اليوم" />
+                    <Input 
+                      value={ctaContent.title}
+                      onChange={(e) => setCtaContent({...ctaContent, title: e.target.value})}
+                    />
                   </div>
                   
                   <div className="space-y-2">
                     <label className="text-sm font-medium">النص التوضيحي</label>
                     <Textarea 
-                      defaultValue="سجل الآن واستفد من جميع الخدمات والمميزات التي تقدمها منصة علي"
+                      value={ctaContent.subtitle}
+                      onChange={(e) => setCtaContent({...ctaContent, subtitle: e.target.value})}
                       className="min-h-[100px]"
                     />
                   </div>
                   
                   <div className="space-y-2">
                     <label className="text-sm font-medium">نص زر المستقلين</label>
-                    <Input defaultValue="انضم كمستقل" />
+                    <Input 
+                      value={ctaContent.freelancerButtonText}
+                      onChange={(e) => setCtaContent({...ctaContent, freelancerButtonText: e.target.value})}
+                    />
                   </div>
                   
                   <div className="space-y-2">
                     <label className="text-sm font-medium">نص زر أصحاب الأعمال</label>
-                    <Input defaultValue="انضم كصاحب عمل" />
+                    <Input 
+                      value={ctaContent.clientButtonText}
+                      onChange={(e) => setCtaContent({...ctaContent, clientButtonText: e.target.value})}
+                    />
                   </div>
                   
                   <div className="space-y-2">
@@ -346,7 +421,7 @@ const HomePageContent = () => {
                     <div className="flex items-center gap-2">
                       <div className="h-24 w-40 bg-gray-100 rounded overflow-hidden">
                         <img 
-                          src="/placeholder.svg" 
+                          src={ctaContent.imageUrl} 
                           alt="صورة الخلفية" 
                           className="w-full h-full object-cover"
                         />
@@ -359,7 +434,7 @@ const HomePageContent = () => {
                   </div>
                 </CardContent>
                 <CardFooter>
-                  <Button>
+                  <Button onClick={handleSaveCta}>
                     <Save className="h-4 w-4 ml-2" />
                     حفظ التغييرات
                   </Button>
