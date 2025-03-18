@@ -28,4 +28,85 @@ if (supabaseUrl && supabaseAnonKey) {
   };
 }
 
+// Function to get a course by ID
+export const getCourseById = async (id: string) => {
+  try {
+    if (!supabaseUrl || !supabaseAnonKey) {
+      console.log('Using mock data for getCourseById');
+      // Return null to allow the component to fallback to mock data
+      return null;
+    }
+
+    const { data, error } = await supabase
+      .from('courses')
+      .select('*')
+      .eq('id', id)
+      .single();
+
+    if (error) {
+      console.error('Error fetching course:', error);
+      return null;
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Unexpected error in getCourseById:', error);
+    return null;
+  }
+};
+
+// Function to get a service by ID
+export const getServiceById = async (id: string) => {
+  try {
+    if (!supabaseUrl || !supabaseAnonKey) {
+      console.log('Using mock data for getServiceById');
+      // Return null to allow the component to fallback to mock data
+      return null;
+    }
+
+    const { data, error } = await supabase
+      .from('services')
+      .select('*')
+      .eq('id', id)
+      .single();
+
+    if (error) {
+      console.error('Error fetching service:', error);
+      return null;
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Unexpected error in getServiceById:', error);
+    return null;
+  }
+};
+
+// Function to get reviews by target (course or service)
+export const getReviewsByTarget = async (targetId: string, targetType: 'course' | 'service') => {
+  try {
+    if (!supabaseUrl || !supabaseAnonKey) {
+      console.log('Using mock data for getReviewsByTarget');
+      // Return null to allow the component to fallback to mock data
+      return null;
+    }
+
+    const { data, error } = await supabase
+      .from('reviews')
+      .select('*')
+      .eq('target_id', targetId)
+      .eq('target_type', targetType);
+
+    if (error) {
+      console.error('Error fetching reviews:', error);
+      return null;
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Unexpected error in getReviewsByTarget:', error);
+    return null;
+  }
+};
+
 export { supabase };
