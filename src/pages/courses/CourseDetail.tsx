@@ -149,6 +149,7 @@ const courseData = {
   ]
 };
 
+// Define review type
 type Review = {
   id: number;
   name: string;
