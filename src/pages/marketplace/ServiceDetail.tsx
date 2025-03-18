@@ -27,6 +27,16 @@ import {
   ShoppingCart
 } from 'lucide-react';
 
+// Define review type
+type Review = {
+  id: number;
+  name: string;
+  avatar: string;
+  rating: number;
+  date: string;
+  content: string;
+};
+
 const serviceData = {
   id: 1,
   title: 'تصميم وتطوير مواقع ويب احترافية متجاوبة',
@@ -152,15 +162,6 @@ const serviceData = {
       content: 'تجربة جيدة بشكل عام. الموقع جميل ويعمل بشكل جيد، لكن كان هناك بعض التأخير في التسليم. مع ذلك، أنا راضٍ عن النتيجة النهائية والخدمة.'
     }
   ]
-};
-
-type Review = {
-  id: number;
-  name: string;
-  avatar: string;
-  rating: number;
-  date: string;
-  content: string;
 };
 
 const ServiceDetail = () => {
