@@ -46,6 +46,10 @@ import AdminSettings from "./pages/dashboard/admin/Settings";
 import AdminFinance from "./pages/dashboard/admin/Finance";
 import AdminStats from "./pages/dashboard/admin/Stats";
 
+// إدارة المحتوى - Content Management
+import HomePageContent from "./pages/dashboard/admin/content/HomePage";
+import AboutPageContent from "./pages/dashboard/admin/content/AboutPage";
+
 // الإشعارات المشتركة
 import Notifications from "./pages/dashboard/shared/Notifications";
 import Settings from "./pages/Settings";
@@ -147,6 +151,10 @@ const App = () => (
             <Route path="/dashboard/admin/settings" element={<AdminSettings />} />
             <Route path="/dashboard/admin/finance" element={<AdminFinance />} />
             <Route path="/dashboard/admin/stats" element={<AdminStats />} />
+            
+            {/* إدارة المحتوى - Content Management */}
+            <Route path="/dashboard/admin/content/home" element={<HomePageContent />} />
+            <Route path="/dashboard/admin/content/about" element={<AboutPageContent />} />
             
             {/* صفحة 404 */}
             <Route path="*" element={<NotFound />} />

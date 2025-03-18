@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import DashboardLayout from '@/components/layout/DashboardLayout';
@@ -14,7 +13,7 @@ import {
 import { Switch } from '@/components/ui/switch';
 import { 
   Settings as SettingsIcon, Save, Globe, Mail, Bell, Lock, 
-  FileText, Image, UserPlus, Key, ShieldCheck, Rocket 
+  FileText, Image, UserPlus, Key, ShieldCheck, Rocket, LayoutGrid 
 } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 
@@ -37,7 +36,7 @@ const AdminSettings = () => {
       <DashboardLayout type="admin" title="إعدادات الموقع">
         <div className="space-y-6">
           <Tabs defaultValue="general" className="w-full">
-            <TabsList className="mb-6 w-full max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-5 h-auto">
+            <TabsList className="mb-6 w-full max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-6 h-auto">
               <TabsTrigger value="general" className="py-2">
                 <Globe className="h-4 w-4 ml-2" />
                 عام
@@ -57,6 +56,10 @@ const AdminSettings = () => {
               <TabsTrigger value="advanced" className="py-2">
                 <Rocket className="h-4 w-4 ml-2" />
                 متقدم
+              </TabsTrigger>
+              <TabsTrigger value="content" className="py-2">
+                <LayoutGrid className="h-4 w-4 ml-2" />
+                المحتوى
               </TabsTrigger>
             </TabsList>
             
@@ -212,7 +215,7 @@ const AdminSettings = () => {
                         <SheetHeader>
                           <SheetTitle>قالب ترحيب المستخدمين الجدد</SheetTitle>
                           <SheetDescription>
-                            البريد الإلكتروني المرسل للمستخدمين الجدد عند التسجيل
+                            البريد الإلكتروني المرسل للمستخ��مين الجدد عند التسجيل
                           </SheetDescription>
                         </SheetHeader>
                         <div className="space-y-4 py-4">
@@ -566,6 +569,66 @@ const AdminSettings = () => {
                     حفظ الإعدادات
                   </Button>
                 </CardFooter>
+              </Card>
+            </TabsContent>
+            
+            {/* إدارة المحتوى */}
+            <TabsContent value="content">
+              <Card>
+                <CardHeader>
+                  <CardTitle>إدارة محتوى الموقع</CardTitle>
+                  <CardDescription>
+                    تعديل محتوى الصفحات الرئيسية في الموقع
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <Button 
+                      variant="outline" 
+                      className="h-24 flex flex-col items-center justify-center gap-2"
+                      onClick={() => window.location.href = "/dashboard/admin/content/home"}
+                    >
+                      <LayoutGrid className="h-8 w-8" />
+                      <span>الصفحة الرئيسية</span>
+                    </Button>
+                    
+                    <Button 
+                      variant="outline" 
+                      className="h-24 flex flex-col items-center justify-center gap-2"
+                      onClick={() => window.location.href = "/dashboard/admin/content/about"}
+                    >
+                      <FileText className="h-8 w-8" />
+                      <span>صفحة من نحن</span>
+                    </Button>
+                    
+                    <Button 
+                      variant="outline" 
+                      className="h-24 flex flex-col items-center justify-center gap-2"
+                      onClick={() => window.location.href = "/dashboard/admin/content/faq"}
+                    >
+                      <Bell className="h-8 w-8" />
+                      <span>الأسئلة الشائعة</span>
+                    </Button>
+                    
+                    <Button 
+                      variant="outline" 
+                      className="h-24 flex flex-col items-center justify-center gap-2"
+                      onClick={() => window.location.href = "/dashboard/admin/content/contact"}
+                    >
+                      <Mail className="h-8 w-8" />
+                      <span>صفحة اتصل بنا</span>
+                    </Button>
+                    
+                    <Button 
+                      variant="outline" 
+                      className="h-24 flex flex-col items-center justify-center gap-2"
+                      onClick={() => window.location.href = "/dashboard/admin/content/terms"}
+                    >
+                      <Lock className="h-8 w-8" />
+                      <span>الشروط والأحكام</span>
+                    </Button>
+                  </div>
+                </CardContent>
               </Card>
             </TabsContent>
           </Tabs>
