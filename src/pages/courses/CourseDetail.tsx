@@ -1,653 +1,677 @@
 
-import React from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
-import Navbar from '@/components/layout/Navbar';
-import Footer from '@/components/layout/Footer';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
+import { useParams, Link } from 'react-router-dom';
+import { useToast } from '@/components/ui/use-toast';
 import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Separator } from '@/components/ui/separator';
+import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
-import { ChevronLeft, Star, Clock, BookOpen, CheckCircle, Play, Download, Share2, Heart } from 'lucide-react';
-import { useToast } from '@/components/ui/use-toast';
+import { getCourseById, getReviewsByTarget } from '@/lib/supabase';
 
-// Mock data for courses (would be fetched from API in production)
-const courses = [
-  {
-    id: "1",
-    title: "إتقان التسويق عبر وسائل التواصل الاجتماعي",
-    description: "تعلم كيفية إنشاء استراتيجيات وحملات وسائل التواصل الاجتماعي الفعالة لنمو الأعمال.",
-    longDescription: "تعلم كيفية إنشاء استراتيجيات وحملات وسائل التواصل الاجتماعي الفعالة لنمو الأعمال. ستتعلم في هذه الدورة كيفية تخطيط وتنفيذ وقياس حملات وسائل التواصل الاجتماعي الناجحة عبر منصات متعددة مثل فيسبوك وانستغرام وتويتر ولينكد إن وتيك توك. تغطي الدورة استراتيجيات المحتوى، وإنشاء الجداول الزمنية، وتحليل البيانات، واستهداف الجمهور، والإعلانات المدفوعة.",
-    image: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?q=80&w=1974&auto=format&fit=crop",
-    instructorName: "سارة الجوهري",
-    instructorImage: "https://randomuser.me/api/portraits/women/32.jpg",
-    instructorBio: "خبيرة تسويق رقمي مع أكثر من 10 سنوات من الخبرة في إدارة حملات وسائل التواصل الاجتماعي لشركات كبرى.",
-    rating: 4.9,
-    reviews: 245,
-    students: 1820,
-    duration: "12 ساعة",
-    lessons: 54,
-    level: "متوسط",
-    price: 99,
-    currency: "$",
-    language: "العربية",
-    category: "وسائل التواصل",
-    lastUpdated: "مارس 2025",
-    features: [
-      "54 درس فيديو",
-      "8 مشاريع عملية",
-      "15 اختبار",
-      "موارد قابلة للتنزيل",
-      "شهادة إتمام",
-      "وصول مدى الحياة"
-    ],
-    requirements: [
-      "معرفة أساسية بوسائل التواصل الاجتماعي",
-      "فهم أساسيات التسويق",
-      "حساب على منصات التواصل الاجتماعي الرئيسية"
-    ],
-    modules: [
-      {
-        title: "مقدمة في تسويق وسائل التواصل الاجتماعي",
-        lessons: [
-          { title: "أساسيات تسويق وسائل التواصل الاجتماعي", duration: "15 دقيقة" },
-          { title: "فهم منصات التواصل المختلفة وجماهيرها", duration: "25 دقيقة" },
-          { title: "تحديد أهداف حملتك", duration: "20 دقيقة" }
-        ]
-      },
-      {
-        title: "إنشاء استراتيجية محتوى قوية",
-        lessons: [
-          { title: "فهم جمهورك المستهدف", duration: "30 دقيقة" },
-          { title: "إنشاء أنواع مختلفة من المحتوى", duration: "45 دقيقة" },
-          { title: "تطوير جدول محتوى", duration: "35 دقيقة" },
-          { title: "كتابة نصوص جذابة", duration: "40 دقيقة" }
-        ]
-      },
-      {
-        title: "إنشاء حملات مدفوعة",
-        lessons: [
-          { title: "مقدمة في الإعلانات المدفوعة", duration: "25 دقيقة" },
-          { title: "إعداد حملات فيسبوك وانستغرام", duration: "50 دقيقة" },
-          { title: "إعداد حملات تويتر ولينكد إن", duration: "40 دقيقة" },
-          { title: "استهداف الجمهور وتحسين الحملات", duration: "55 دقيقة" }
-        ]
-      },
-      {
-        title: "قياس النجاح وتحليل البيانات",
-        lessons: [
-          { title: "فهم مقاييس وسائل التواصل الاجتماعي", duration: "35 دقيقة" },
-          { title: "إعداد لوحات معلومات للتتبع", duration: "40 دقيقة" },
-          { title: "تفسير البيانات واتخاذ قرارات", duration: "45 دقيقة" },
-          { title: "إعداد تقارير أداء", duration: "30 دقيقة" }
-        ]
-      }
-    ],
-    reviews: [
-      {
-        id: 1,
-        name: "أحمد محمد",
-        avatar: "https://randomuser.me/api/portraits/men/22.jpg",
-        rating: 5,
-        date: "قبل 3 أشهر",
-        content: "دورة ممتازة! شرح مفصل وواضح، وتغطي جميع جوانب التسويق عبر وسائل التواصل الاجتماعي. استفدت كثيراً من المشاريع العملية، وتمكنت من تطبيق ما تعلمته على الفور في عملي."
-      },
-      {
-        id: 2,
-        name: "ليلى عبدالله",
-        avatar: "https://randomuser.me/api/portraits/women/29.jpg",
-        rating: 4,
-        date: "قبل 5 أشهر",
-        content: "دورة قيمة جداً للمبتدئين والمحترفين على حد سواء. المحتوى محدث ويشمل آخر الاستراتيجيات والتقنيات. كنت أتمنى المزيد من التفاصيل حول تيك توك وكلابهاوس، لكن بشكل عام أنا راضية جداً."
-      },
-      {
-        id: 3,
-        name: "محمد العتيبي",
-        avatar: "https://randomuser.me/api/portraits/men/32.jpg",
-        rating: 5,
-        date: "قبل 2 أشهر",
-        content: "تستحق كل ريال! المدربة سارة متمكنة جداً وتشرح بأسلوب سلس وممتع. الأمثلة العملية والتمارين ساعدتني على فهم المفاهيم بشكل أفضل. أوصي بشدة بهذه الدورة لكل من يريد تطوير مهاراته في التسويق الرقمي."
-      },
-      {
-        id: 4,
-        name: "سلمى حسن",
-        avatar: "https://randomuser.me/api/portraits/women/44.jpg",
-        rating: 5,
-        date: "قبل شهر",
-        content: "من أفضل الدورات التي أخذتها في مجال التسويق الرقمي. المحتوى منظم بشكل رائع والشرح واضح جداً. استفدت كثيراً من قسم تحليل البيانات واتخاذ القرارات. شكراً سارة على هذه الدورة القيمة!"
-      }
-    ]
+import {
+  Star,
+  PlayCircle,
+  Clock,
+  Users,
+  BookOpen,
+  Globe,
+  BarChart,
+  Award,
+  Share2,
+  Heart,
+  MessageSquare,
+  CheckCircle,
+  AlertCircle
+} from 'lucide-react';
+
+// نموذج بيانات الكورس (سيتم استبداله بداتا حقيقية من Supabase)
+const courseData = {
+  id: 1,
+  title: 'التسويق الرقمي الشامل: من المبتدئ إلى المحترف',
+  slug: 'digital-marketing-comprehensive',
+  description: 'دورة شاملة في التسويق الرقمي تغطي جميع جوانب التسويق عبر الإنترنت من البداية وحتى الاحتراف. ستتعلم إنشاء استراتيجيات تسويقية فعالة، وتحسين محركات البحث، والتسويق عبر وسائل التواصل الاجتماعي، وإعلانات الدفع لكل نقرة، والتسويق بالمحتوى، وتحليل البيانات، وغيرها الكثير.',
+  price: 199,
+  discountPrice: 149,
+  rating: 4.8,
+  totalReviews: 245,
+  students: 1865,
+  language: 'العربية',
+  lastUpdate: '15 يناير 2023',
+  thumbnail: 'https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80',
+  level: 'جميع المستويات',
+  duration: '15 ساعة',
+  lessons: 120,
+  categories: ['تسويق رقمي', 'أعمال'],
+  features: [
+    'شهادة إتمام معتمدة',
+    'وصول مدى الحياة',
+    'موارد وملفات للتحميل',
+    'دعم مباشر من المدرب',
+    'مشاريع عملية'
+  ],
+  prerequisites: [
+    'لا توجد متطلبات مسبقة، هذه الدورة تبدأ من الصفر',
+    'جهاز كمبيوتر مع اتصال بالإنترنت',
+    'الرغبة في التعلم والتطبيق'
+  ],
+  targetAudience: [
+    'المبتدئين الذين يرغبون في دخول مجال التسويق الرقمي',
+    'أصحاب الأعمال الذين يرغبون في تسويق أعمالهم عبر الإنترنت',
+    'المسوقين التقليديين الذين يريدون تطوير مهاراتهم الرقمية',
+    'الخريجين الجدد الذين يبحثون عن فرص عمل في مجال التسويق الرقمي'
+  ],
+  whatYouWillLearn: [
+    'إنشاء استراتيجية تسويق رقمي شاملة وفعالة',
+    'تحسين محركات البحث (SEO) لزيادة ظهور موقعك في نتائج البحث',
+    'إدارة حملات إعلانية ناجحة على منصات التواصل الاجتماعي',
+    'إنشاء وإدارة حملات الدفع لكل نقرة (PPC) على جوجل ومنصات أخرى',
+    'استخدام التسويق بالمحتوى لجذب العملاء المحتملين وتحويلهم',
+    'تحليل وقياس أداء الحملات التسويقية باستخدام جوجل أناليتكس وأدوات أخرى',
+    'بناء قائمة بريدية وإدارة حملات التسويق عبر البريد الإلكتروني',
+    'تطبيق تقنيات التسويق الفيروسي والتسويق بالعمولة'
+  ],
+  curriculum: [
+    {
+      id: 1,
+      title: 'مقدمة في التسويق الرقمي',
+      lessons: 8,
+      duration: '1 ساعة',
+      topics: [
+        { id: 1, title: 'مقدمة عن الدورة والمدرب', duration: '5 دقائق', free: true },
+        { id: 2, title: 'ما هو التسويق الرقمي وأهميته', duration: '15 دقيقة', free: true },
+        { id: 3, title: 'تطور التسويق الرقمي والاتجاهات الحديثة', duration: '20 دقيقة' },
+        { id: 4, title: 'قنوات التسويق الرقمي المختلفة', duration: '15 دقيقة' }
+      ]
+    },
+    {
+      id: 2,
+      title: 'استراتيجية التسويق الرقمي',
+      lessons: 12,
+      duration: '2 ساعة',
+      topics: [
+        { id: 1, title: 'تحديد الأهداف التسويقية', duration: '15 دقيقة' },
+        { id: 2, title: 'تحديد الجمهور المستهدف وإنشاء شخصيات المشتري', duration: '20 دقيقة' },
+        { id: 3, title: 'تحليل المنافسين', duration: '25 دقيقة' },
+        { id: 4, title: 'بناء استراتيجية محتوى فعالة', duration: '30 دقيقة' }
+      ]
+    },
+    {
+      id: 3,
+      title: 'تحسين محركات البحث (SEO)',
+      lessons: 15,
+      duration: '3 ساعة',
+      topics: [
+        { id: 1, title: 'أساسيات SEO وكيف تعمل محركات البحث', duration: '20 دقيقة' },
+        { id: 2, title: 'بحث الكلمات المفتاحية واستراتيجية المحتوى', duration: '25 دقيقة' },
+        { id: 3, title: 'تحسين الموقع الداخلي (On-page SEO)', duration: '30 دقيقة' },
+        { id: 4, title: 'تحسين الموقع الخارجي (Off-page SEO)', duration: '30 دقيقة' }
+      ]
+    }
+  ],
+  instructor: {
+    id: 1,
+    name: 'أحمد محمد',
+    title: 'خبير تسويق رقمي ومؤسس شركة DigitalGrow',
+    bio: 'أحمد محمد هو خبير تسويق رقمي مع خبرة تزيد عن 10 سنوات في مجال التسويق الرقمي. عمل مع أكثر من 100 شركة ناشئة وعلامة تجارية معروفة لمساعدتهم على النمو رقمياً. حاصل على شهادات معتمدة من جوجل وفيسبوك في مجال التسويق الرقمي وتحليل البيانات.',
+    avatar: 'https://randomuser.me/api/portraits/men/32.jpg',
+    courses: 12,
+    reviews: 4.9,
+    students: 15000
   },
-  {
-    id: "2",
-    title: "أساسيات واستراتيجية تحسين محركات البحث",
-    description: "إتقان تقنيات تحسين محركات البحث لتوجيه حركة المرور العضوية إلى موقع الويب الخاص بك.",
-    longDescription: "تعلم كيفية تحسين موقعك الإلكتروني ليظهر في مراتب متقدمة في نتائج محركات البحث. ستتعلم في هذه الدورة أساسيات وتقنيات SEO الحديثة، من تحليل الكلمات المفتاحية وتحسين المحتوى إلى بناء الروابط وتحسين العوامل التقنية. تغطي الدورة استراتيجيات SEO المحلية والعالمية، وكيفية التعامل مع تحديثات خوارزميات جوجل، ومراقبة وتحليل النتائج.",
-    image: "https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?q=80&w=2074&auto=format&fit=crop",
-    instructorName: "أحمد الشمري",
-    instructorImage: "https://randomuser.me/api/portraits/men/46.jpg",
-    instructorBio: "خبير SEO متخصص مع خبرة 12 عاماً في تحسين مواقع الويب لظهورها في الصفحات الأولى من محركات البحث.",
-    rating: 4.8,
-    reviews: 189,
-    students: 1540,
-    duration: "10 ساعات",
-    lessons: 42,
-    level: "مبتدئ إلى متوسط",
-    price: 89,
-    currency: "$",
-    language: "العربية",
-    category: "SEO",
-    lastUpdated: "يناير 2025",
-    features: [
-      "42 درس فيديو",
-      "6 مشاريع عملية",
-      "10 اختبارات",
-      "أدوات وقوالب قابلة للتنزيل",
-      "شهادة إتمام",
-      "وصول مدى الحياة"
-    ],
-    requirements: [
-      "فهم أساسي لكيفية عمل الإنترنت",
-      "معرفة أساسية بمواقع الويب",
-      "لا يلزم خبرة برمجية"
-    ],
-    modules: [
-      {
-        title: "مقدمة في تحسين محركات البحث",
-        lessons: [
-          { title: "ما هو SEO ولماذا هو مهم", duration: "20 دقيقة" },
-          { title: "كيف تعمل محركات البحث", duration: "25 دقيقة" },
-          { title: "أنواع SEO: المحلي، الفني، المحتوى", duration: "30 دقيقة" }
-        ]
-      },
-      {
-        title: "بحث الكلمات المفتاحية",
-        lessons: [
-          { title: "فهم نية البحث", duration: "25 دقيقة" },
-          { title: "أدوات بحث الكلمات المفتاحية", duration: "35 دقيقة" },
-          { title: "تحليل المنافسين", duration: "40 دقيقة" },
-          { title: "إنشاء استراتيجية الكلمات المفتاحية", duration: "45 دقيقة" }
-        ]
-      },
-      {
-        title: "تحسين المحتوى",
-        lessons: [
-          { title: "إنشاء محتوى يتصدر نتائج البحث", duration: "50 دقيقة" },
-          { title: "تحسين العناوين والوصف", duration: "30 دقيقة" },
-          { title: "استخدام الكلمات المفتاحية بشكل فعال", duration: "35 دقيقة" },
-          { title: "تحسين الصور والوسائط", duration: "25 دقيقة" }
-        ]
-      },
-      {
-        title: "التحسينات التقنية",
-        lessons: [
-          { title: "تحسين سرعة الموقع", duration: "40 دقيقة" },
-          { title: "تحسين للأجهزة المحمولة", duration: "35 دقيقة" },
-          { title: "هيكلة URL وموقع XML", duration: "30 دقيقة" },
-          { title: "الترميز الهيكلي وبيانات Schema", duration: "45 دقيقة" }
-        ]
-      }
-    ],
-    reviews: [
-      {
-        id: 1,
-        name: "سعود العنزي",
-        avatar: "https://randomuser.me/api/portraits/men/42.jpg",
-        rating: 5,
-        date: "قبل 2 أشهر",
-        content: "دورة شاملة ومفصلة جداً. استفدت كثيراً من الأمثلة العملية وشروحات الأستاذ أحمد. تمكنت من تطبيق ما تعلمته على موقعي وبدأت أرى نتائج إيجابية خلال أسابيع قليلة."
-      },
-      {
-        id: 2,
-        name: "نورة القحطاني",
-        avatar: "https://randomuser.me/api/portraits/women/37.jpg",
-        rating: 4,
-        date: "قبل 4 أشهر",
-        content: "دورة ممتازة للمبتدئين في مجال SEO. الشرح واضح والأمثلة عملية. أعجبني قسم بحث الكلمات المفتاحية بشكل خاص لأنه كان شاملاً ومفصلاً."
-      },
-      {
-        id: 3,
-        name: "فهد الحربي",
-        avatar: "https://randomuser.me/api/portraits/men/62.jpg",
-        rating: 5,
-        date: "قبل شهر",
-        content: "من أفضل الدورات العربية في مجال SEO. المحتوى محدث ويشمل آخر تحديثات خوارزميات جوجل. أوصي بها لكل من يريد تعلم تحسين محركات البحث بطريقة صحيحة."
-      },
-      {
-        id: 4,
-        name: "عبير الشمري",
-        avatar: "https://randomuser.me/api/portraits/women/24.jpg",
-        rating: 5,
-        date: "قبل 3 أشهر",
-        content: "استثمار رائع! تعلمت الكثير من هذه الدورة وتمكنت من تطبيق استراتيجيات SEO على مواقع عملائي. النتائج كانت مذهلة، وأشكر الأستاذ أحمد على هذه الدورة القيمة."
-      }
-    ]
-  }
-];
+  reviews: [
+    {
+      id: 1,
+      name: 'سارة أحمد',
+      avatar: 'https://randomuser.me/api/portraits/women/68.jpg',
+      rating: 5,
+      date: '12 مارس 2023',
+      content: 'دورة رائعة ومفيدة جداً، استفدت منها كثيراً في عملي وتطبيق استراتيجيات التسويق الرقمي. شرح المدرب ممتاز وسلس ويغطي جميع الجوانب المهمة.'
+    },
+    {
+      id: 2,
+      name: 'محمد خالد',
+      avatar: 'https://randomuser.me/api/portraits/men/54.jpg',
+      rating: 4,
+      date: '5 فبراير 2023',
+      content: 'دورة شاملة غطت معظم جوانب التسويق الرقمي، استفدت منها في تطوير استراتيجية التسويق لشركتي. لكن كنت أتمنى المزيد من الأمثلة العملية.'
+    },
+    {
+      id: 3,
+      name: 'نورا سعيد',
+      avatar: 'https://randomuser.me/api/portraits/women/24.jpg',
+      rating: 5,
+      date: '18 يناير 2023',
+      content: 'من أفضل الدورات التي حضرتها في مجال التسويق الرقمي، المدرب محترف ولديه خبرة كبيرة يشاركها بأسلوب سلس وممتع. أنصح بها بشدة لكل من يريد دخول مجال التسويق الرقمي.'
+    }
+  ]
+};
+
+type Review = {
+  id: number;
+  name: string;
+  avatar: string;
+  rating: number;
+  date: string;
+  content: string;
+};
 
 const CourseDetail = () => {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const { toast } = useToast();
+  const [course, setCourse] = useState<any>(courseData);
+  const [reviews, setReviews] = useState<Review[]>(courseData.reviews);
+  const [loading, setLoading] = useState(true);
+  const [enrolling, setEnrolling] = useState(false);
   
-  // Find the course based on the ID
-  const course = courses.find(c => c.id === id) || courses[0];
+  useEffect(() => {
+    const fetchCourseData = async () => {
+      try {
+        setLoading(true);
+        if (id) {
+          // تحميل بيانات الكورس من Supabase
+          const courseData = await getCourseById(id);
+          if (courseData) {
+            setCourse(courseData);
+            
+            // تحميل المراجعات
+            const reviewsData = await getReviewsByTarget(id, 'course');
+            if (reviewsData) {
+              setReviews(reviewsData);
+            }
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching course:', error);
+        toast({
+          title: "حدث خطأ",
+          description: "لم نتمكن من تحميل بيانات الدورة",
+          variant: "destructive"
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    // استخدم البيانات المحلية مؤقتًا في حالة عدم وجود اتصال بالقاعدة
+    if (id) {
+      fetchCourseData();
+    }
+  }, [id, toast]);
   
   const handleEnroll = () => {
-    toast({
-      title: "تم تسجيلك في الدورة",
-      description: "يمكنك الآن البدء في التعلم. تم إرسال تفاصيل الوصول إلى بريدك الإلكتروني.",
-    });
-  };
-  
-  const handleAddToWishlist = () => {
-    toast({
-      title: "تمت الإضافة إلى المفضلة",
-      description: "تمت إضافة الدورة إلى قائمة المفضلة الخاصة بك.",
-    });
-  };
-  
-  const handleShare = () => {
-    toast({
-      title: "تمت مشاركة الدورة",
-      description: "تم نسخ رابط الدورة إلى الحافظة.",
-    });
-  };
-  
-  // Calculate the total course duration
-  const getTotalMinutes = () => {
-    let total = 0;
-    course.modules.forEach(module => {
-      module.lessons.forEach(lesson => {
-        const minutes = parseInt(lesson.duration.split(' ')[0]);
-        total += minutes;
+    setEnrolling(true);
+    setTimeout(() => {
+      setEnrolling(false);
+      toast({
+        title: "تم التسجيل بنجاح",
+        description: "مبروك! تم تسجيلك في الدورة بنجاح. يمكنك البدء في التعلم الآن.",
       });
-    });
-    return total;
+    }, 1500);
   };
   
-  const totalMinutes = getTotalMinutes();
-  const totalHours = Math.floor(totalMinutes / 60);
-  const remainingMinutes = totalMinutes % 60;
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
   
   return (
     <>
       <Helmet>
-        <title>{course.title} | منصة الدورات</title>
-        <meta name="description" content={course.description} />
+        <title>{course.title} | منصة علّي</title>
       </Helmet>
       
-      <Navbar />
-      
-      <main className="bg-gray-50 py-8">
-        <div className="container mx-auto px-4">
-          {/* Navigation */}
-          <div className="mb-6">
-            <Button variant="ghost" size="sm" className="text-gray-600" asChild>
-              <a href="/courses">
-                <ChevronLeft className="h-4 w-4 ml-1" />
-                العودة إلى الدورات
-              </a>
-            </Button>
-          </div>
-          
-          {/* Course Header */}
-          <div className="bg-white rounded-lg shadow-sm overflow-hidden mb-8">
-            <div className="relative">
-              <img 
-                src={course.image} 
-                alt={course.title} 
-                className="w-full h-[300px] object-cover"
-              />
-              <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-                <Play className="h-16 w-16 text-white opacity-80 hover:opacity-100 cursor-pointer transition-opacity" />
-              </div>
-            </div>
+      <div className="container mx-auto px-4 py-8">
+        {/* شريط التنقل */}
+        <div className="mb-6 text-sm breadcrumbs">
+          <ul className="flex items-center space-x-2 space-x-reverse rtl:space-x-reverse">
+            <li><Link to="/" className="text-gray-500 hover:text-primary">الرئيسية</Link></li>
+            <li className="mx-2">/</li>
+            <li><Link to="/courses" className="text-gray-500 hover:text-primary">الدورات</Link></li>
+            <li className="mx-2">/</li>
+            <li className="text-primary">{course.title}</li>
+          </ul>
+        </div>
+        
+        {/* معلومات الدورة الأساسية */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-10">
+          <div className="col-span-2">
+            <h1 className="text-3xl font-bold mb-4">{course.title}</h1>
             
-            <div className="p-6">
-              <div className="flex flex-wrap gap-2 mb-4">
-                <Badge>{course.category}</Badge>
-                <Badge variant="outline">{course.level}</Badge>
-              </div>
-              
-              <h1 className="text-2xl md:text-3xl font-bold mb-4">{course.title}</h1>
-              
-              <p className="text-gray-700 mb-6">{course.description}</p>
-              
-              <div className="flex flex-wrap gap-x-6 gap-y-3 mb-6">
-                <div className="flex items-center">
-                  <Star className="h-5 w-5 text-yellow-500 fill-yellow-500 ml-1" />
-                  <span className="font-medium">{course.rating}</span>
-                  <span className="text-gray-500 mr-1">({course.reviews} تقييم)</span>
-                </div>
-                
-                <div className="flex items-center">
-                  <BookOpen className="h-5 w-5 text-gray-400 ml-1" />
-                  <span>{course.students} طالب</span>
-                </div>
-                
-                <div className="flex items-center">
-                  <Clock className="h-5 w-5 text-gray-400 ml-1" />
-                  <span>{course.duration}</span>
-                </div>
-                
-                <div className="flex items-center">
-                  <span>آخر تحديث: {course.lastUpdated}</span>
-                </div>
+            <p className="text-gray-600 mb-4">
+              {course.description}
+            </p>
+            
+            <div className="flex flex-wrap items-center space-x-4 space-x-reverse mb-4">
+              <div className="flex items-center">
+                <Star className="h-5 w-5 text-yellow-500 fill-yellow-500 ml-1" />
+                <span className="font-bold">{course.rating}</span>
+                <span className="text-gray-500 mr-1">({course.totalReviews} تقييم)</span>
               </div>
               
               <div className="flex items-center">
-                <Avatar className="h-12 w-12 ml-3">
-                  <AvatarImage src={course.instructorImage} alt={course.instructorName} />
-                  <AvatarFallback>{course.instructorName.charAt(0)}</AvatarFallback>
-                </Avatar>
-                <div>
-                  <p className="font-medium">{course.instructorName}</p>
-                  <p className="text-sm text-gray-500">المدرّب</p>
-                </div>
+                <Users className="h-5 w-5 text-gray-500 ml-1" />
+                <span>{course.students} طالب</span>
+              </div>
+              
+              <div className="flex items-center">
+                <Clock className="h-5 w-5 text-gray-500 ml-1" />
+                <span>{course.duration}</span>
+              </div>
+              
+              <div className="flex items-center">
+                <BookOpen className="h-5 w-5 text-gray-500 ml-1" />
+                <span>{course.lessons} درس</span>
+              </div>
+              
+              <div className="flex items-center">
+                <Globe className="h-5 w-5 text-gray-500 ml-1" />
+                <span>{course.language}</span>
               </div>
             </div>
-          </div>
-          
-          {/* Course Content and Sidebar */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div className="lg:col-span-2">
-              <Tabs defaultValue="content">
-                <TabsList className="w-full max-w-lg grid grid-cols-4">
-                  <TabsTrigger value="content">المحتوى</TabsTrigger>
-                  <TabsTrigger value="overview">نظرة عامة</TabsTrigger>
-                  <TabsTrigger value="instructor">المدرّب</TabsTrigger>
-                  <TabsTrigger value="reviews">التقييمات</TabsTrigger>
-                </TabsList>
-                
-                <TabsContent value="content" className="mt-6">
-                  <Card>
-                    <CardContent className="p-6">
-                      <div className="flex justify-between items-center mb-6">
-                        <h2 className="text-xl font-bold">محتوى الدورة</h2>
-                        <div className="text-sm text-gray-500">
-                          {course.modules.length} وحدات • {course.lessons} درس • {totalHours} ساعة {remainingMinutes > 0 ? `و ${remainingMinutes} دقيقة` : ''}
-                        </div>
-                      </div>
-                      
-                      <div className="space-y-6">
-                        {course.modules.map((module, moduleIndex) => (
-                          <div key={moduleIndex} className="border rounded-lg overflow-hidden">
-                            <div className="bg-gray-50 p-4 border-b">
-                              <h3 className="font-semibold">{moduleIndex + 1}. {module.title}</h3>
-                              <div className="text-sm text-gray-500 mt-1">
-                                {module.lessons.length} دروس
-                              </div>
-                            </div>
-                            
-                            <div className="divide-y">
-                              {module.lessons.map((lesson, lessonIndex) => (
-                                <div key={lessonIndex} className="p-4 flex justify-between items-center">
-                                  <div className="flex items-center">
-                                    <div className="bg-gray-100 w-8 h-8 rounded-full flex items-center justify-center text-gray-500 text-sm ml-3">
-                                      {moduleIndex + 1}.{lessonIndex + 1}
-                                    </div>
-                                    <div>
-                                      <h4 className="font-medium">{lesson.title}</h4>
-                                      <div className="flex items-center text-sm text-gray-500 mt-1">
-                                        <Play className="h-3.5 w-3.5 ml-1" />
-                                        {lesson.duration}
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div>
-                                    <Button variant="ghost" size="sm" className="text-gray-500">
-                                      معاينة
-                                    </Button>
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </CardContent>
-                  </Card>
-                </TabsContent>
-                
-                <TabsContent value="overview" className="mt-6">
-                  <Card>
-                    <CardContent className="p-6">
-                      <h2 className="text-xl font-bold mb-4">نظرة عامة على الدورة</h2>
-                      
-                      <div className="space-y-6">
-                        <div>
-                          <h3 className="text-lg font-semibold mb-3">الوصف</h3>
-                          <p className="text-gray-700 whitespace-pre-line">{course.longDescription}</p>
-                        </div>
-                        
-                        <Separator />
-                        
-                        <div>
-                          <h3 className="text-lg font-semibold mb-3">ما ستتعلمه</h3>
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-y-3 gap-x-6">
-                            {course.features.map((feature, index) => (
-                              <div key={index} className="flex items-start">
-                                <CheckCircle className="h-5 w-5 text-green-500 ml-2 mt-0.5 flex-shrink-0" />
-                                <span>{feature}</span>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                        
-                        <Separator />
-                        
-                        <div>
-                          <h3 className="text-lg font-semibold mb-3">المتطلبات</h3>
-                          <ul className="list-disc list-inside space-y-2 text-gray-700">
-                            {course.requirements.map((req, index) => (
-                              <li key={index}>{req}</li>
-                            ))}
-                          </ul>
-                        </div>
-                        
-                        <Separator />
-                        
-                        <div>
-                          <h3 className="text-lg font-semibold mb-3">لمن هذه الدورة</h3>
-                          <ul className="list-disc list-inside space-y-2 text-gray-700">
-                            <li>مديري التسويق ومديري وسائل التواصل الاجتماعي</li>
-                            <li>أصحاب الأعمال الصغيرة الذين يديرون حسابات التواصل الاجتماعي الخاصة بهم</li>
-                            <li>المسوقين المبتدئين الراغبين في تطوير مهاراتهم</li>
-                            <li>المحترفين الذين يتطلعون إلى تغيير مسارهم المهني إلى التسويق الرقمي</li>
-                          </ul>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </TabsContent>
-                
-                <TabsContent value="instructor" className="mt-6">
-                  <Card>
-                    <CardContent className="p-6">
-                      <div className="flex flex-col md:flex-row md:items-center gap-6 mb-6">
-                        <Avatar className="h-24 w-24">
-                          <AvatarImage src={course.instructorImage} alt={course.instructorName} />
-                          <AvatarFallback>{course.instructorName.charAt(0)}</AvatarFallback>
-                        </Avatar>
-                        <div>
-                          <h2 className="text-xl font-bold">{course.instructorName}</h2>
-                          <p className="text-gray-500 mt-1">خبير تسويق رقمي ومدرب معتمد</p>
-                          
-                          <div className="flex flex-wrap gap-x-6 gap-y-2 mt-3">
-                            <div className="flex items-center">
-                              <Star className="h-4 w-4 text-yellow-500 fill-yellow-500 ml-1" />
-                              <span>{course.rating} تقييم المدرب</span>
-                            </div>
-                            <div className="flex items-center">
-                              <BookOpen className="h-4 w-4 text-gray-400 ml-1" />
-                              <span>5 دورات</span>
-                            </div>
-                            <div className="flex items-center">
-                              <Clock className="h-4 w-4 text-gray-400 ml-1" />
-                              <span>2,500+ طالب</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      
-                      <Separator className="mb-6" />
-                      
-                      <div>
-                        <h3 className="text-lg font-semibold mb-3">نبذة عن المدرب</h3>
-                        <p className="text-gray-700">
-                          {course.instructorBio}
-                        </p>
-                        
-                        <div className="mt-6 space-y-4">
-                          <p className="text-gray-700">
-                            تخرجت من جامعة الملك سعود بتخصص إدارة أعمال وحصلت على شهادات متخصصة في التسويق الرقمي من Google و Facebook و HubSpot.
-                          </p>
-                          
-                          <p className="text-gray-700">
-                            عملت مع العديد من الشركات المحلية والعالمية في تطوير استراتيجيات التسويق الرقمي وإدارة حملات وسائل التواصل الاجتماعي. 
-                            أقوم حالياً بتدريب وتأهيل المسوقين من خلال دوراتي المتخصصة واستشاراتي للشركات.
-                          </p>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </TabsContent>
-                
-                <TabsContent value="reviews" className="mt-6">
-                  <Card>
-                    <CardContent className="p-6">
-                      <div className="flex flex-col md:flex-row md:items-center gap-8 mb-8">
-                        <div className="text-center">
-                          <div className="text-5xl font-bold text-gray-900 mb-2">{course.rating}</div>
-                          <div className="flex justify-center text-yellow-500 mb-1">
-                            <Star className="h-5 w-5 fill-current" />
-                            <Star className="h-5 w-5 fill-current" />
-                            <Star className="h-5 w-5 fill-current" />
-                            <Star className="h-5 w-5 fill-current" />
-                            <Star className="h-5 w-5 fill-current" />
-                          </div>
-                          <div className="text-sm text-gray-500">تقييم الدورة</div>
-                        </div>
-                        
-                        <div className="flex-grow">
-                          <div className="space-y-2">
-                            {[5, 4, 3, 2, 1].map((rating) => {
-                              const percentage = rating === 5 ? 75 : rating === 4 ? 18 : rating === 3 ? 5 : rating === 2 ? 1 : 1;
-                              return (
-                                <div key={rating} className="flex items-center">
-                                  <div className="flex items-center w-16 text-sm">
-                                    <span>{rating}</span>
-                                    <Star className="h-3.5 w-3.5 text-yellow-500 ml-1" />
-                                  </div>
-                                  <Progress value={percentage} className="h-2 flex-grow mx-3" />
-                                  <div className="w-12 text-sm text-gray-500 text-left">{percentage}%</div>
-                                </div>
-                              );
-                            })}
-                          </div>
-                        </div>
-                      </div>
-                      
-                      <Separator className="mb-6" />
-                      
-                      <div className="space-y-6">
-                        {course.reviews.map((review) => (
-                          <div key={review.id} className="border-b pb-6 last:border-0">
-                            <div className="flex items-start gap-4">
-                              <Avatar>
-                                <AvatarImage src={review.avatar} alt={review.name} />
-                                <AvatarFallback>{review.name.charAt(0)}</AvatarFallback>
-                              </Avatar>
-                              <div className="flex-grow">
-                                <div className="flex justify-between">
-                                  <h4 className="font-medium">{review.name}</h4>
-                                  <span className="text-sm text-gray-500">{review.date}</span>
-                                </div>
-                                <div className="flex text-yellow-500 mt-1">
-                                  {Array(5).fill(0).map((_, i) => (
-                                    <Star 
-                                      key={i} 
-                                      className={`h-4 w-4 ${i < review.rating ? 'fill-current' : ''}`} 
-                                    />
-                                  ))}
-                                </div>
-                                <p className="mt-3 text-gray-700">{review.content}</p>
-                              </div>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                      
-                      <div className="text-center mt-6">
-                        <Button variant="outline">عرض جميع التقييمات ({course.reviews})</Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </TabsContent>
-              </Tabs>
+            
+            <div className="flex items-center mb-6">
+              <Avatar className="h-12 w-12 ml-3">
+                <AvatarImage src={course.instructor.avatar} alt={course.instructor.name} />
+                <AvatarFallback>{course.instructor.name.charAt(0)}</AvatarFallback>
+              </Avatar>
+              <div>
+                <p className="font-bold">{course.instructor.name}</p>
+                <p className="text-gray-600 text-sm">{course.instructor.title}</p>
+              </div>
             </div>
             
-            <div className="lg:col-span-1">
-              <Card className="sticky top-8">
-                <CardContent className="p-0">
+            <div className="flex flex-wrap gap-2 mb-6">
+              {course.categories?.map((category: string, index: number) => (
+                <Badge key={index} variant="outline" className="bg-gray-100">
+                  {category}
+                </Badge>
+              ))}
+            </div>
+            
+            <div className="lg:hidden mb-8">
+              <Card className="overflow-hidden">
+                <div className="relative aspect-video">
                   <img 
-                    src={course.image} 
+                    src={course.thumbnail} 
                     alt={course.title} 
-                    className="w-full aspect-video object-cover rounded-t-lg"
+                    className="w-full h-full object-cover"
                   />
-                  <div className="p-6">
-                    <div className="flex items-center justify-between mb-6">
-                      <span className="text-3xl font-bold text-blue-600">{course.currency}{course.price}</span>
-                      <Badge variant="outline" className="font-normal">
-                        <Clock className="h-3.5 w-3.5 ml-1" />
-                        {course.duration}
-                      </Badge>
-                    </div>
-                    
-                    <div className="space-y-4 mb-6">
-                      <Button onClick={handleEnroll} className="w-full h-11 text-base">
-                        سجل الآن
-                      </Button>
-                      <Button onClick={handleAddToWishlist} variant="outline" className="w-full h-11 text-base">
-                        <Heart className="h-4 w-4 ml-1" />
-                        أضف إلى المفضلة
-                      </Button>
-                    </div>
-                    
-                    <div className="text-sm text-gray-500 mb-6 text-center">
-                      سياسة ضمان استرداد المال خلال 30 يوماً
-                    </div>
-                    
-                    <div className="space-y-3">
-                      <h3 className="font-semibold">تتضمن هذه الدورة:</h3>
-                      <ul className="space-y-2">
-                        {course.features.map((feature, index) => (
-                          <li key={index} className="flex items-center text-sm">
-                            <CheckCircle className="h-4 w-4 text-green-500 ml-2 flex-shrink-0" />
-                            <span>{feature}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    
-                    <div className="mt-6 pt-6 border-t border-gray-100 flex justify-center">
-                      <Button variant="ghost" size="sm" onClick={handleShare} className="text-gray-600">
-                        <Share2 className="h-4 w-4 ml-1" />
-                        مشاركة الدورة
-                      </Button>
-                    </div>
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+                    <Button variant="outline" className="text-white border-white hover:bg-white/20 hover:text-white">
+                      <PlayCircle className="mr-2 h-5 w-5" />
+                      معاينة الدورة
+                    </Button>
+                  </div>
+                </div>
+                
+                <CardContent className="p-6">
+                  <div className="flex items-baseline mb-4">
+                    <span className="text-3xl font-bold text-primary">{course.discountPrice} ر.س</span>
+                    {course.discountPrice && course.discountPrice < course.price && (
+                      <span className="text-lg text-gray-500 line-through mr-2">{course.price} ر.س</span>
+                    )}
+                  </div>
+                  
+                  <Button className="w-full mb-3" size="lg" onClick={handleEnroll} disabled={enrolling}>
+                    {enrolling ? 'جارِ التسجيل...' : 'سجل الآن'}
+                  </Button>
+                  
+                  <p className="text-center text-sm text-gray-500 mb-4">ضمان استعادة الأموال خلال 30 يوم</p>
+                  
+                  <div className="space-y-4">
+                    <h3 className="font-bold text-lg mb-2">تتضمن هذه الدورة:</h3>
+                    <ul className="space-y-3">
+                      {course.features?.map((feature: string, index: number) => (
+                        <li key={index} className="flex items-center">
+                          <CheckCircle className="h-5 w-5 text-green-500 ml-2" />
+                          <span>{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  
+                  <div className="flex justify-center space-x-4 space-x-reverse mt-6">
+                    <Button variant="outline" size="sm">
+                      <Share2 className="h-4 w-4 ml-2" />
+                      مشاركة
+                    </Button>
+                    <Button variant="outline" size="sm">
+                      <Heart className="h-4 w-4 ml-2" />
+                      إضافة للمفضلة
+                    </Button>
                   </div>
                 </CardContent>
               </Card>
             </div>
           </div>
+          
+          <div className="hidden lg:block">
+            <Card className="overflow-hidden sticky top-24">
+              <div className="relative aspect-video">
+                <img 
+                  src={course.thumbnail} 
+                  alt={course.title} 
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+                  <Button variant="outline" className="text-white border-white hover:bg-white/20 hover:text-white">
+                    <PlayCircle className="mr-2 h-5 w-5" />
+                    معاينة الدورة
+                  </Button>
+                </div>
+              </div>
+              
+              <CardContent className="p-6">
+                <div className="flex items-baseline mb-4">
+                  <span className="text-3xl font-bold text-primary">{course.discountPrice} ر.س</span>
+                  {course.discountPrice && course.discountPrice < course.price && (
+                    <span className="text-lg text-gray-500 line-through mr-2">{course.price} ر.س</span>
+                  )}
+                </div>
+                
+                <Button className="w-full mb-3" size="lg" onClick={handleEnroll} disabled={enrolling}>
+                  {enrolling ? 'جارِ التسجيل...' : 'سجل الآن'}
+                </Button>
+                
+                <p className="text-center text-sm text-gray-500 mb-4">ضمان استعادة الأموال خلال 30 يوم</p>
+                
+                <div className="space-y-4">
+                  <h3 className="font-bold text-lg mb-2">تتضمن هذه الدورة:</h3>
+                  <ul className="space-y-3">
+                    {course.features?.map((feature: string, index: number) => (
+                      <li key={index} className="flex items-center">
+                        <CheckCircle className="h-5 w-5 text-green-500 ml-2" />
+                        <span>{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                
+                <div className="flex justify-center space-x-4 space-x-reverse mt-6">
+                  <Button variant="outline" size="sm">
+                    <Share2 className="h-4 w-4 ml-2" />
+                    مشاركة
+                  </Button>
+                  <Button variant="outline" size="sm">
+                    <Heart className="h-4 w-4 ml-2" />
+                    إضافة للمفضلة
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         </div>
-      </main>
-      
-      <Footer />
+        
+        {/* تفاصيل الدورة بالتبويبات */}
+        <Tabs defaultValue="content" className="mb-12">
+          <TabsList className="mb-6">
+            <TabsTrigger value="content">محتوى الدورة</TabsTrigger>
+            <TabsTrigger value="overview">نظرة عامة</TabsTrigger>
+            <TabsTrigger value="instructor">المحاضر</TabsTrigger>
+            <TabsTrigger value="reviews">التقييمات</TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="content">
+            <Card>
+              <CardContent className="p-6">
+                <h2 className="text-2xl font-bold mb-6">محتوى الدورة</h2>
+                
+                <div className="mb-4">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="text-sm text-gray-500">{course.curriculum?.length} أقسام • {course.lessons} درس • {course.duration} إجمالي المدة</span>
+                  </div>
+                </div>
+                
+                <div className="space-y-4">
+                  {course.curriculum?.map((section: any) => (
+                    <div key={section.id} className="border rounded-lg overflow-hidden">
+                      <div className="flex justify-between items-center bg-gray-50 p-4">
+                        <div>
+                          <h3 className="font-bold">{section.title}</h3>
+                          <p className="text-sm text-gray-500">{section.lessons} دروس • {section.duration}</p>
+                        </div>
+                      </div>
+                      
+                      <div className="divide-y">
+                        {section.topics?.map((topic: any) => (
+                          <div key={topic.id} className="flex justify-between items-center p-4">
+                            <div className="flex items-center">
+                              <PlayCircle className="h-5 w-5 text-gray-400 ml-3" />
+                              <div>
+                                <h4 className="font-medium">{topic.title}</h4>
+                                <p className="text-sm text-gray-500">{topic.duration}</p>
+                              </div>
+                            </div>
+                            
+                            {topic.free && (
+                              <Button variant="ghost" size="sm" className="text-primary">
+                                معاينة مجانية
+                              </Button>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+          
+          <TabsContent value="overview">
+            <Card>
+              <CardContent className="p-6">
+                <h2 className="text-2xl font-bold mb-6">نظرة عامة على الدورة</h2>
+                
+                <div className="space-y-8">
+                  <div>
+                    <h3 className="text-xl font-bold mb-4">ما ستتعلمه</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-3">
+                      {course.whatYouWillLearn?.map((item: string, index: number) => (
+                        <div key={index} className="flex">
+                          <CheckCircle className="h-5 w-5 text-green-500 ml-2 flex-shrink-0 mt-1" />
+                          <span>{item}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <h3 className="text-xl font-bold mb-4">المتطلبات المسبقة</h3>
+                    <ul className="space-y-2">
+                      {course.prerequisites?.map((item: string, index: number) => (
+                        <li key={index} className="flex">
+                          <AlertCircle className="h-5 w-5 text-blue-500 ml-2 flex-shrink-0 mt-1" />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  
+                  <div>
+                    <h3 className="text-xl font-bold mb-4">الفئة المستهدفة</h3>
+                    <ul className="space-y-2">
+                      {course.targetAudience?.map((item: string, index: number) => (
+                        <li key={index} className="flex">
+                          <Users className="h-5 w-5 text-purple-500 ml-2 flex-shrink-0 mt-1" />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+          
+          <TabsContent value="instructor">
+            <Card>
+              <CardContent className="p-6">
+                <div className="flex flex-col md:flex-row md:items-start gap-6">
+                  <Avatar className="h-24 w-24">
+                    <AvatarImage src={course.instructor.avatar} alt={course.instructor.name} />
+                    <AvatarFallback>{course.instructor.name.charAt(0)}</AvatarFallback>
+                  </Avatar>
+                  
+                  <div className="flex-1">
+                    <h2 className="text-2xl font-bold mb-1">{course.instructor.name}</h2>
+                    <p className="text-gray-600 mb-4">{course.instructor.title}</p>
+                    
+                    <div className="flex flex-wrap gap-6 mb-4">
+                      <div className="flex items-center">
+                        <Star className="h-5 w-5 text-yellow-500 fill-yellow-500 ml-1" />
+                        <span>{course.instructor.reviews} تقييم المدرب</span>
+                      </div>
+                      
+                      <div className="flex items-center">
+                        <Users className="h-5 w-5 text-gray-500 ml-1" />
+                        <span>{course.instructor.students} طالب</span>
+                      </div>
+                      
+                      <div className="flex items-center">
+                        <BookOpen className="h-5 w-5 text-gray-500 ml-1" />
+                        <span>{course.instructor.courses} دورة</span>
+                      </div>
+                    </div>
+                    
+                    <p className="text-gray-700 mb-6">
+                      {course.instructor.bio}
+                    </p>
+                    
+                    <Button variant="outline">عرض الملف الشخصي</Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+          
+          <TabsContent value="reviews">
+            <Card>
+              <CardContent className="p-6">
+                <div className="flex flex-col md:flex-row gap-8">
+                  <div className="md:w-1/3">
+                    <div className="text-center mb-6">
+                      <div className="text-5xl font-bold mb-2">{course.rating}</div>
+                      <div className="flex justify-center mb-2">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <Star 
+                            key={star}
+                            className={`h-5 w-5 ${star <= Math.round(course.rating) ? 'text-yellow-500 fill-yellow-500' : 'text-gray-300'}`} 
+                          />
+                        ))}
+                      </div>
+                      <p className="text-gray-600">{course.totalReviews} تقييم</p>
+                    </div>
+                    
+                    <div className="space-y-2">
+                      {[5, 4, 3, 2, 1].map((rating) => {
+                        // حساب نسبة التقييمات لكل نجمة
+                        const percentage = (rating === 5) ? 75 : (rating === 4) ? 20 : (rating === 3) ? 3 : (rating === 2) ? 1 : 1;
+                        
+                        return (
+                          <div key={rating} className="flex items-center">
+                            <div className="flex items-center ml-2">
+                              <span className="ml-1">{rating}</span>
+                              <Star className="h-4 w-4 text-yellow-500 fill-yellow-500" />
+                            </div>
+                            <Progress value={percentage} className="h-2 flex-1" />
+                            <span className="text-gray-500 text-sm mr-2">{percentage}%</span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                  
+                  <div className="md:w-2/3">
+                    <h3 className="text-lg font-bold mb-4">تقييمات الطلاب</h3>
+                    
+                    <div className="space-y-6">
+                      {reviews.map((review) => (
+                        <div key={review.id} className="border-b pb-6 last:border-b-0">
+                          <div className="flex items-center mb-3">
+                            <Avatar className="h-10 w-10 ml-3">
+                              <AvatarImage src={review.avatar} alt={review.name} />
+                              <AvatarFallback>{review.name.charAt(0)}</AvatarFallback>
+                            </Avatar>
+                            <div>
+                              <p className="font-semibold">{review.name}</p>
+                              <div className="flex items-center">
+                                <div className="flex">
+                                  {[1, 2, 3, 4, 5].map((star) => (
+                                    <Star 
+                                      key={star}
+                                      className={`h-4 w-4 ${star <= review.rating ? 'text-yellow-500 fill-yellow-500' : 'text-gray-300'}`} 
+                                    />
+                                  ))}
+                                </div>
+                                <span className="text-gray-500 text-sm mr-2">{review.date}</span>
+                              </div>
+                            </div>
+                          </div>
+                          <p className="text-gray-700">{review.content}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
+        
+        {/* دورات مشابهة */}
+        <div className="mb-12">
+          <h2 className="text-2xl font-bold mb-6">دورات ذات صلة</h2>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* سيتم استبدالها بكومبوننت دورات مشابهة */}
+            {[1, 2, 3, 4].map((item) => (
+              <Card key={item} className="overflow-hidden">
+                <div className="aspect-video relative overflow-hidden">
+                  <img 
+                    src={`https://source.unsplash.com/random/600x400?marketing&sig=${item}`} 
+                    alt="دورة" 
+                    className="w-full h-full object-cover transition-transform hover:scale-105"
+                  />
+                </div>
+                <CardContent className="p-4">
+                  <div className="flex justify-between items-start mb-2">
+                    <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-200">تسويق</Badge>
+                    <div className="flex items-center">
+                      <Star className="h-4 w-4 text-yellow-500 fill-yellow-500" />
+                      <span className="text-sm ml-1">4.7</span>
+                    </div>
+                  </div>
+                  <h3 className="font-bold mb-2 line-clamp-2">دورة أساسيات التسويق عبر وسائل التواصل الاجتماعي</h3>
+                  <div className="flex items-center text-sm text-gray-500 mb-3">
+                    <Clock className="h-4 w-4 ml-1" />
+                    <span>8 ساعات</span>
+                    <span className="mx-1">•</span>
+                    <BookOpen className="h-4 w-4 ml-1" />
+                    <span>42 درس</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <div className="flex items-center">
+                      <Avatar className="h-6 w-6 ml-2">
+                        <AvatarImage src={`https://randomuser.me/api/portraits/men/${item + 20}.jpg`} />
+                        <AvatarFallback>م{item}</AvatarFallback>
+                      </Avatar>
+                      <span className="text-sm">مدرب محترف</span>
+                    </div>
+                    <span className="font-bold text-primary">199 ر.س</span>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </div>
     </>
   );
 };

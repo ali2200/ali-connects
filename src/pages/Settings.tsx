@@ -1,328 +1,546 @@
 
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
-import DashboardLayout from '@/components/layout/DashboardLayout';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Switch } from '@/components/ui/switch';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Label } from '@/components/ui/label';
+import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useToast } from '@/components/ui/use-toast';
-import { Lock, Mail, BellRing, Globe, UserCircle, UploadCloud } from 'lucide-react';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Link } from 'react-router-dom';
+import { User, Bell, Shield, LogOut, CreditCard, Languages, Eye, Moon, Lock, Mail, Phone } from 'lucide-react';
 
 const Settings = () => {
   const { toast } = useToast();
   
-  const handleSaveProfile = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSave = () => {
     toast({
-      title: "تم حفظ التغييرات",
-      description: "تم تحديث بيانات الملف الشخصي بنجاح",
-    });
-  };
-  
-  const handleChangePassword = (e: React.FormEvent) => {
-    e.preventDefault();
-    toast({
-      title: "تم تغيير كلمة المرور",
-      description: "تم تغيير كلمة المرور بنجاح",
+      title: "تم حفظ الإعدادات",
+      description: "تم حفظ التغييرات بنجاح",
     });
   };
   
   return (
     <>
       <Helmet>
-        <title>الإعدادات | المنصة</title>
+        <title>الإعدادات | منصة علّي</title>
       </Helmet>
       
-      <DashboardLayout type="freelancer" title="الإعدادات">
-        <div className="space-y-6">
-          <div className="flex justify-between items-center">
-            <h1 className="text-2xl font-bold">الإعدادات</h1>
+      <div className="container mx-auto px-4 py-8">
+        <div className="max-w-5xl mx-auto">
+          <div className="flex justify-between items-center mb-8">
+            <div>
+              <h1 className="text-3xl font-bold">الإعدادات</h1>
+              <p className="text-gray-600">إدارة إعدادات حسابك والأمان</p>
+            </div>
+            <Link to="/">
+              <Button variant="outline">العودة للرئيسية</Button>
+            </Link>
           </div>
           
-          <Tabs defaultValue="profile" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-4 max-w-2xl">
-              <TabsTrigger value="profile">الملف الشخصي</TabsTrigger>
-              <TabsTrigger value="password">كلمة المرور</TabsTrigger>
-              <TabsTrigger value="notifications">الإشعارات</TabsTrigger>
-              <TabsTrigger value="privacy">الخصوصية</TabsTrigger>
-            </TabsList>
-            
-            <TabsContent value="profile" className="space-y-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>الملف الشخصي</CardTitle>
-                  <CardDescription>
-                    قم بتحديث معلومات ملفك الشخصي
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <form onSubmit={handleSaveProfile} className="space-y-6">
-                    <div className="flex flex-col items-center sm:flex-row sm:items-start gap-6 pb-6 border-b">
-                      <div className="flex flex-col items-center gap-3">
-                        <Avatar className="h-24 w-24">
-                          <AvatarImage src="https://i.pravatar.cc/150?img=3" alt="أحمد محمد" />
-                          <AvatarFallback>AM</AvatarFallback>
+          <Tabs defaultValue="account">
+            <div className="grid grid-cols-12 gap-6">
+              <div className="col-span-12 lg:col-span-3">
+                <div className="sticky top-24">
+                  <TabsList className="flex flex-col w-full h-auto bg-transparent p-0 space-y-1">
+                    <div className="border rounded-lg p-4 mb-4">
+                      <div className="flex items-center space-x-3 space-x-reverse mb-4">
+                        <Avatar className="h-16 w-16">
+                          <AvatarImage src="https://randomuser.me/api/portraits/men/32.jpg" />
+                          <AvatarFallback>AB</AvatarFallback>
                         </Avatar>
-                        <Button variant="outline" size="sm">
-                          <UploadCloud className="ml-1 h-4 w-4" />
-                          تغيير الصورة
-                        </Button>
+                        <div>
+                          <h3 className="font-bold text-lg">محمد أحمد</h3>
+                          <div className="flex items-center space-x-2 space-x-reverse">
+                            <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">عميل</Badge>
+                            <span className="text-sm text-gray-500">ID: 143267</span>
+                          </div>
+                        </div>
                       </div>
-                      <div className="flex-1 space-y-4">
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <Button variant="outline" className="w-full" size="sm">
+                        تعديل الملف الشخصي
+                      </Button>
+                    </div>
+                    
+                    <TabsTrigger value="account" className="justify-start h-10 px-4 py-2 text-right">
+                      <User className="h-4 w-4 ml-2" />
+                      الحساب
+                    </TabsTrigger>
+                    <TabsTrigger value="notifications" className="justify-start h-10 px-4 py-2 text-right">
+                      <Bell className="h-4 w-4 ml-2" />
+                      الإشعارات
+                    </TabsTrigger>
+                    <TabsTrigger value="privacy" className="justify-start h-10 px-4 py-2 text-right">
+                      <Shield className="h-4 w-4 ml-2" />
+                      الخصوصية والأمان
+                    </TabsTrigger>
+                    <TabsTrigger value="payment" className="justify-start h-10 px-4 py-2 text-right">
+                      <CreditCard className="h-4 w-4 ml-2" />
+                      وسائل الدفع
+                    </TabsTrigger>
+                    <TabsTrigger value="appearance" className="justify-start h-10 px-4 py-2 text-right">
+                      <Eye className="h-4 w-4 ml-2" />
+                      المظهر
+                    </TabsTrigger>
+                    <TabsTrigger value="language" className="justify-start h-10 px-4 py-2 text-right">
+                      <Languages className="h-4 w-4 ml-2" />
+                      اللغة
+                    </TabsTrigger>
+                    
+                    <div className="mt-auto">
+                      <Button variant="ghost" className="justify-start w-full h-10 px-4 py-2 text-right text-red-600">
+                        <LogOut className="h-4 w-4 ml-2" />
+                        تسجيل الخروج
+                      </Button>
+                    </div>
+                  </TabsList>
+                </div>
+              </div>
+              
+              <div className="col-span-12 lg:col-span-9">
+                <div className="bg-white rounded-lg border p-6 lg:p-8">
+                  <TabsContent value="account">
+                    <div>
+                      <h2 className="text-2xl font-bold mb-6">معلومات الحساب</h2>
+                      
+                      <div className="space-y-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                           <div>
-                            <Label htmlFor="firstName">الاسم الأول</Label>
-                            <Input id="firstName" defaultValue="أحمد" />
+                            <Label htmlFor="name">الاسم الكامل</Label>
+                            <Input id="name" value="محمد أحمد" className="mt-1" />
                           </div>
                           <div>
-                            <Label htmlFor="lastName">الاسم الأخير</Label>
-                            <Input id="lastName" defaultValue="محمد" />
+                            <Label htmlFor="username">اسم المستخدم</Label>
+                            <Input id="username" value="mohammed_ahmed" className="mt-1" />
                           </div>
                         </div>
+                        
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                          <div>
+                            <Label htmlFor="email">البريد الإلكتروني</Label>
+                            <div className="relative mt-1">
+                              <Mail className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 h-4 w-4" />
+                              <Input id="email" type="email" value="mohammed@example.com" className="pl-3 pr-10" />
+                            </div>
+                          </div>
+                          <div>
+                            <Label htmlFor="phone">رقم الجوال</Label>
+                            <div className="relative mt-1">
+                              <Phone className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 h-4 w-4" />
+                              <Input id="phone" value="+966 55 123 4567" className="pl-3 pr-10" />
+                            </div>
+                          </div>
+                        </div>
+                        
                         <div>
-                          <Label htmlFor="email">البريد الإلكتروني</Label>
-                          <Input id="email" type="email" defaultValue="ahmed@example.com" />
+                          <Label htmlFor="bio">نبذة شخصية</Label>
+                          <textarea 
+                            id="bio" 
+                            rows={4} 
+                            className="w-full mt-1 rounded-md border border-gray-300 p-3 text-sm focus:border-blue-500 focus:ring-blue-500"
+                            defaultValue="أنا محمد، أعمل في مجال التسويق الرقمي منذ 5 سنوات. مهتم بتطوير مهاراتي في مجالات متعددة من خلال المنصة."
+                          />
                         </div>
+                        
+                        <Separator />
+                        
                         <div>
-                          <Label htmlFor="phone">رقم الهاتف</Label>
-                          <Input id="phone" defaultValue="+966 50 123 4567" />
+                          <h3 className="text-lg font-semibold mb-4">الصورة الشخصية</h3>
+                          <div className="flex items-center space-x-6 space-x-reverse">
+                            <Avatar className="h-24 w-24">
+                              <AvatarImage src="https://randomuser.me/api/portraits/men/32.jpg" />
+                              <AvatarFallback>م أ</AvatarFallback>
+                            </Avatar>
+                            <div className="space-y-2">
+                              <div className="flex gap-3">
+                                <Button size="sm">تغيير الصورة</Button>
+                                <Button size="sm" variant="outline">حذف</Button>
+                              </div>
+                              <p className="text-sm text-gray-500">
+                                يُفضل أن تكون بصيغة JPG أو PNG وبحجم أقل من 1MB
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <div className="flex justify-end">
+                          <Button onClick={handleSave}>حفظ التغييرات</Button>
                         </div>
                       </div>
                     </div>
-                    
-                    <div className="space-y-4">
-                      <div>
-                        <Label htmlFor="bio">نبذة عني</Label>
-                        <textarea 
-                          id="bio" 
-                          className="w-full min-h-[100px] p-3 rounded-md border"
-                          defaultValue="مطور ويب محترف مع خبرة 5 سنوات في تطوير مواقع الويب وتطبيقات الويب المتقدمة."
-                        ></textarea>
-                      </div>
+                  </TabsContent>
+                  
+                  <TabsContent value="notifications">
+                    <div>
+                      <h2 className="text-2xl font-bold mb-6">إعدادات الإشعارات</h2>
                       
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                          <Label htmlFor="location">الموقع</Label>
-                          <Input id="location" defaultValue="الرياض، المملكة العربية السعودية" />
-                        </div>
-                        <div>
-                          <Label htmlFor="website">الموقع الإلكتروني</Label>
-                          <Input id="website" defaultValue="https://example.com" />
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div className="flex justify-end">
-                      <Button type="submit">حفظ التغييرات</Button>
-                    </div>
-                  </form>
-                </CardContent>
-              </Card>
-            </TabsContent>
-            
-            <TabsContent value="password" className="space-y-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>تغيير كلمة المرور</CardTitle>
-                  <CardDescription>
-                    قم بتحديث كلمة المرور الخاصة بك
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <form onSubmit={handleChangePassword} className="space-y-6">
-                    <div className="space-y-4">
-                      <div>
-                        <Label htmlFor="currentPassword">كلمة المرور الحالية</Label>
-                        <Input id="currentPassword" type="password" />
-                      </div>
-                      <div>
-                        <Label htmlFor="newPassword">كلمة المرور الجديدة</Label>
-                        <Input id="newPassword" type="password" />
-                      </div>
-                      <div>
-                        <Label htmlFor="confirmPassword">تأكيد كلمة المرور</Label>
-                        <Input id="confirmPassword" type="password" />
-                      </div>
-                    </div>
-                    
-                    <div className="flex justify-end">
-                      <Button type="submit">
-                        <Lock className="ml-1 h-4 w-4" />
-                        تغيير كلمة المرور
-                      </Button>
-                    </div>
-                  </form>
-                </CardContent>
-              </Card>
-            </TabsContent>
-            
-            <TabsContent value="notifications" className="space-y-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>إعدادات الإشعارات</CardTitle>
-                  <CardDescription>
-                    تحكم في طريقة تلقي الإشعارات
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-6">
-                    <div className="space-y-4">
-                      <h3 className="text-lg font-medium">إشعارات البريد الإلكتروني</h3>
+                      <Card className="mb-6">
+                        <CardHeader>
+                          <CardTitle>إشعارات البريد الإلكتروني</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="space-y-4">
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <p className="font-medium">الرسائل الجديدة</p>
+                                <p className="text-sm text-gray-500">إشعارات عند استلام رسائل جديدة</p>
+                              </div>
+                              <Switch checked />
+                            </div>
+                            
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <p className="font-medium">التعليقات والتقييمات</p>
+                                <p className="text-sm text-gray-500">إشعارات عند الحصول على تعليقات أو تقييمات</p>
+                              </div>
+                              <Switch checked />
+                            </div>
+                            
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <p className="font-medium">تحديثات المشاريع</p>
+                                <p className="text-sm text-gray-500">إشعارات حول تحديثات المشاريع التي تشترك فيها</p>
+                              </div>
+                              <Switch />
+                            </div>
+                            
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <p className="font-medium">العروض الترويجية</p>
+                                <p className="text-sm text-gray-500">إشعارات حول العروض والخصومات</p>
+                              </div>
+                              <Switch />
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
                       
-                      <div className="space-y-3">
-                        <div className="flex items-center justify-between">
-                          <div className="space-y-0.5">
-                            <Label>الرسائل الجديدة</Label>
-                            <p className="text-xs text-gray-500">إشعار عند استلام رسالة جديدة</p>
+                      <Card>
+                        <CardHeader>
+                          <CardTitle>إشعارات تطبيق الجوال</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="space-y-4">
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <p className="font-medium">الرسائل الفورية</p>
+                                <p className="text-sm text-gray-500">إشعارات فورية عند استلام رسائل</p>
+                              </div>
+                              <Switch checked />
+                            </div>
+                            
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <p className="font-medium">تحديثات المشاريع</p>
+                                <p className="text-sm text-gray-500">إشعارات حول تحديثات المشاريع</p>
+                              </div>
+                              <Switch checked />
+                            </div>
+                            
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <p className="font-medium">الفرص الجديدة</p>
+                                <p className="text-sm text-gray-500">إشعارات حول فرص جديدة تناسب تخصصك</p>
+                              </div>
+                              <Switch />
+                            </div>
                           </div>
-                          <Switch defaultChecked />
-                        </div>
-                        
-                        <Separator />
-                        
-                        <div className="flex items-center justify-between">
-                          <div className="space-y-0.5">
-                            <Label>المشاريع الجديدة</Label>
-                            <p className="text-xs text-gray-500">إشعار عند نشر مشاريع جديدة تناسب مهاراتك</p>
-                          </div>
-                          <Switch defaultChecked />
-                        </div>
-                        
-                        <Separator />
-                        
-                        <div className="flex items-center justify-between">
-                          <div className="space-y-0.5">
-                            <Label>تحديثات المشاريع</Label>
-                            <p className="text-xs text-gray-500">إشعار عند وجود تحديثات في مشاريعك الحالية</p>
-                          </div>
-                          <Switch defaultChecked />
-                        </div>
-                        
-                        <Separator />
-                        
-                        <div className="flex items-center justify-between">
-                          <div className="space-y-0.5">
-                            <Label>نشرة الأخبار</Label>
-                            <p className="text-xs text-gray-500">استلام نشرة إخبارية أسبوعية</p>
-                          </div>
-                          <Switch />
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div className="space-y-4">
-                      <h3 className="text-lg font-medium">إشعارات الموقع</h3>
+                        </CardContent>
+                      </Card>
                       
-                      <div className="space-y-3">
-                        <div className="flex items-center justify-between">
-                          <div className="space-y-0.5">
-                            <Label>جميع الإشعارات</Label>
-                            <p className="text-xs text-gray-500">عرض الإشعارات على الموقع</p>
-                          </div>
-                          <Switch defaultChecked />
-                        </div>
-                        
-                        <Separator />
-                        
-                        <div className="flex items-center justify-between">
-                          <div className="space-y-0.5">
-                            <Label>التنبيهات الصوتية</Label>
-                            <p className="text-xs text-gray-500">تفعيل صوت الإشعارات</p>
-                          </div>
-                          <Switch />
-                        </div>
+                      <div className="flex justify-end mt-6">
+                        <Button onClick={handleSave}>حفظ التغييرات</Button>
                       </div>
                     </div>
-                    
-                    <div className="flex justify-end">
-                      <Button>
-                        <BellRing className="ml-1 h-4 w-4" />
-                        حفظ التغييرات
-                      </Button>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-            
-            <TabsContent value="privacy" className="space-y-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>إعدادات الخصوصية</CardTitle>
-                  <CardDescription>
-                    تحكم في خصوصية حسابك
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-6">
-                    <div className="space-y-4">
-                      <h3 className="text-lg font-medium">الملف الشخصي</h3>
+                  </TabsContent>
+                  
+                  <TabsContent value="privacy">
+                    <div>
+                      <h2 className="text-2xl font-bold mb-6">الخصوصية والأمان</h2>
                       
-                      <div className="space-y-3">
-                        <div className="flex items-center justify-between">
-                          <div className="space-y-0.5">
-                            <Label>إظهار ملفي الشخصي للزوار</Label>
-                            <p className="text-xs text-gray-500">السماح للزوار بعرض ملفك الشخصي</p>
+                      <Card className="mb-6">
+                        <CardHeader>
+                          <CardTitle>تغيير كلمة المرور</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="space-y-4">
+                            <div>
+                              <Label htmlFor="current-password">كلمة المرور الحالية</Label>
+                              <div className="relative mt-1">
+                                <Lock className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 h-4 w-4" />
+                                <Input id="current-password" type="password" className="pl-3 pr-10" />
+                              </div>
+                            </div>
+                            
+                            <div>
+                              <Label htmlFor="new-password">كلمة المرور الجديدة</Label>
+                              <div className="relative mt-1">
+                                <Lock className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 h-4 w-4" />
+                                <Input id="new-password" type="password" className="pl-3 pr-10" />
+                              </div>
+                              <p className="text-sm text-gray-500 mt-1">
+                                يجب أن تحتوي على 8 أحرف على الأقل وتتضمن أرقامًا وأحرفًا خاصة
+                              </p>
+                            </div>
+                            
+                            <div>
+                              <Label htmlFor="confirm-password">تأكيد كلمة المرور</Label>
+                              <div className="relative mt-1">
+                                <Lock className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 h-4 w-4" />
+                                <Input id="confirm-password" type="password" className="pl-3 pr-10" />
+                              </div>
+                            </div>
+                            
+                            <Button>تغيير كلمة المرور</Button>
                           </div>
-                          <Switch defaultChecked />
-                        </div>
-                        
-                        <Separator />
-                        
-                        <div className="flex items-center justify-between">
-                          <div className="space-y-0.5">
-                            <Label>إظهار معلومات التواصل</Label>
-                            <p className="text-xs text-gray-500">عرض معلومات التواصل في ملفك الشخصي</p>
-                          </div>
-                          <Switch />
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div className="space-y-4">
-                      <h3 className="text-lg font-medium">الأمان</h3>
+                        </CardContent>
+                      </Card>
                       
-                      <div className="space-y-3">
-                        <div className="flex items-center justify-between">
-                          <div className="space-y-0.5">
-                            <Label>المصادقة الثنائية</Label>
-                            <p className="text-xs text-gray-500">تفعيل المصادقة الثنائية لتسجيل الدخول</p>
+                      <Card className="mb-6">
+                        <CardHeader>
+                          <CardTitle>إعدادات الخصوصية</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="space-y-4">
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <p className="font-medium">عرض الملف الشخصي للعامة</p>
+                                <p className="text-sm text-gray-500">السماح للمستخدمين الآخرين برؤية ملفك الشخصي</p>
+                              </div>
+                              <Switch checked />
+                            </div>
+                            
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <p className="font-medium">إظهار البريد الإلكتروني</p>
+                                <p className="text-sm text-gray-500">السماح بعرض بريدك الإلكتروني في ملفك الشخصي</p>
+                              </div>
+                              <Switch />
+                            </div>
+                            
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <p className="font-medium">إظهار رقم الجوال</p>
+                                <p className="text-sm text-gray-500">السماح بعرض رقم جوالك في ملفك الشخصي</p>
+                              </div>
+                              <Switch />
+                            </div>
                           </div>
-                          <Switch />
-                        </div>
-                        
-                        <Separator />
-                        
-                        <div className="flex items-center justify-between">
-                          <div className="space-y-0.5">
-                            <Label>تسجيل الدخول من جهاز جديد</Label>
-                            <p className="text-xs text-gray-500">إرسال إشعار عند تسجيل الدخول من جهاز جديد</p>
+                        </CardContent>
+                      </Card>
+                      
+                      <Card>
+                        <CardHeader>
+                          <CardTitle className="text-red-600">حذف الحساب</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <p className="text-gray-600 mb-4">
+                            سيؤدي حذف حسابك إلى إزالة جميع بياناتك بشكل نهائي. لا يمكن التراجع عن هذا الإجراء.
+                          </p>
+                          <Button variant="destructive">حذف الحساب</Button>
+                        </CardContent>
+                      </Card>
+                    </div>
+                  </TabsContent>
+                  
+                  <TabsContent value="payment">
+                    <div>
+                      <h2 className="text-2xl font-bold mb-6">وسائل الدفع</h2>
+                      
+                      <Card className="mb-6">
+                        <CardHeader>
+                          <CardTitle>بطاقات الدفع</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="space-y-4">
+                            <div className="border rounded-lg p-4 flex justify-between items-center">
+                              <div className="flex items-center">
+                                <div className="h-10 w-16 bg-blue-100 rounded flex items-center justify-center ml-4">
+                                  <span className="text-blue-700 font-bold">Visa</span>
+                                </div>
+                                <div>
+                                  <p className="font-medium">•••• •••• •••• 4242</p>
+                                  <p className="text-sm text-gray-500">تنتهي في 12/2025</p>
+                                </div>
+                              </div>
+                              <div className="flex space-x-2 space-x-reverse">
+                                <Badge>افتراضية</Badge>
+                                <Button variant="ghost" size="sm">تعديل</Button>
+                                <Button variant="ghost" size="sm" className="text-red-600">حذف</Button>
+                              </div>
+                            </div>
+                            
+                            <div className="border rounded-lg p-4 flex justify-between items-center">
+                              <div className="flex items-center">
+                                <div className="h-10 w-16 bg-green-100 rounded flex items-center justify-center ml-4">
+                                  <span className="text-green-700 font-bold">MC</span>
+                                </div>
+                                <div>
+                                  <p className="font-medium">•••• •••• •••• 5678</p>
+                                  <p className="text-sm text-gray-500">تنتهي في 08/2024</p>
+                                </div>
+                              </div>
+                              <div className="flex space-x-2 space-x-reverse">
+                                <Button variant="ghost" size="sm">تعديل</Button>
+                                <Button variant="ghost" size="sm" className="text-red-600">حذف</Button>
+                              </div>
+                            </div>
                           </div>
-                          <Switch defaultChecked />
-                        </div>
+                          
+                          <Button variant="outline" className="mt-4">
+                            <CreditCard className="ml-2 h-4 w-4" />
+                            إضافة بطاقة جديدة
+                          </Button>
+                        </CardContent>
+                      </Card>
+                      
+                      <Card>
+                        <CardHeader>
+                          <CardTitle>الفواتير</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="space-y-2">
+                            <div className="flex justify-between py-2 border-b">
+                              <div>
+                                <p className="font-medium">شراء دورة التسويق الرقمي</p>
+                                <p className="text-sm text-gray-500">20 يونيو 2023</p>
+                              </div>
+                              <div className="text-right">
+                                <p className="font-bold">199 ر.س</p>
+                                <Button variant="link" size="sm" className="h-auto p-0">عرض الفاتورة</Button>
+                              </div>
+                            </div>
+                            
+                            <div className="flex justify-between py-2 border-b">
+                              <div>
+                                <p className="font-medium">تجديد الاشتراك السنوي</p>
+                                <p className="text-sm text-gray-500">15 مايو 2023</p>
+                              </div>
+                              <div className="text-right">
+                                <p className="font-bold">499 ر.س</p>
+                                <Button variant="link" size="sm" className="h-auto p-0">عرض الفاتورة</Button>
+                              </div>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </div>
+                  </TabsContent>
+                  
+                  <TabsContent value="appearance">
+                    <div>
+                      <h2 className="text-2xl font-bold mb-6">المظهر</h2>
+                      
+                      <Card>
+                        <CardHeader>
+                          <CardTitle>الوضع</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="grid grid-cols-3 gap-4">
+                            <div className="border rounded-lg p-4 flex flex-col items-center cursor-pointer hover:bg-gray-50 bg-blue-50 border-blue-200">
+                              <div className="h-24 w-full bg-white rounded-md border mb-4 flex items-center justify-center">
+                                <Sun className="h-8 w-8 text-yellow-500" />
+                              </div>
+                              <span className="font-medium">فاتح</span>
+                            </div>
+                            
+                            <div className="border rounded-lg p-4 flex flex-col items-center cursor-pointer hover:bg-gray-50">
+                              <div className="h-24 w-full bg-gray-900 rounded-md border mb-4 flex items-center justify-center">
+                                <Moon className="h-8 w-8 text-gray-300" />
+                              </div>
+                              <span className="font-medium">داكن</span>
+                            </div>
+                            
+                            <div className="border rounded-lg p-4 flex flex-col items-center cursor-pointer hover:bg-gray-50">
+                              <div className="h-24 w-full rounded-md border mb-4 overflow-hidden">
+                                <div className="h-full w-1/2 bg-white float-right"></div>
+                                <div className="h-full w-1/2 bg-gray-900 float-left"></div>
+                              </div>
+                              <span className="font-medium">تلقائي</span>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </div>
+                  </TabsContent>
+                  
+                  <TabsContent value="language">
+                    <div>
+                      <h2 className="text-2xl font-bold mb-6">إعدادات اللغة</h2>
+                      
+                      <Card>
+                        <CardHeader>
+                          <CardTitle>لغة التطبيق</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                            <div className="border rounded-lg p-4 flex items-center cursor-pointer hover:bg-gray-50 bg-blue-50 border-blue-200">
+                              <div className="h-8 w-8 rounded-full overflow-hidden ml-3 bg-gray-100 flex-shrink-0">
+                                <img src="https://flagcdn.com/sa.svg" alt="العربية" className="w-full h-full object-cover" />
+                              </div>
+                              <span className="font-medium">العربية</span>
+                            </div>
+                            
+                            <div className="border rounded-lg p-4 flex items-center cursor-pointer hover:bg-gray-50">
+                              <div className="h-8 w-8 rounded-full overflow-hidden ml-3 bg-gray-100 flex-shrink-0">
+                                <img src="https://flagcdn.com/us.svg" alt="English" className="w-full h-full object-cover" />
+                              </div>
+                              <span className="font-medium">English</span>
+                            </div>
+                            
+                            <div className="border rounded-lg p-4 flex items-center cursor-pointer hover:bg-gray-50">
+                              <div className="h-8 w-8 rounded-full overflow-hidden ml-3 bg-gray-100 flex-shrink-0">
+                                <img src="https://flagcdn.com/fr.svg" alt="Français" className="w-full h-full object-cover" />
+                              </div>
+                              <span className="font-medium">Français</span>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                      
+                      <div className="flex justify-end mt-6">
+                        <Button onClick={handleSave}>حفظ التغييرات</Button>
                       </div>
                     </div>
-                    
-                    <div className="flex justify-end">
-                      <Button>
-                        <Globe className="ml-1 h-4 w-4" />
-                        حفظ التغييرات
-                      </Button>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
+                  </TabsContent>
+                </div>
+              </div>
+            </div>
           </Tabs>
         </div>
-      </DashboardLayout>
+      </div>
     </>
   );
 };
+
+// Sun component for light mode
+const Sun = ({ className }: { className?: string }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
+    <circle cx="12" cy="12" r="4" />
+    <path d="M12 2v2" />
+    <path d="M12 20v2" />
+    <path d="m4.93 4.93 1.41 1.41" />
+    <path d="m17.66 17.66 1.41 1.41" />
+    <path d="M2 12h2" />
+    <path d="M20 12h2" />
+    <path d="m6.34 17.66-1.41 1.41" />
+    <path d="m19.07 4.93-1.41 1.41" />
+  </svg>
+);
 
 export default Settings;
