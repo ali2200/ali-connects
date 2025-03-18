@@ -1,11 +1,19 @@
-
 import { createClient } from '@supabase/supabase-js';
 
-// Supabase client setup
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
+// تأكد من أن متغيرات البيئة موجودة وتحتوي على قيم صالحة
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+// التحقق من وجود الإعدادات المطلوبة
+if (!supabaseUrl || !supabaseAnonKey) {
+  console.error('Missing Supabase environment variables. Please check your .env file.');
+}
+
+// إنشاء عميل Supabase
+export const supabase = createClient(
+  supabaseUrl || '',
+  supabaseAnonKey || ''
+);
 
 // Type definitions for our database tables
 export type UserRole = 'freelancer' | 'client' | 'lecturer';
