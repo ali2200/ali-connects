@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useParams, Link } from 'react-router-dom';
@@ -409,7 +410,7 @@ const ServiceDetail = () => {
               </CardFooter>
             </Card>
             
-            <Card>
+            <Card className="mt-6">
               <CardContent className="p-6">
                 <div className="flex items-center mb-4">
                   <Avatar className="h-16 w-16 ml-4">
