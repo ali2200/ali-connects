@@ -36,6 +36,16 @@ import LecturerStudents from "./pages/dashboard/lecturer/Students";
 import LecturerLectures from "./pages/dashboard/lecturer/Lectures";
 import LecturerEarnings from "./pages/dashboard/lecturer/Earnings";
 
+// لوحة تحكم المشرف - Admin Dashboard
+import AdminDashboard from "./pages/dashboard/admin/Dashboard";
+import AdminUsers from "./pages/dashboard/admin/Users";
+import AdminCourses from "./pages/dashboard/admin/Courses";
+import AdminServices from "./pages/dashboard/admin/Services";
+import AdminBlogs from "./pages/dashboard/admin/Blogs";
+import AdminSettings from "./pages/dashboard/admin/Settings";
+import AdminFinance from "./pages/dashboard/admin/Finance";
+import AdminStats from "./pages/dashboard/admin/Stats";
+
 // الإشعارات المشتركة
 import Notifications from "./pages/dashboard/shared/Notifications";
 import Settings from "./pages/Settings";
@@ -127,6 +137,16 @@ const App = () => (
             <Route path="/dashboard/lecturer/students" element={<LecturerStudents />} />
             <Route path="/dashboard/lecturer/lectures" element={<LecturerLectures />} />
             <Route path="/dashboard/lecturer/earnings" element={<LecturerEarnings />} />
+            
+            {/* لوحة تحكم المشرف - Admin Dashboard */}
+            <Route path="/dashboard/admin" element={<AdminDashboard />} />
+            <Route path="/dashboard/admin/users" element={<AdminUsers />} />
+            <Route path="/dashboard/admin/courses" element={<AdminCourses />} />
+            <Route path="/dashboard/admin/services" element={<AdminServices />} />
+            <Route path="/dashboard/admin/blogs" element={<AdminBlogs />} />
+            <Route path="/dashboard/admin/settings" element={<AdminSettings />} />
+            <Route path="/dashboard/admin/finance" element={<AdminFinance />} />
+            <Route path="/dashboard/admin/stats" element={<AdminStats />} />
             
             {/* صفحة 404 */}
             <Route path="*" element={<NotFound />} />
