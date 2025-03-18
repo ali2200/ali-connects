@@ -120,7 +120,7 @@ const Notifications = () => {
         <title>الإشعارات | منصة علّي</title>
       </Helmet>
       
-      <DashboardLayout type="shared" title="الإشعارات">
+      <DashboardLayout type="client" title="الإشعارات">
         <div className="grid gap-6">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
@@ -242,3 +242,4 @@ const Notifications = () => {
 };
 
 export default Notifications;
+

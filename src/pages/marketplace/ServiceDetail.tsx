@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useParams, Link } from 'react-router-dom';
@@ -27,7 +26,6 @@ import {
   ShoppingCart
 } from 'lucide-react';
 
-// نموذج بيانات الخدمة (سيتم استبداله بداتا حقيقية من Supabase)
 const serviceData = {
   id: 1,
   title: 'تصميم وتطوير مواقع ويب احترافية متجاوبة',
@@ -178,12 +176,10 @@ const ServiceDetail = () => {
       try {
         setLoading(true);
         if (id) {
-          // تحميل بيانات الخدمة من Supabase
           const serviceData = await getServiceById(id);
           if (serviceData) {
             setService(serviceData);
             
-            // تحميل المراجعات
             const reviewsData = await getReviewsByTarget(id, 'service');
             if (reviewsData) {
               setReviews(reviewsData);
@@ -202,7 +198,6 @@ const ServiceDetail = () => {
       }
     };
     
-    // استخدم البيانات المحلية مؤقتًا في حالة عدم وجود اتصال بالقاعدة
     if (id) {
       fetchServiceData();
     }
@@ -237,7 +232,6 @@ const ServiceDetail = () => {
       </Helmet>
       
       <div className="container mx-auto px-4 py-8">
-        {/* شريط التنقل */}
         <div className="mb-6 text-sm breadcrumbs">
           <ul className="flex items-center space-x-2 space-x-reverse rtl:space-x-reverse">
             <li><Link to="/" className="text-gray-500 hover:text-primary">الرئيسية</Link></li>
@@ -248,7 +242,6 @@ const ServiceDetail = () => {
           </ul>
         </div>
         
-        {/* معلومات الخدمة الأساسية */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-10">
           <div className="col-span-2">
             <h1 className="text-3xl font-bold mb-4">{service.title}</h1>
@@ -272,7 +265,6 @@ const ServiceDetail = () => {
               </div>
             </div>
             
-            {/* معرض الصور */}
             <div className="mb-8">
               <div className="relative rounded-lg overflow-hidden mb-4 aspect-[16/9]">
                 <img
@@ -299,7 +291,6 @@ const ServiceDetail = () => {
               </div>
             </div>
             
-            {/* وصف الخدمة */}
             <div className="mb-8">
               <h2 className="text-2xl font-bold mb-4">وصف الخدمة</h2>
               <div className="prose prose-lg max-w-none">
@@ -309,7 +300,6 @@ const ServiceDetail = () => {
               </div>
             </div>
             
-            {/* الأسئلة الشائعة */}
             <div className="mb-8">
               <h2 className="text-2xl font-bold mb-4">الأسئلة الشائعة</h2>
               <div className="space-y-4">
@@ -322,7 +312,6 @@ const ServiceDetail = () => {
               </div>
             </div>
             
-            {/* التقييمات */}
             <div className="mb-8">
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-2xl font-bold">التقييمات ({service.reviews})</h2>
@@ -363,125 +352,119 @@ const ServiceDetail = () => {
           </div>
           
           <div className="col-span-1">
-            {/* باقات الخدمة */}
-            <div className="sticky top-24">
-              <Card className="mb-6">
-                <div className="border-b">
-                  <TabsList className="w-full rounded-none border-b">
-                    {service.packages.map((pkg: any) => (
-                      <TabsTrigger 
-                        key={pkg.id} 
-                        value={pkg.id.toString()} 
-                        className="flex-1"
-                        onClick={() => setSelectedPackage(pkg.id)}
-                      >
-                        {pkg.name}
-                      </TabsTrigger>
-                    ))}
-                  </TabsList>
-                </div>
-                
-                {service.packages.map((pkg: any) => (
-                  <CardContent key={pkg.id} className={`p-6 ${selectedPackage === pkg.id ? 'block' : 'hidden'}`}>
-                    <div className="flex justify-between items-baseline mb-4">
-                      <h3 className="text-lg font-bold">{pkg.name}</h3>
-                      <span className="text-2xl font-bold text-primary">{pkg.price} ر.س</span>
-                    </div>
-                    
-                    <p className="text-gray-700 mb-4">{service.description}</p>
-                    
-                    <div className="flex items-center text-gray-600 mb-4">
-                      <Clock className="h-4 w-4 ml-2" />
-                      <span>مدة التسليم: {pkg.deliveryTime}</span>
-                    </div>
-                    
-                    <div className="space-y-3 mb-6">
-                      <h4 className="font-semibold">المميزات:</h4>
-                      <ul className="space-y-2">
-                        {pkg.features.map((feature: string, index: number) => (
-                          <li key={index} className="flex items-start">
-                            <Check className="h-5 w-5 text-green-500 ml-2 flex-shrink-0 mt-0.5" />
-                            <span>{feature}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    
-                    <Button onClick={() => handleOrder(pkg.id)} className="w-full" size="lg">
-                      <ShoppingCart className="h-5 w-5 ml-2" />
-                      طلب الخدمة الآن
-                    </Button>
-                  </CardContent>
-                ))}
-                
-                <CardFooter className="p-4 bg-gray-50 flex justify-center border-t">
-                  <Button variant="outline" onClick={handleContactFreelancer}>
-                    <MessageSquare className="h-4 w-4 ml-2" />
-                    تواصل مع البائع
-                  </Button>
-                </CardFooter>
-              </Card>
+            <Card className="sticky top-24">
+              <div className="border-b">
+                <TabsList className="w-full rounded-none border-b">
+                  {service.packages.map((pkg: any) => (
+                    <TabsTrigger 
+                      key={pkg.id} 
+                      value={pkg.id.toString()} 
+                      className="flex-1"
+                      onClick={() => setSelectedPackage(pkg.id)}
+                    >
+                      {pkg.name}
+                    </TabsTrigger>
+                  ))}
+                </TabsList>
+              </div>
               
-              {/* معلومات البائع */}
-              <Card>
-                <CardContent className="p-6">
-                  <div className="flex items-center mb-4">
-                    <Avatar className="h-16 w-16 ml-4">
-                      <AvatarImage src={service.freelancer.avatar} alt={service.freelancer.name} />
-                      <AvatarFallback>{service.freelancer.name.charAt(0)}</AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <h3 className="font-bold text-lg">{service.freelancer.name}</h3>
-                      <p className="text-gray-600">{service.freelancer.title}</p>
-                      <div className="flex items-center mt-1">
-                        <Star className="h-4 w-4 text-yellow-500 fill-yellow-500 ml-1" />
-                        <span>{service.freelancer.rating}</span>
-                      </div>
-                    </div>
+              {service.packages.map((pkg: any) => (
+                <CardContent key={pkg.id} className={`p-6 ${selectedPackage === pkg.id ? 'block' : 'hidden'}`}>
+                  <div className="flex justify-between items-baseline mb-4">
+                    <h3 className="text-lg font-bold">{pkg.name}</h3>
+                    <span className="text-2xl font-bold text-primary">{pkg.price} ر.س</span>
                   </div>
                   
-                  <div className="space-y-3 text-gray-600 mb-4">
-                    <div className="flex items-center">
-                      <MapPin className="h-5 w-5 ml-2 text-gray-500" />
-                      <span>{service.freelancer.city}، {service.freelancer.country}</span>
-                    </div>
-                    <div className="flex items-center">
-                      <Calendar className="h-5 w-5 ml-2 text-gray-500" />
-                      <span>عضو منذ {service.freelancer.memberSince}</span>
-                    </div>
-                    <div className="flex items-center">
-                      <Clock className="h-5 w-5 ml-2 text-gray-500" />
-                      <span>متوسط وقت الرد: {service.freelancer.responseTime}</span>
-                    </div>
-                    <div className="flex items-center">
-                      <Briefcase className="h-5 w-5 ml-2 text-gray-500" />
-                      <span>المشاريع المكتملة: {service.freelancer.completedProjects}</span>
-                    </div>
-                    <div className="flex items-center">
-                      <Award className="h-5 w-5 ml-2 text-gray-500" />
-                      <span>آخر تسليم: {service.freelancer.lastDelivery}</span>
-                    </div>
+                  <p className="text-gray-700 mb-4">{service.description}</p>
+                  
+                  <div className="flex items-center text-gray-600 mb-4">
+                    <Clock className="h-4 w-4 ml-2" />
+                    <span>مدة التسليم: {pkg.deliveryTime}</span>
                   </div>
                   
-                  <p className="text-gray-700 mb-4">
-                    {service.freelancer.description}
-                  </p>
+                  <div className="space-y-3 mb-6">
+                    <h4 className="font-semibold">المميزات:</h4>
+                    <ul className="space-y-2">
+                      {pkg.features.map((feature: string, index: number) => (
+                        <li key={index} className="flex items-start">
+                          <Check className="h-5 w-5 text-green-500 ml-2 flex-shrink-0 mt-0.5" />
+                          <span>{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                   
-                  <Button variant="outline" className="w-full">
-                    عرض الملف الشخصي
+                  <Button onClick={() => handleOrder(pkg.id)} className="w-full" size="lg">
+                    <ShoppingCart className="h-5 w-5 ml-2" />
+                    طلب الخدمة الآن
                   </Button>
                 </CardContent>
-              </Card>
-            </div>
+              ))}
+              
+              <CardFooter className="p-4 bg-gray-50 flex justify-center border-t">
+                <Button variant="outline" onClick={handleContactFreelancer}>
+                  <MessageSquare className="h-4 w-4 ml-2" />
+                  تواصل مع البائع
+                </Button>
+              </CardFooter>
+            </Card>
+            
+            <Card>
+              <CardContent className="p-6">
+                <div className="flex items-center mb-4">
+                  <Avatar className="h-16 w-16 ml-4">
+                    <AvatarImage src={service.freelancer.avatar} alt={service.freelancer.name} />
+                    <AvatarFallback>{service.freelancer.name.charAt(0)}</AvatarFallback>
+                  </Avatar>
+                  <div>
+                    <h3 className="font-bold text-lg">{service.freelancer.name}</h3>
+                    <p className="text-gray-600">{service.freelancer.title}</p>
+                    <div className="flex items-center mt-1">
+                      <Star className="h-4 w-4 text-yellow-500 fill-yellow-500 ml-1" />
+                      <span>{service.freelancer.rating}</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="space-y-3 text-gray-600 mb-4">
+                  <div className="flex items-center">
+                    <MapPin className="h-5 w-5 ml-2 text-gray-500" />
+                    <span>{service.freelancer.city}، {service.freelancer.country}</span>
+                  </div>
+                  <div className="flex items-center">
+                    <Calendar className="h-5 w-5 ml-2 text-gray-500" />
+                    <span>عضو منذ {service.freelancer.memberSince}</span>
+                  </div>
+                  <div className="flex items-center">
+                    <Clock className="h-5 w-5 ml-2 text-gray-500" />
+                    <span>متوسط وقت الرد: {service.freelancer.responseTime}</span>
+                  </div>
+                  <div className="flex items-center">
+                    <Briefcase className="h-5 w-5 ml-2 text-gray-500" />
+                    <span>المشاريع المكتملة: {service.freelancer.completedProjects}</span>
+                  </div>
+                  <div className="flex items-center">
+                    <Award className="h-5 w-5 ml-2 text-gray-500" />
+                    <span>آخر تسليم: {service.freelancer.lastDelivery}</span>
+                  </div>
+                </div>
+                
+                <p className="text-gray-700 mb-4">
+                  {service.freelancer.description}
+                </p>
+                
+                <Button variant="outline" className="w-full">
+                  عرض الملف الشخصي
+                </Button>
+              </CardContent>
+            </Card>
           </div>
         </div>
         
-        {/* خدمات مشابهة */}
         <div className="mb-12">
           <h2 className="text-2xl font-bold mb-6">خدمات مشابهة قد تعجبك</h2>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {/* سيتم استبدالها بكومبوننت خدمات مشابهة */}
             {[1, 2, 3, 4].map((item) => (
               <Card key={item} className="overflow-hidden">
                 <div className="aspect-[4/3] relative overflow-hidden">
