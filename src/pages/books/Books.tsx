@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '@/components/layout/Navbar';
@@ -15,7 +14,7 @@ import {
 } from "@/components/ui/pagination";
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
-import '../../../styles/rtl.css';
+import '@/styles/rtl.css';
 
 // Mock book data (same as in BookDetail.tsx)
 const allBooks = [
@@ -96,7 +95,7 @@ const allBooks = [
     title: 'استراتيجيات ريادة الأعمال',
     description: 'كتاب يشرح أهم الاستراتيجيات لإنشاء وإدارة المشاريع الناشئة بنجاح.',
     image: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=2071&auto=format&fit=crop',
-    author: 'أ. سارة المنصور',
+    author: 'أ. سارة ال��نصور',
     rating: 4.9,
     reviews: 175,
     pages: 310,
