@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Navbar from '@/components/layout/Navbar';
@@ -29,9 +28,8 @@ import {
   Share2
 } from 'lucide-react';
 import { toast } from 'sonner';
-import '../../../styles/rtl.css';
+import '@/styles/rtl.css';
 
-// Mock book data for now - would typically come from an API
 const books = [
   {
     id: 1,
@@ -189,7 +187,6 @@ const BookDetail = () => {
   const [quantity, setQuantity] = useState(1);
   const [selectedFormat, setSelectedFormat] = useState('PDF');
   
-  // Find the book with the matching ID
   const book = books.find(book => book.id === Number(id)) || books[0];
   
   const handlePurchase = (format: string) => {
@@ -207,7 +204,6 @@ const BookDetail = () => {
       <Navbar />
       
       <main className="flex-grow">
-        {/* Breadcrumb */}
         <div className="bg-gray-50 py-4">
           <div className="container-custom">
             <nav>
@@ -226,11 +222,9 @@ const BookDetail = () => {
           </div>
         </div>
         
-        {/* Book Details Section */}
         <section className="py-12">
           <div className="container-custom">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-              {/* Book Preview */}
               <div className="relative">
                 <div className="sticky top-24">
                   <div className="bg-white p-6 rounded-xl shadow-lg">
@@ -242,7 +236,6 @@ const BookDetail = () => {
                 </div>
               </div>
               
-              {/* Book Info */}
               <div>
                 <div className="mb-6">
                   <div className="flex items-center mb-3">
@@ -286,7 +279,6 @@ const BookDetail = () => {
                   </div>
                 </div>
                 
-                {/* Purchase Options */}
                 <Card className="mb-8">
                   <CardContent className="p-6">
                     <h3 className="text-xl font-semibold mb-4">خيارات الشراء</h3>
@@ -358,7 +350,6 @@ const BookDetail = () => {
                   </CardContent>
                 </Card>
                 
-                {/* Tabs for Additional Information */}
                 <Tabs defaultValue="overview" className="w-full" value={activeTab} onValueChange={setActiveTab}>
                   <TabsList className="w-full bg-white border-b mb-6">
                     <TabsTrigger value="overview" className="flex-1">نظرة عامة</TabsTrigger>
