@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+
+import React, { useState, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -15,6 +16,7 @@ import {
   Search, Plus, Edit, Trash2, FileText, Eye, Image, Calendar, Tag, CheckCircle, XCircle, Upload, Code
 } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
+import { supabase } from '@/lib/supabase';
 
 // بيانات تجريبية للمقالات
 const mockBlogs = [
@@ -92,6 +94,7 @@ const AdminBlogs = () => {
   const [htmlContent, setHtmlContent] = useState('');
   const [htmlTitle, setHtmlTitle] = useState('');
   const { toast } = useToast();
+  const fileInputRef = useRef(null);
   
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
@@ -153,7 +156,41 @@ const AdminBlogs = () => {
     }
   };
 
-  const handleHtmlImport = () => {
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    // تحقق من نوع الملف
+    if (file.type !== 'text/html' && !file.name.endsWith('.html')) {
+      toast({
+        title: "خطأ في نوع الملف",
+        description: "يرجى اختيار ملف HTML فقط",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const content = e.target.result;
+      setHtmlContent(content);
+      
+      // استخراج العنوان من وسم العنوان إن وجد
+      const titleMatch = content.match(/<title>(.*?)<\/title>/i);
+      if (titleMatch && titleMatch[1]) {
+        setHtmlTitle(titleMatch[1]);
+      }
+    };
+    
+    reader.readAsText(file);
+    
+    toast({
+      title: "تم تحميل الملف",
+      description: "تم تحميل ملف HTML بنجاح، يمكنك الآن مراجعته قبل الاستيراد",
+    });
+  };
+
+  const handleHtmlImport = async () => {
     if (!htmlTitle.trim()) {
       toast({
         title: "خطأ",
@@ -190,7 +227,7 @@ const AdminBlogs = () => {
     const newBlog = {
       id: String(blogs.length + 1),
       title: htmlTitle,
-      slug: htmlTitle.toLowerCase().replace(/\s+/g, '-'),
+      slug: htmlTitle.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]+/g, ''),
       author: "مستخدم النظام",
       category: "عام",
       tags: ["مستورد", "html"],
@@ -202,6 +239,37 @@ const AdminBlogs = () => {
       content: htmlContent
     };
 
+    try {
+      // محاولة الحفظ في Supabase
+      if (supabase) {
+        const { data, error } = await supabase
+          .from('blogs')
+          .insert([
+            {
+              title: newBlog.title,
+              slug: newBlog.slug,
+              author: newBlog.author,
+              category: newBlog.category,
+              tags: newBlog.tags,
+              status: newBlog.status,
+              date: newBlog.date,
+              views: newBlog.views,
+              image: newBlog.image,
+              excerpt: newBlog.excerpt,
+              content: newBlog.content
+            }
+          ]);
+          
+        if (error) {
+          console.error('خطأ في حفظ المقال:', error);
+          // إضافة فقط إلى البيانات المحلية في حالة فشل Supabase
+        }
+      }
+    } catch (err) {
+      console.error('خطأ غير متوقع:', err);
+    }
+    
+    // تحديث البيانات المحلية بغض النظر عن حالة Supabase
     setBlogs([newBlog, ...blogs]);
     
     toast({
@@ -336,7 +404,19 @@ const AdminBlogs = () => {
                 <div className="space-y-2">
                   <div className="flex justify-between">
                     <label className="text-sm font-medium">محتوى HTML</label>
-                    <Button variant="ghost" size="sm" className="h-6">
+                    <input
+                      type="file"
+                      accept=".html,text/html"
+                      style={{ display: 'none' }}
+                      ref={fileInputRef}
+                      onChange={handleFileUpload}
+                    />
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="h-6"
+                      onClick={() => fileInputRef.current.click()}
+                    >
                       <Upload className="h-3 w-3 ml-1" />
                       استيراد من ملف
                     </Button>
@@ -351,7 +431,7 @@ const AdminBlogs = () => {
                   <div className="bg-white p-3 border rounded-md mt-4">
                     <h3 className="font-medium mb-2 text-sm">معاينة المحتوى</h3>
                     <div 
-                      className="prose max-w-none border p-4 rounded-md bg-white min-h-[200px] overflow-auto"
+                      className="prose max-w-none rtl-content border p-4 rounded-md bg-white min-h-[200px] overflow-auto"
                       dangerouslySetInnerHTML={{ __html: htmlContent }}
                     ></div>
                   </div>
