@@ -127,6 +127,19 @@
     @apply transform transition-all duration-300 hover:-translate-y-2 hover:shadow-card-hover;
   }
   
+  /* Custom card and button styles for clickable areas */
+  .card-link {
+    @apply block h-full transition-all duration-300;
+  }
+  
+  .card-content {
+    @apply h-full cursor-pointer;
+  }
+  
+  .card-button {
+    @apply pointer-events-none;
+  }
+  
   /* Custom scrollbar */
   ::-webkit-scrollbar {
     width: 6px;

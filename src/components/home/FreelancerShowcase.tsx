@@ -82,73 +82,74 @@ const FreelancerShowcase = () => {
         
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {freelancers.map((freelancer) => (
-            <AnimatedCard
-              key={freelancer.id}
-              delay={freelancer.delay}
-              className="h-full flex flex-col"
-            >
-              <div className="flex flex-col items-center text-center mb-4">
-                <div className="relative mb-3">
-                  <img 
-                    src={freelancer.image} 
-                    alt={freelancer.name} 
-                    className="w-20 h-20 rounded-full object-cover border-2 border-white shadow-sm"
-                  />
-                  {freelancer.verified && (
-                    <div className="absolute bottom-0 right-0 bg-ali-blue text-white rounded-full p-1">
-                      <VerifiedIcon className="w-3 h-3" />
+            <Link to={`/freelancers/${freelancer.id}`} key={freelancer.id} className="block h-full">
+              <AnimatedCard
+                delay={freelancer.delay}
+                className="h-full flex flex-col cursor-pointer"
+              >
+                <div className="flex flex-col items-center text-center mb-4">
+                  <div className="relative mb-3">
+                    <img 
+                      src={freelancer.image} 
+                      alt={freelancer.name} 
+                      className="w-20 h-20 rounded-full object-cover border-2 border-white shadow-sm"
+                    />
+                    {freelancer.verified && (
+                      <div className="absolute bottom-0 right-0 bg-ali-blue text-white rounded-full p-1">
+                        <VerifiedIcon className="w-3 h-3" />
+                      </div>
+                    )}
+                  </div>
+                  
+                  <h3 className="text-lg font-semibold text-gray-900">
+                    {freelancer.name}
+                    {freelancer.verified && (
+                      <span className="mr-1 inline-flex items-center text-xs font-medium text-ali-blue">
+                        <VerifiedIcon className="w-3 h-3 ml-0.5" />
+                        موثق
+                      </span>
+                    )}
+                  </h3>
+                  <p className="text-sm text-gray-600">{freelancer.title}</p>
+                  
+                  <div className="flex items-center justify-center mt-2">
+                    <div className="flex items-center text-yellow-400">
+                      <Star className="w-4 h-4 fill-current" />
+                      <span className="mx-1 text-sm font-medium text-gray-900">{freelancer.rating}</span>
                     </div>
-                  )}
-                </div>
-                
-                <h3 className="text-lg font-semibold text-gray-900">
-                  {freelancer.name}
-                  {freelancer.verified && (
-                    <span className="mr-1 inline-flex items-center text-xs font-medium text-ali-blue">
-                      <VerifiedIcon className="w-3 h-3 ml-0.5" />
-                      موثق
-                    </span>
-                  )}
-                </h3>
-                <p className="text-sm text-gray-600">{freelancer.title}</p>
-                
-                <div className="flex items-center justify-center mt-2">
-                  <div className="flex items-center text-yellow-400">
-                    <Star className="w-4 h-4 fill-current" />
-                    <span className="mx-1 text-sm font-medium text-gray-900">{freelancer.rating}</span>
+                    <span className="text-xs text-gray-500">({freelancer.reviews} تقييم)</span>
                   </div>
-                  <span className="text-xs text-gray-500">({freelancer.reviews} تقييم)</span>
-                </div>
-              </div>
-              
-              <div className="mt-auto">
-                <p className="text-xs text-gray-600 mb-3">{freelancer.description}</p>
-                
-                <div className="flex flex-wrap gap-1 mb-4">
-                  {freelancer.skills.slice(0, 3).map((skill, index) => (
-                    <span key={index} className="text-xs bg-gray-100 text-gray-700 px-2 py-0.5 rounded-full">
-                      {skill}
-                    </span>
-                  ))}
-                  {freelancer.skills.length > 3 && (
-                    <span className="text-xs bg-gray-100 text-gray-700 px-2 py-0.5 rounded-full">
-                      +{freelancer.skills.length - 3}
-                    </span>
-                  )}
                 </div>
                 
-                <div className="flex justify-between items-center">
-                  <div className="text-xs text-gray-600">
-                    <span className="font-medium text-gray-900">{freelancer.projects}</span> مشروع
+                <div className="mt-auto">
+                  <p className="text-xs text-gray-600 mb-3">{freelancer.description}</p>
+                  
+                  <div className="flex flex-wrap gap-1 mb-4">
+                    {freelancer.skills.slice(0, 3).map((skill, index) => (
+                      <span key={index} className="text-xs bg-gray-100 text-gray-700 px-2 py-0.5 rounded-full">
+                        {skill}
+                      </span>
+                    ))}
+                    {freelancer.skills.length > 3 && (
+                      <span className="text-xs bg-gray-100 text-gray-700 px-2 py-0.5 rounded-full">
+                        +{freelancer.skills.length - 3}
+                      </span>
+                    )}
                   </div>
-                  <Link to={`/freelancers/${freelancer.id}`}>
-                    <CustomButton size="sm" variant="outline">
-                      عرض الملف
-                    </CustomButton>
-                  </Link>
+                  
+                  <div className="flex justify-between items-center">
+                    <div className="text-xs text-gray-600">
+                      <span className="font-medium text-gray-900">{freelancer.projects}</span> مشروع
+                    </div>
+                    <div className="pointer-events-none">
+                      <CustomButton size="sm" variant="outline">
+                        عرض الملف
+                      </CustomButton>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </AnimatedCard>
+              </AnimatedCard>
+            </Link>
           ))}
         </div>
       </div>
