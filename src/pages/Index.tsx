@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import Hero from '@/components/home/Hero';
+import VideoIntro from '@/components/home/VideoIntro';
 import Features from '@/components/home/Features';
 import CoursePreview from '@/components/home/CoursePreview';
 import BookPreview from '@/components/home/BookPreview';
@@ -62,6 +63,7 @@ const Index: React.FC = () => {
       
       <main className="flex-grow">
         <Hero />
+        <VideoIntro />
         <Features />
         <CoursePreview />
         <BookPreview />
