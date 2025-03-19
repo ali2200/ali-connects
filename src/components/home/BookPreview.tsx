@@ -6,7 +6,7 @@ import BookCard from '../books/BookCard';
 import BookCarousel from '../books/BookCarousel';
 import { books } from '@/data/BooksData';
 
-const BookPreview = () => {
+const BookPreview: React.FC = () => {
   return (
     <section className="py-20 bg-gray-50">
       <div className="container-custom">
@@ -28,14 +28,14 @@ const BookPreview = () => {
         
         {/* Desktop View - Grid Layout */}
         <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {books.map((book) => (
+          {books.slice(0, 4).map((book) => (
             <BookCard key={book.id} book={book} />
           ))}
         </div>
         
         {/* Mobile View - Carousel */}
         <div className="block md:hidden">
-          <BookCarousel books={books} />
+          <BookCarousel books={books.slice(0, 4)} />
         </div>
       </div>
     </section>

@@ -11,7 +11,7 @@ import FreelancerShowcase from '@/components/home/FreelancerShowcase';
 import CTASection from '@/components/home/CTASection';
 import '../styles/rtl.css';
 
-const Index = () => {
+const Index: React.FC = () => {
   useEffect(() => {
     // تطبيق اتجاه RTL على عنصر html
     document.documentElement.setAttribute('dir', 'rtl');

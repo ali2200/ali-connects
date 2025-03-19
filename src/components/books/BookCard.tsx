@@ -93,21 +93,21 @@ const BookCard: React.FC<BookCardProps> = ({ book, fullView = true }) => {
                   <span className="text-gray-500">المؤلف:</span>
                   <span className="mr-1 text-gray-900 font-medium">{book.author}</span>
                 </div>
-                <div onClick={(e) => e.stopPropagation()}>
-                  <CustomButton 
-                    size="sm" 
-                    variant="ghost" 
-                    className="text-ali-blue hover:bg-ali-blue/10"
-                  >
-                    عرض الكتاب
-                  </CustomButton>
-                </div>
+                {/* The button is just for visual indication - the entire card is clickable */}
+                <CustomButton 
+                  size="sm" 
+                  variant="ghost" 
+                  className="text-ali-blue hover:bg-ali-blue/10 pointer-events-none"
+                >
+                  عرض الكتاب
+                </CustomButton>
               </div>
             ) : (
               <div className="w-full">
+                {/* The button is just for visual indication - the entire card is clickable */}
                 <CustomButton 
                   size="sm" 
-                  className="w-full"
+                  className="w-full pointer-events-none"
                 >
                   عرض الكتاب
                 </CustomButton>
