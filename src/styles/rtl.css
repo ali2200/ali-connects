@@ -1,49 +1,66 @@
 
-/* أنماط RTL لموقع باللغة العربية */
-.rtl {
-  direction: rtl;
-  text-align: right;
+/* ... keep existing code */
+
+/* Book Page Flip Animation */
+@keyframes page-flip-out {
+  0% {
+    transform: rotateY(0deg);
+    z-index: 20;
+  }
+  100% {
+    transform: rotateY(-180deg);
+    z-index: 10;
+  }
 }
 
-.ltr {
-  direction: ltr;
-  text-align: left;
+@keyframes page-flip-in {
+  0% {
+    transform: rotateY(-180deg);
+    z-index: 10;
+  }
+  100% {
+    transform: rotateY(0deg);
+    z-index: 20;
+  }
 }
 
-/* تعديل أنماط الهوامش والمحاذاة للغة العربية */
-[dir="rtl"] .ml-auto {
-  margin-left: 0;
-  margin-right: auto;
+.book-page {
+  transition: transform 0.7s ease-in-out;
+  transform-style: preserve-3d;
+  transform-origin: left center;
 }
 
-[dir="rtl"] .mr-auto {
-  margin-right: 0;
+.book-shadow {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  background: linear-gradient(to right, rgba(0,0,0,0.1), rgba(0,0,0,0));
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+/* Responsive container */
+.container-custom {
+  width: 100%;
+  max-width: 1280px;
   margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
-/* تعديل أنماط الحدود للغة العربية */
-[dir="rtl"] .border-l {
-  border-left: 0;
-  border-right: 1px solid;
+@media (min-width: 640px) {
+  .container-custom {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
 }
 
-[dir="rtl"] .border-r {
-  border-right: 0;
-  border-left: 1px solid;
-}
-
-/* تعديل أنماط الحوار والقوائم للغة العربية */
-[dir="rtl"] .left-0 {
-  left: auto;
-  right: 0;
-}
-
-[dir="rtl"] .right-0 {
-  right: auto;
-  left: 0;
-}
-
-/* تعديل الأيقونات للغة العربية */
-[dir="rtl"] .rotate-arrow {
-  transform: rotate(180deg);
+@media (min-width: 1024px) {
+  .container-custom {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
 }

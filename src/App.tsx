@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -75,6 +74,10 @@ import Certifications from "./pages/Certifications";
 // صفحة المستقلين
 import Freelancers from "./pages/Freelancers";
 
+// صفحات الكتب
+import Books from "./pages/books/Books";
+import BookDetail from "./pages/books/BookDetail";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -102,6 +105,10 @@ const App = () => (
             <Route path="/courses/:id" element={<CourseDetail />} />
             <Route path="/learning-paths" element={<LearningPaths />} />
             <Route path="/certifications" element={<Certifications />} />
+            
+            {/* صفحات الكتب */}
+            <Route path="/books" element={<Books />} />
+            <Route path="/books/:id" element={<BookDetail />} />
             
             {/* سوق الخدمات */}
             <Route path="/marketplace" element={<Marketplace />} />
