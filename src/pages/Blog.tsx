@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
@@ -8,7 +8,9 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
-import { Search, Clock, User, ArrowRight } from 'lucide-react';
+import { Search, Clock, User, ArrowRight, Settings, RefreshCw } from 'lucide-react';
+import WordPressIntegration from '@/components/blog/WordPressIntegration';
+import { useToast } from '@/hooks/use-toast';
 
 // بيانات وهمية للمقالات
 const blogPosts = [
@@ -93,6 +95,8 @@ const categories = [
 const Blog = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [activeCategory, setActiveCategory] = useState('all');
+  const [showWordPressSettings, setShowWordPressSettings] = useState(false);
+  const { toast } = useToast();
   
   // دالة لتصفية المقالات حسب البحث والفئة
   const getFilteredPosts = () => {
@@ -124,6 +128,15 @@ const Blog = () => {
     return filtered;
   };
   
+  const publishToWordPress = (postId: number) => {
+    // This would normally call an API to publish the post to WordPress
+    toast({
+      title: "تم إرسال المقال إلى ووردبريس",
+      description: `تم إرسال المقال رقم ${postId} إلى موقع ووردبريس الخاص بك`,
+      variant: "default",
+    });
+  };
+  
   const filteredPosts = getFilteredPosts();
   
   return (
@@ -133,9 +146,29 @@ const Blog = () => {
         <meta name="description" content="اقرأ أحدث المقالات والنصائح في مجال العمل الحر، وتطوير المهارات، والنجاح المهني" />
       </Helmet>
       <Navbar />
-      <main className="container mx-auto px-4 py-12">
+      <main className="container mx-auto px-4 pt-32 pb-12">
         <section className="max-w-6xl mx-auto">
-          <h1 className="text-3xl font-bold mb-8 text-center">مدونة علي للأعمال</h1>
+          <div className="flex justify-between items-center mb-8">
+            <h1 className="text-3xl font-bold text-center">مدونة علي للأعمال</h1>
+            <div className="flex gap-2">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={() => setShowWordPressSettings(!showWordPressSettings)}
+              >
+                <Settings className="h-4 w-4 ml-1" />
+                إعدادات ووردبريس
+              </Button>
+            </div>
+          </div>
+          
+          {showWordPressSettings && (
+            <Card className="mb-6">
+              <CardContent className="p-4">
+                <WordPressIntegration />
+              </CardContent>
+            </Card>
+          )}
           
           <div className="flex flex-col md:flex-row justify-between items-start gap-8 mb-10">
             {/* فلترة المقالات */}
@@ -248,13 +281,22 @@ const Blog = () => {
                             </p>
                             <div className="flex justify-between items-center">
                               <Badge variant="secondary">{post.category}</Badge>
-                              <a
-                                href={`/blog/${post.slug}`}
-                                className="text-blue-600 hover:text-blue-800 text-sm flex items-center"
-                              >
-                                اقرأ المزيد
-                                <ArrowRight className="h-3 w-3 mr-1" />
-                              </a>
+                              <div className="flex items-center gap-2">
+                                <button
+                                  onClick={() => publishToWordPress(post.id)}
+                                  className="text-green-600 hover:text-green-800 text-sm flex items-center bg-green-50 hover:bg-green-100 rounded-full px-2 py-1"
+                                >
+                                  <RefreshCw className="h-3 w-3 ml-1" />
+                                  نشر في ووردبريس
+                                </button>
+                                <a
+                                  href={`/blog/${post.slug}`}
+                                  className="text-blue-600 hover:text-blue-800 text-sm flex items-center"
+                                >
+                                  اقرأ المزيد
+                                  <ArrowRight className="h-3 w-3 mr-1" />
+                                </a>
+                              </div>
                             </div>
                           </CardContent>
                         </Card>
@@ -304,13 +346,22 @@ const Blog = () => {
                                     {post.author}
                                   </span>
                                 </div>
-                                <a
-                                  href={`/blog/${post.slug}`}
-                                  className="text-blue-600 hover:text-blue-800 text-sm flex items-center"
-                                >
-                                  اقرأ المزيد
-                                  <ArrowRight className="h-3 w-3 mr-1" />
-                                </a>
+                                <div className="flex items-center gap-2">
+                                  <button
+                                    onClick={() => publishToWordPress(post.id)}
+                                    className="text-green-600 hover:text-green-800 text-sm flex items-center bg-green-50 hover:bg-green-100 rounded-full px-2 py-1"
+                                  >
+                                    <RefreshCw className="h-3 w-3 ml-1" />
+                                    نشر
+                                  </button>
+                                  <a
+                                    href={`/blog/${post.slug}`}
+                                    className="text-blue-600 hover:text-blue-800 text-sm flex items-center"
+                                  >
+                                    اقرأ المزيد
+                                    <ArrowRight className="h-3 w-3 mr-1" />
+                                  </a>
+                                </div>
                               </div>
                             </CardContent>
                           </div>

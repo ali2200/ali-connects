@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import CustomButton from '../ui/CustomButton';
 import { cn } from '@/lib/utils';
@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils';
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const location = useLocation();
   
   useEffect(() => {
     const handleScroll = () => {
@@ -50,6 +51,9 @@ const Navbar = () => {
       ]
     },
   ];
+  
+  // Determine if we're on the blog page to add extra spacing
+  const isBlogPage = location.pathname === '/blog';
   
   return (
     <nav 

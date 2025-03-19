@@ -36,6 +36,14 @@ html[dir="rtl"] .breadcrumb-container {
   margin-top: 90px; /* Add space below the navbar */
 }
 
+/* Blog page specific styles */
+.blog-title {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 10;
+}
+
 /* Book Page Flip Animation */
 @keyframes page-flip-out {
   0% {
