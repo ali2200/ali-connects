@@ -13,7 +13,7 @@ import '../styles/rtl.css';
 
 const Index: React.FC = () => {
   useEffect(() => {
-    // تطبيق اتجاه RTL على عنصر html
+    // Set RTL direction on html element
     document.documentElement.setAttribute('dir', 'rtl');
     document.documentElement.classList.add('rtl');
     
@@ -40,14 +40,14 @@ const Index: React.FC = () => {
         observer.unobserve(element);
       });
       
-      // إزالة اتجاه RTL عند تفكيك المكون
+      // Remove RTL direction when component unmounts
       document.documentElement.removeAttribute('dir');
       document.documentElement.classList.remove('rtl');
     };
   }, []);
   
   return (
-    <div className="min-h-screen flex flex-col rtl">
+    <div className="min-h-screen flex flex-col">
       <Navbar />
       
       <main className="flex-grow">

@@ -39,8 +39,8 @@ const BookCard: React.FC<BookCardProps> = ({ book, fullView = true }) => {
             alt={book.title} 
             className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
             onError={(e) => {
-              console.error(`Error loading book image: ${book.image}`);
-              e.currentTarget.src = "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=1974&auto=format&fit=crop";
+              const target = e.target as HTMLImageElement;
+              target.src = "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=1974&auto=format&fit=crop";
             }}
           />
           <div className="absolute top-3 right-3">

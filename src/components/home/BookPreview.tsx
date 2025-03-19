@@ -7,6 +7,9 @@ import BookCarousel from '../books/BookCarousel';
 import { books } from '@/data/BooksData';
 
 const BookPreview: React.FC = () => {
+  // Make sure we have books data
+  console.log("Books data:", books);
+  
   return (
     <section className="py-20 bg-gray-50">
       <div className="container-custom">
