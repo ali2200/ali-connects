@@ -5,6 +5,7 @@ import Footer from '@/components/layout/Footer';
 import Hero from '@/components/home/Hero';
 import Features from '@/components/home/Features';
 import CoursePreview from '@/components/home/CoursePreview';
+import BookPreview from '@/components/home/BookPreview';
 import MarketplacePreview from '@/components/home/MarketplacePreview';
 import FreelancerShowcase from '@/components/home/FreelancerShowcase';
 import CTASection from '@/components/home/CTASection';
@@ -53,6 +54,7 @@ const Index = () => {
         <Hero />
         <Features />
         <CoursePreview />
+        <BookPreview />
         <MarketplacePreview />
         <FreelancerShowcase />
         <CTASection />
