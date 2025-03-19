@@ -44,9 +44,9 @@ const BookPageFlip: React.FC<BookPageFlipProps> = ({ pages }) => {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'ArrowRight') {
-        goToPrevPage();
+        goToPrevPage(); // In RTL, right arrow goes to previous page
       } else if (e.key === 'ArrowLeft') {
-        goToNextPage();
+        goToNextPage(); // In RTL, left arrow goes to next page
       }
     };
     
