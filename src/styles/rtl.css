@@ -44,6 +44,91 @@ html[dir="rtl"] .breadcrumb-container {
   z-index: 10;
 }
 
+/* RTL content styling for blog posts */
+.rtl-content {
+  direction: rtl;
+  text-align: right;
+}
+
+.rtl-content img {
+  max-width: 100%;
+  height: auto;
+  margin: 1.5rem 0;
+  border-radius: 0.5rem;
+}
+
+.rtl-content h1, 
+.rtl-content h2, 
+.rtl-content h3, 
+.rtl-content h4, 
+.rtl-content h5, 
+.rtl-content h6 {
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: #1f2937;
+}
+
+.rtl-content p {
+  margin-bottom: 1rem;
+  line-height: 1.7;
+}
+
+.rtl-content ul, 
+.rtl-content ol {
+  margin-bottom: 1rem;
+  padding-right: 1.5rem;
+}
+
+.rtl-content li {
+  margin-bottom: 0.5rem;
+}
+
+.rtl-content a {
+  color: #2563eb;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+.rtl-content a:hover {
+  color: #1d4ed8;
+}
+
+.rtl-content blockquote {
+  border-right: 4px solid #e5e7eb;
+  padding-right: 1rem;
+  margin-right: 0;
+  margin-left: 0;
+  margin-bottom: 1.5rem;
+  font-style: italic;
+  color: #4b5563;
+}
+
+/* Table styles for HTML content */
+.rtl-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
+}
+
+.rtl-content table th,
+.rtl-content table td {
+  border: 1px solid #e5e7eb;
+  padding: 0.75rem;
+  text-align: right;
+}
+
+.rtl-content table th {
+  background-color: #f9fafb;
+  font-weight: 600;
+}
+
+.rtl-content table tr:nth-child(even) {
+  background-color: #f9fafb;
+}
+
 /* Book Page Flip Animation */
 @keyframes page-flip-out {
   0% {

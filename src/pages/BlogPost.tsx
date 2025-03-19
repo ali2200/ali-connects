@@ -31,6 +31,23 @@ const BlogPost = () => {
         <li>رفع قيمة خدماتك وزيادة دخلك</li>
         <li>بناء سمعة قوية في مجال تخصصك</li>
       </ul>
+      <h2>2. استثمر في تطوير مهاراتك</h2>
+      <p>سوق العمل الحر يتطور باستمرار، ولذلك من المهم أن تستثمر في تطوير مهاراتك بشكل مستمر. يمكنك:</p>
+      <ul>
+        <li>الالتحاق بدورات تدريبية عبر الإنترنت</li>
+        <li>قراءة الكتب والمقالات في مجال تخصصك</li>
+        <li>متابعة المدونات والقنوات المتخصصة</li>
+        <li>حضور المؤتمرات والورش العملية</li>
+      </ul>
+      <img src="https://images.unsplash.com/photo-1522152272546-e526c1b978fb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="تطوير المهارات" style="max-width: 100%; height: auto; margin: 20px 0; border-radius: 8px;" />
+      <h2>3. بناء محفظة أعمال قوية</h2>
+      <p>محفظة أعمالك هي واجهتك أمام العملاء المحتملين، لذا احرص على:</p>
+      <ul>
+        <li>عرض أفضل أعمالك فقط</li>
+        <li>تنويع الأعمال لإظهار مدى مهاراتك</li>
+        <li>تحديث المحفظة باستمرار بأحدث مشاريعك</li>
+        <li>إضافة شهادات العملاء وآرائهم حول عملك</li>
+      </ul>
     `,
     tags: ["العمل الحر", "نصائح للمستقلين", "زيادة الدخل", "تطوير المهارات"],
     comments: 8,
@@ -88,7 +105,7 @@ const BlogPost = () => {
           {/* محتوى المقال */}
           <Card className="mb-8">
             <CardContent className="p-6">
-              <div className="prose max-w-none text-gray-800" 
+              <div className="prose prose-lg max-w-none rtl-content" 
                 dangerouslySetInnerHTML={{ __html: post.content }} 
               />
             </CardContent>
