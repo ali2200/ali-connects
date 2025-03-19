@@ -1,4 +1,3 @@
-
 import React, { useState, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import DashboardLayout from '@/components/layout/DashboardLayout';
@@ -18,7 +17,6 @@ import {
 import { useToast } from '@/components/ui/use-toast';
 import { supabase } from '@/lib/supabase';
 
-// بيانات تجريبية للمقالات
 const mockBlogs = [
   { 
     id: '1', 
@@ -172,13 +170,27 @@ const AdminBlogs = () => {
     
     const reader = new FileReader();
     reader.onload = (e) => {
+      // Make sure we're handling the result as a string
       const content = e.target.result;
-      setHtmlContent(content);
-      
-      // استخراج العنوان من وسم العنوان إن وجد
-      const titleMatch = content.match(/<title>(.*?)<\/title>/i);
-      if (titleMatch && titleMatch[1]) {
-        setHtmlTitle(titleMatch[1]);
+      if (typeof content === 'string') {
+        setHtmlContent(content);
+        
+        // استخراج العنوان من وسم العنوان إن وجد
+        const titleMatch = content.match(/<title>(.*?)<\/title>/i);
+        if (titleMatch && titleMatch[1]) {
+          setHtmlTitle(titleMatch[1]);
+        }
+      } else {
+        // If it's not a string (ArrayBuffer), convert it to string
+        const decoder = new TextDecoder('utf-8');
+        const contentString = decoder.decode(content);
+        setHtmlContent(contentString);
+        
+        // Extract title from the decoded content
+        const titleMatch = contentString.match(/<title>(.*?)<\/title>/i);
+        if (titleMatch && titleMatch[1]) {
+          setHtmlTitle(titleMatch[1]);
+        }
       }
     };
     
@@ -601,7 +613,7 @@ const AdminBlogs = () => {
                           
                           <Button 
                             variant="ghost" 
-                            size="icon"
+                            size="icon" 
                             onClick={() => window.open(`/blog/${blog.slug}`, '_blank')}
                           >
                             <Eye className="h-4 w-4 text-blue-500" />
@@ -631,3 +643,4 @@ const AdminBlogs = () => {
 };
 
 export default AdminBlogs;
+
