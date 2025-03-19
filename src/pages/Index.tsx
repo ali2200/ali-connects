@@ -18,7 +18,7 @@ const Index = () => {
     document.documentElement.classList.add('rtl');
     
     // Animation for elements with animate-on-scroll class
-    const observerCallback = (entries) => {
+    const observerCallback = (entries: IntersectionObserverEntry[]) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('animate-visible');

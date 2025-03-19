@@ -93,29 +93,21 @@ const BookCard: React.FC<BookCardProps> = ({ book, fullView = true }) => {
                   <span className="text-gray-500">المؤلف:</span>
                   <span className="mr-1 text-gray-900 font-medium">{book.author}</span>
                 </div>
-                <div onClick={(e) => e.stopPropagation()} className="z-10">
+                <div onClick={(e) => e.stopPropagation()}>
                   <CustomButton 
                     size="sm" 
                     variant="ghost" 
                     className="text-ali-blue hover:bg-ali-blue/10"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      window.location.href = `/books/${book.id}`;
-                    }}
                   >
                     عرض الكتاب
                   </CustomButton>
                 </div>
               </div>
             ) : (
-              <div onClick={(e) => e.stopPropagation()} className="w-full z-10">
+              <div className="w-full">
                 <CustomButton 
                   size="sm" 
                   className="w-full"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    window.location.href = `/books/${book.id}`;
-                  }}
                 >
                   عرض الكتاب
                 </CustomButton>
