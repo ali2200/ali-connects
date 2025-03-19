@@ -25,6 +25,8 @@ interface BookCardProps {
 }
 
 const BookCard: React.FC<BookCardProps> = ({ book, fullView = true }) => {
+  console.log("Rendering BookCard for:", book.title);
+  
   return (
     <Link to={`/books/${book.id}`} className="block h-full">
       <AnimatedCard

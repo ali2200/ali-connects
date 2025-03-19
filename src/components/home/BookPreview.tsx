@@ -7,11 +7,11 @@ import BookCarousel from '../books/BookCarousel';
 import { books } from '@/data/BooksData';
 
 const BookPreview: React.FC = () => {
-  // Make sure we have books data
-  console.log("Books data:", books);
+  // Debug logging to verify data is available
+  console.log("Books data in BookPreview:", books);
   
   return (
-    <section className="py-20 bg-gray-50">
+    <section className="py-20 bg-gray-50" id="books-section">
       <div className="container-custom">
         <div className="flex flex-col md:flex-row justify-between items-center mb-12">
           <div className="text-center md:text-right mb-6 md:mb-0">
@@ -31,14 +31,22 @@ const BookPreview: React.FC = () => {
         
         {/* Desktop View - Grid Layout */}
         <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {books.slice(0, 4).map((book) => (
-            <BookCard key={book.id} book={book} />
-          ))}
+          {books && books.length > 0 ? (
+            books.slice(0, 4).map((book) => (
+              <BookCard key={book.id} book={book} />
+            ))
+          ) : (
+            <div className="col-span-4 text-center py-8">لا توجد كتب متاحة</div>
+          )}
         </div>
         
         {/* Mobile View - Carousel */}
         <div className="block md:hidden">
-          <BookCarousel books={books.slice(0, 4)} />
+          {books && books.length > 0 ? (
+            <BookCarousel books={books.slice(0, 4)} />
+          ) : (
+            <div className="text-center py-8">لا توجد كتب متاحة</div>
+          )}
         </div>
       </div>
     </section>

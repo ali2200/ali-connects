@@ -15,6 +15,8 @@ interface BookCarouselProps {
 }
 
 const BookCarousel: React.FC<BookCarouselProps> = ({ books }) => {
+  console.log("Books in carousel:", books.length);
+  
   return (
     <Carousel className="w-full">
       <CarouselContent>

@@ -12,7 +12,11 @@ import CTASection from '@/components/home/CTASection';
 import '../styles/rtl.css';
 
 const Index: React.FC = () => {
+  console.log("Index component rendering");
+  
   useEffect(() => {
+    console.log("Index useEffect running");
+    
     // Set RTL direction on html element
     document.documentElement.setAttribute('dir', 'rtl');
     document.documentElement.classList.add('rtl');
