@@ -27,6 +27,15 @@ html[dir="ltr"] .rtl-only {
   margin-left: auto !important;
 }
 
+/* Breadcrumb adjustments for RTL */
+html[dir="rtl"] ol {
+  padding-right: 0;
+}
+
+html[dir="rtl"] .breadcrumb-container {
+  margin-top: 90px; /* Add space below the navbar */
+}
+
 /* Book Page Flip Animation */
 @keyframes page-flip-out {
   0% {

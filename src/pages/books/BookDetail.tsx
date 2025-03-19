@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Navbar from '@/components/layout/Navbar';
@@ -204,9 +205,9 @@ const BookDetail = () => {
       <Navbar />
       
       <main className="flex-grow">
-        <div className="bg-gray-50 py-4">
-          <div className="container-custom">
-            <nav>
+        <div className="bg-gray-50 py-4 mt-20">
+          <div className="container-custom breadcrumb-container">
+            <nav className="pt-4">
               <ol className="flex items-center text-sm">
                 <li>
                   <Link to="/" className="text-gray-500 hover:text-ali-blue">الرئيسية</Link>

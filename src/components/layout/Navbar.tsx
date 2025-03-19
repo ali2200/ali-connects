@@ -59,8 +59,8 @@ const Navbar = () => {
       )}
     >
       <div className="container-custom">
-        <div className="flex justify-between items-center">
-          {/* Logo - Now positioned on the right side for RTL */}
+        <div className="flex justify-between items-center h-14">
+          {/* Logo - Positioned on the right side for RTL */}
           <div className="order-2 md:order-1">
             <Link to="/" className="flex items-center">
               <h1 className="text-2xl font-bold text-ali-blue">
