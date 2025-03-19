@@ -20,7 +20,9 @@ const BookCarousel: React.FC<BookCarouselProps> = ({ books }) => {
       <CarouselContent>
         {books.map((book) => (
           <CarouselItem key={book.id} className="basis-full sm:basis-1/2">
-            <BookCard book={book} fullView={false} />
+            <div className="h-full">
+              <BookCard book={book} fullView={false} />
+            </div>
           </CarouselItem>
         ))}
       </CarouselContent>

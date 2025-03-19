@@ -38,6 +38,10 @@ const BookCard: React.FC<BookCardProps> = ({ book, fullView = true }) => {
             src={book.image} 
             alt={book.title} 
             className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+            onError={(e) => {
+              console.error(`Error loading book image: ${book.image}`);
+              e.currentTarget.src = "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=1974&auto=format&fit=crop";
+            }}
           />
           <div className="absolute top-3 right-3">
             <span className="inline-block bg-white/90 backdrop-blur-sm text-ali-blue text-xs font-medium px-2.5 py-1 rounded-full">
@@ -89,15 +93,30 @@ const BookCard: React.FC<BookCardProps> = ({ book, fullView = true }) => {
                   <span className="text-gray-500">المؤلف:</span>
                   <span className="mr-1 text-gray-900 font-medium">{book.author}</span>
                 </div>
-                <div onClick={(e) => e.preventDefault()}>
-                  <CustomButton size="sm" variant="ghost" className="text-ali-blue hover:bg-ali-blue/10">
+                <div onClick={(e) => e.stopPropagation()} className="z-10">
+                  <CustomButton 
+                    size="sm" 
+                    variant="ghost" 
+                    className="text-ali-blue hover:bg-ali-blue/10"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      window.location.href = `/books/${book.id}`;
+                    }}
+                  >
                     عرض الكتاب
                   </CustomButton>
                 </div>
               </div>
             ) : (
-              <div onClick={(e) => e.preventDefault()} className="w-full">
-                <CustomButton size="sm" className="w-full">
+              <div onClick={(e) => e.stopPropagation()} className="w-full z-10">
+                <CustomButton 
+                  size="sm" 
+                  className="w-full"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    window.location.href = `/books/${book.id}`;
+                  }}
+                >
                   عرض الكتاب
                 </CustomButton>
               </div>

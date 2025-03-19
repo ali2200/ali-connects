@@ -10,9 +10,35 @@ const BookPageFlip: React.FC<BookPageFlipProps> = ({ pages }) => {
   const [currentPage, setCurrentPage] = useState(0);
   const [flipping, setFlipping] = useState(false);
   const [direction, setDirection] = useState<'next' | 'prev'>('next');
+  const [imagesLoaded, setImagesLoaded] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   
   const totalPages = pages.length;
+  
+  // Preload images to ensure they're available when needed
+  useEffect(() => {
+    const preloadImages = async () => {
+      try {
+        const imagePromises = pages.map((src) => {
+          return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.src = src;
+            img.onload = resolve;
+            img.onerror = reject;
+          });
+        });
+        
+        await Promise.all(imagePromises);
+        setImagesLoaded(true);
+      } catch (error) {
+        console.error('Error preloading images:', error);
+        // Still set as loaded to prevent infinite loading state
+        setImagesLoaded(true);
+      }
+    };
+    
+    preloadImages();
+  }, [pages]);
   
   const goToNextPage = () => {
     if (currentPage < totalPages - 1 && !flipping) {
@@ -56,6 +82,14 @@ const BookPageFlip: React.FC<BookPageFlipProps> = ({ pages }) => {
     };
   }, [currentPage, flipping]);
   
+  if (!imagesLoaded) {
+    return (
+      <div className="w-full aspect-[3/4] flex items-center justify-center bg-gray-100 rounded-lg">
+        <div className="animate-pulse text-gray-400">جاري تحميل الصفحات...</div>
+      </div>
+    );
+  }
+  
   return (
     <div className="relative mx-auto" ref={containerRef}>
       <div 
@@ -81,6 +115,10 @@ const BookPageFlip: React.FC<BookPageFlipProps> = ({ pages }) => {
             src={pages[currentPage]} 
             alt={`صفحة ${currentPage + 1}`}
             className="w-full h-full object-cover"
+            onError={(e) => {
+              console.error(`Error loading image: ${pages[currentPage]}`);
+              e.currentTarget.src = "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=1974&auto=format&fit=crop";
+            }}
           />
           <div className="absolute bottom-4 right-4 bg-white/80 backdrop-blur-sm text-gray-800 px-3 py-1 rounded-lg text-sm font-medium">
             {currentPage + 1} / {totalPages}
@@ -105,6 +143,10 @@ const BookPageFlip: React.FC<BookPageFlipProps> = ({ pages }) => {
               src={pages[currentPage + 1]} 
               alt={`صفحة ${currentPage + 2}`}
               className="w-full h-full object-cover"
+              onError={(e) => {
+                console.error(`Error loading image: ${pages[currentPage + 1]}`);
+                e.currentTarget.src = "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=1974&auto=format&fit=crop";
+              }}
             />
           </div>
         )}
@@ -127,6 +169,10 @@ const BookPageFlip: React.FC<BookPageFlipProps> = ({ pages }) => {
               src={pages[currentPage - 1]} 
               alt={`صفحة ${currentPage}`}
               className="w-full h-full object-cover"
+              onError={(e) => {
+                console.error(`Error loading image: ${pages[currentPage - 1]}`);
+                e.currentTarget.src = "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=1974&auto=format&fit=crop";
+              }}
             />
           </div>
         )}
