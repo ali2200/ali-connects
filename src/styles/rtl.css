@@ -1,5 +1,31 @@
 
-/* ... keep existing code */
+/* RTL-specific styles */
+
+/* Basic RTL layout adjustments */
+html[dir="rtl"] .ltr-only {
+  display: none !important;
+}
+
+html[dir="ltr"] .rtl-only {
+  display: none !important;
+}
+
+/* Fix flex direction for RTL layout */
+.rtl-flex-row-reverse {
+  flex-direction: row-reverse !important;
+}
+
+.rtl-text-right {
+  text-align: right !important;
+}
+
+.rtl-mr-auto {
+  margin-right: auto !important;
+}
+
+.rtl-ml-auto {
+  margin-left: auto !important;
+}
 
 /* Book Page Flip Animation */
 @keyframes page-flip-out {

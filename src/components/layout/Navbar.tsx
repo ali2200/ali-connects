@@ -60,63 +60,67 @@ const Navbar = () => {
     >
       <div className="container-custom">
         <div className="flex justify-between items-center">
-          {/* Logo */}
-          <Link to="/" className="flex items-center">
-            <h1 className="text-2xl font-bold text-ali-blue">
-              علي<span className="text-gray-800">للأعمال</span>
-            </h1>
-          </Link>
-          
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-0 space-x-reverse space-x-8">
-            {navItems.map((item) => (
-              item.submenu ? (
-                <div key={item.name} className="relative group">
-                  <button className="flex items-center text-gray-700 hover:text-ali-blue transition-colors">
-                    {item.name}
-                    <ChevronDown className="mr-1 h-4 w-4" />
-                  </button>
-                  <div className="absolute top-full right-0 transform -translate-y-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-300 min-w-[200px] glass rounded-lg shadow-lg mt-2 py-2 z-50 bg-white/90">
-                    {item.submenu.map((subitem) => (
-                      <Link 
-                        key={subitem.name}
-                        to={subitem.path}
-                        className="block px-4 py-2 hover:bg-white/60 text-gray-700 hover:text-ali-blue transition-colors text-right"
-                      >
-                        {subitem.name}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              ) : (
-                <Link 
-                  key={item.name}
-                  to={item.path}
-                  className="text-gray-700 hover:text-ali-blue transition-colors"
-                >
-                  {item.name}
-                </Link>
-              )
-            ))}
+          {/* Logo - Now positioned on the right side for RTL */}
+          <div className="order-2 md:order-1">
+            <Link to="/" className="flex items-center">
+              <h1 className="text-2xl font-bold text-ali-blue">
+                علي<span className="text-gray-800">للأعمال</span>
+              </h1>
+            </Link>
           </div>
           
-          {/* Authentication Buttons */}
-          <div className="hidden md:flex items-center space-x-0 space-x-reverse space-x-4">
-            <Link to="/login">
-              <CustomButton variant="ghost" size="sm">
-                تسجيل الدخول
-              </CustomButton>
-            </Link>
+          {/* Desktop Navigation - In the middle */}
+          <div className="hidden md:flex order-1 md:order-2 items-center justify-center flex-grow">
+            <div className="flex items-center space-x-8 space-x-reverse">
+              {navItems.map((item) => (
+                item.submenu ? (
+                  <div key={item.name} className="relative group">
+                    <button className="flex items-center text-gray-700 hover:text-ali-blue transition-colors">
+                      {item.name}
+                      <ChevronDown className="mr-1 h-4 w-4" />
+                    </button>
+                    <div className="absolute top-full right-0 transform -translate-y-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-300 min-w-[200px] glass rounded-lg shadow-lg mt-2 py-2 z-50 bg-white/90">
+                      {item.submenu.map((subitem) => (
+                        <Link 
+                          key={subitem.name}
+                          to={subitem.path}
+                          className="block px-4 py-2 hover:bg-white/60 text-gray-700 hover:text-ali-blue transition-colors text-right"
+                        >
+                          {subitem.name}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <Link 
+                    key={item.name}
+                    to={item.path}
+                    className="text-gray-700 hover:text-ali-blue transition-colors"
+                  >
+                    {item.name}
+                  </Link>
+                )
+              ))}
+            </div>
+          </div>
+          
+          {/* Authentication Buttons - Now positioned on the left */}
+          <div className="md:flex hidden order-3 items-center space-x-4 space-x-reverse">
             <Link to="/register">
               <CustomButton variant="primary" size="sm">
                 إنشاء حساب
+              </CustomButton>
+            </Link>
+            <Link to="/login">
+              <CustomButton variant="ghost" size="sm">
+                تسجيل الدخول
               </CustomButton>
             </Link>
           </div>
           
           {/* Mobile Menu Button */}
           <button 
-            className="md:hidden text-gray-700"
+            className="md:hidden order-3 text-gray-700"
             onClick={() => setIsOpen(!isOpen)}
           >
             {isOpen ? (

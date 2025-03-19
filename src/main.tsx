@@ -2,6 +2,11 @@
 import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
+import './styles/rtl.css'
+
+// Set document direction to RTL
+document.documentElement.dir = 'rtl';
+document.documentElement.lang = 'ar';
 
 // Add console log to help debug
 console.log("Main.tsx executing, attempting to mount app");
