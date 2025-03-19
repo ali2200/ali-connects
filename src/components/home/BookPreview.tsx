@@ -8,7 +8,10 @@ import { books } from '@/data/BooksData';
 
 const BookPreview: React.FC = () => {
   // Debug logging to verify data is available
-  console.log("Books data in BookPreview:", books);
+  console.log("Books data in BookPreview:", books ? (books.length ? books.length + " books found" : "Empty array") : "No books data");
+  
+  // Make sure books data exists before rendering
+  const booksData = books || [];
   
   return (
     <section className="py-20 bg-gray-50" id="books-section">
@@ -31,8 +34,8 @@ const BookPreview: React.FC = () => {
         
         {/* Desktop View - Grid Layout */}
         <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {books && books.length > 0 ? (
-            books.slice(0, 4).map((book) => (
+          {booksData && booksData.length > 0 ? (
+            booksData.slice(0, 4).map((book) => (
               <BookCard key={book.id} book={book} />
             ))
           ) : (
@@ -42,11 +45,7 @@ const BookPreview: React.FC = () => {
         
         {/* Mobile View - Carousel */}
         <div className="block md:hidden">
-          {books && books.length > 0 ? (
-            <BookCarousel books={books.slice(0, 4)} />
-          ) : (
-            <div className="text-center py-8">لا توجد كتب متاحة</div>
-          )}
+          <BookCarousel books={booksData.slice(0, 4)} />
         </div>
       </div>
     </section>

@@ -9,7 +9,7 @@ import BookPreview from '@/components/home/BookPreview';
 import MarketplacePreview from '@/components/home/MarketplacePreview';
 import FreelancerShowcase from '@/components/home/FreelancerShowcase';
 import CTASection from '@/components/home/CTASection';
-import '../styles/rtl.css';
+import '@/styles/rtl.css';
 
 const Index: React.FC = () => {
   console.log("Index component rendering");
@@ -34,15 +34,21 @@ const Index: React.FC = () => {
       threshold: 0.1
     });
     
+    // Safely check if elements exist before observing
     const elements = document.querySelectorAll('.animate-on-scroll');
-    elements.forEach(element => {
-      observer.observe(element);
-    });
+    if (elements.length > 0) {
+      elements.forEach(element => {
+        observer.observe(element);
+      });
+    }
     
     return () => {
-      elements.forEach(element => {
-        observer.unobserve(element);
-      });
+      // Safely unobserve elements
+      if (elements.length > 0) {
+        elements.forEach(element => {
+          observer.unobserve(element);
+        });
+      }
       
       // Remove RTL direction when component unmounts
       document.documentElement.removeAttribute('dir');

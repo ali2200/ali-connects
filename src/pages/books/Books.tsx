@@ -95,7 +95,7 @@ const allBooks = [
     title: 'استراتيجيات ريادة الأعمال',
     description: 'كتاب يشرح أهم الاستراتيجيات لإنشاء وإدارة المشاريع الناشئة بنجاح.',
     image: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=2071&auto=format&fit=crop',
-    author: 'أ. سارة ال��نصور',
+    author: 'أ. سارة المنصور',
     rating: 4.9,
     reviews: 175,
     pages: 310,

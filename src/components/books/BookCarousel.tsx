@@ -15,7 +15,11 @@ interface BookCarouselProps {
 }
 
 const BookCarousel: React.FC<BookCarouselProps> = ({ books }) => {
-  console.log("Books in carousel:", books.length);
+  console.log("Books in carousel:", books ? books.length : 'No books data');
+  
+  if (!books || books.length === 0) {
+    return <div className="text-center py-4">لا توجد كتب متاحة</div>;
+  }
   
   return (
     <Carousel className="w-full">
