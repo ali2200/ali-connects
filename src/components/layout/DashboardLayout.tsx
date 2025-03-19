@@ -1,10 +1,12 @@
-import React from 'react';
+
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Home, Users, Briefcase, Book, MessageSquare, Settings, Search, ChevronLeft, LogOut, User, DollarSign, Star, Package, FileText, BarChart2, CreditCard, Upload, BookOpen } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import CustomButton from '@/components/ui/CustomButton';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/components/ui/use-toast';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 export type DashboardType = 'freelancer' | 'client' | 'admin' | 'lecturer';
 
@@ -25,7 +27,15 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, type, title
   const location = useLocation();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const isMobile = useIsMobile();
+  
+  // Close sidebar when route changes on mobile
+  useEffect(() => {
+    if (isMobile) {
+      setMobileOpen(false);
+    }
+  }, [location.pathname, isMobile]);
   
   const menuItems: MenuItem[] = [
     { name: 'لوحة التحكم', path: `/dashboard/${type}`, icon: Home, permissions: ['freelancer', 'client', 'admin', 'lecturer'] },
@@ -85,21 +95,22 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, type, title
   return (
     <div className="min-h-screen flex flex-col rtl bg-gray-50">
       {/* Header */}
-      <header className="bg-white shadow-sm py-4 border-b">
+      <header className="bg-white shadow-sm py-2 md:py-4 border-b sticky top-0 z-30 safe-area-inset">
         <div className="container mx-auto px-4 flex justify-between items-center">
           <div className="flex items-center">
             <button 
               onClick={() => setMobileOpen(prev => !prev)}
-              className="md:hidden mr-4 text-gray-600"
+              className="md:hidden mr-2 md:mr-4 text-gray-600 p-2 -ml-2"
+              aria-label={mobileOpen ? "إغلاق القائمة الجانبية" : "فتح القائمة الجانبية"}
             >
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="h-6 w-6">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="h-5 w-5">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             </button>
-            <h1 className="text-xl font-bold text-gray-800">{title}</h1>
+            <h1 className="text-lg md:text-xl font-bold text-gray-800">{title}</h1>
           </div>
           
-          <div className="flex items-center space-x-4 space-x-reverse">
+          <div className="flex items-center space-x-3 md:space-x-4 space-x-reverse">
             <Link to="/" className="text-gray-600 hover:text-gray-800">
               <Home className="h-5 w-5" />
             </Link>
@@ -123,13 +134,17 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, type, title
         </div>
       </header>
       
-      <div className="flex flex-1">
-        {/* Sidebar */}
+      <div className="flex flex-1 relative">
+        {/* Sidebar - optimized for mobile and desktop */}
         <aside 
           className={cn(
-            "fixed md:relative top-0 right-0 h-screen md:h-auto bg-white border-l shadow-md z-30 transition-all duration-300 w-64 md:w-64 md:translate-x-0 md:flex",
-            mobileOpen ? "translate-x-0" : "translate-x-full"
+            "fixed md:sticky md:top-0 right-0 h-[calc(100vh-var(--navbar-height))] md:h-[calc(100vh-var(--navbar-height))] bg-white border-l shadow-md z-30 transition-all duration-300 w-[80%] sm:w-64 md:w-64 safe-area-inset",
+            mobileOpen ? "translate-x-0" : "translate-x-full md:translate-x-0"
           )}
+          style={{
+            top: 'var(--navbar-height)',
+            height: 'calc(100dvh - var(--navbar-height))'
+          }}
         >
           <div className="flex flex-col h-full">
             <div className="p-4 border-b flex items-center justify-between">
@@ -137,6 +152,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, type, title
               <button 
                 onClick={() => setMobileOpen(false)}
                 className="md:hidden text-gray-500 hover:text-gray-700"
+                aria-label="إغلاق القائمة الجانبية"
               >
                 <ChevronLeft className="h-5 w-5" />
               </button>
@@ -153,8 +169,8 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, type, title
                         location.pathname === item.path && "bg-gray-100 text-ali-blue font-semibold"
                       )}
                     >
-                      <item.icon className="h-5 w-5 ml-3" />
-                      <span>{item.name}</span>
+                      <item.icon className="h-5 w-5 ml-3 flex-shrink-0" />
+                      <span className="truncate">{item.name}</span>
                     </Link>
                   </li>
                 ))}
@@ -168,7 +184,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, type, title
                     to="/settings"
                     className="flex items-center py-2 px-3 rounded-lg text-gray-800 hover:bg-gray-100 transition-colors"
                   >
-                    <Settings className="h-5 w-5 ml-3" />
+                    <Settings className="h-5 w-5 ml-3 flex-shrink-0" />
                     <span>الإعدادات</span>
                   </Link>
                 </li>
@@ -177,7 +193,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, type, title
                     onClick={handleLogout}
                     className="flex items-center py-2 px-3 rounded-lg text-red-600 hover:bg-red-50 transition-colors w-full text-right"
                   >
-                    <LogOut className="h-5 w-5 ml-3" />
+                    <LogOut className="h-5 w-5 ml-3 flex-shrink-0" />
                     <span>تسجيل الخروج</span>
                   </button>
                 </li>
@@ -186,8 +202,17 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, type, title
           </div>
         </aside>
         
+        {/* Backdrop for mobile sidebar */}
+        {mobileOpen && (
+          <div 
+            className="fixed inset-0 bg-black/20 z-20 md:hidden" 
+            onClick={() => setMobileOpen(false)}
+            aria-hidden="true"
+          />
+        )}
+        
         {/* Main content */}
-        <main className="flex-1 p-4 md:p-6">
+        <main className="flex-1 p-4 md:p-6 overflow-x-hidden">
           {children}
         </main>
       </div>

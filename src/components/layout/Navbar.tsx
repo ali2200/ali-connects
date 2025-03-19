@@ -4,11 +4,13 @@ import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import CustomButton from '../ui/CustomButton';
 import { cn } from '@/lib/utils';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
+  const isMobile = useIsMobile();
   
   useEffect(() => {
     const handleScroll = () => {
@@ -18,6 +20,11 @@ const Navbar = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+  
+  // Close mobile menu when route changes
+  useEffect(() => {
+    setIsOpen(false);
+  }, [location.pathname]);
   
   const navItems = [
     { name: 'الرئيسية', path: '/' },
@@ -58,16 +65,16 @@ const Navbar = () => {
   return (
     <nav 
       className={cn(
-        'fixed top-0 inset-x-0 z-50 transition-all duration-300',
-        isScrolled || isOpen ? 'glass shadow-sm py-3' : 'bg-transparent py-5'
+        'fixed top-0 inset-x-0 z-50 transition-all duration-300 safe-area-inset',
+        isScrolled || isOpen ? 'glass shadow-sm py-2 md:py-3' : 'bg-transparent py-3 md:py-5'
       )}
     >
       <div className="container-custom">
-        <div className="flex justify-between items-center h-14">
+        <div className="flex justify-between items-center h-12 md:h-14">
           {/* Logo - Positioned on the right side for RTL */}
           <div className="order-2 md:order-1">
             <Link to="/" className="flex items-center">
-              <h1 className="text-2xl font-bold text-ali-blue">
+              <h1 className="text-xl md:text-2xl font-bold text-ali-blue">
                 علي<span className="text-gray-800">للأعمال</span>
               </h1>
             </Link>
@@ -75,7 +82,7 @@ const Navbar = () => {
           
           {/* Desktop Navigation - In the middle */}
           <div className="hidden md:flex order-1 md:order-2 items-center justify-center flex-grow">
-            <div className="flex items-center space-x-8 space-x-reverse">
+            <div className="flex items-center space-x-4 md:space-x-8 space-x-reverse">
               {navItems.map((item) => (
                 item.submenu ? (
                   <div key={item.name} className="relative group">
@@ -99,7 +106,10 @@ const Navbar = () => {
                   <Link 
                     key={item.name}
                     to={item.path}
-                    className="text-gray-700 hover:text-ali-blue transition-colors"
+                    className={cn(
+                      "text-gray-700 hover:text-ali-blue transition-colors",
+                      location.pathname === item.path && "text-ali-blue font-semibold"
+                    )}
                   >
                     {item.name}
                   </Link>
@@ -124,13 +134,14 @@ const Navbar = () => {
           
           {/* Mobile Menu Button */}
           <button 
-            className="md:hidden order-3 text-gray-700"
+            className="md:hidden order-3 text-gray-700 p-2"
             onClick={() => setIsOpen(!isOpen)}
+            aria-label={isOpen ? "إغلاق القائمة" : "فتح القائمة"}
           >
             {isOpen ? (
-              <X className="h-6 w-6" />
+              <X className="h-5 w-5" />
             ) : (
-              <Menu className="h-6 w-6" />
+              <Menu className="h-5 w-5" />
             )}
           </button>
         </div>
@@ -162,7 +173,10 @@ const Navbar = () => {
                   ) : (
                     <Link 
                       to={item.path}
-                      className="block px-3 py-2 hover:bg-white/60 rounded-lg text-right"
+                      className={cn(
+                        "block px-3 py-2 hover:bg-white/60 rounded-lg text-right",
+                        location.pathname === item.path && "text-ali-blue font-semibold bg-white/40"
+                      )}
                       onClick={() => setIsOpen(false)}
                     >
                       {item.name}

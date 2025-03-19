@@ -179,6 +179,30 @@ html[dir="rtl"] .breadcrumb-container {
   padding-right: 1rem;
 }
 
+/* تحسينات للتجاوب مع الأجهزة المختلفة */
+@media (max-width: 640px) {
+  html {
+    font-size: 14px;
+  }
+  
+  .rtl-content h1 {
+    font-size: 1.75rem;
+  }
+  
+  .rtl-content h2 {
+    font-size: 1.5rem;
+  }
+  
+  .rtl-content img {
+    margin: 1rem 0;
+  }
+  
+  .container-custom {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+}
+
 @media (min-width: 640px) {
   .container-custom {
     padding-left: 1.5rem;
@@ -190,5 +214,24 @@ html[dir="rtl"] .breadcrumb-container {
   .container-custom {
     padding-left: 2rem;
     padding-right: 2rem;
+  }
+}
+
+/* تعديلات خاصة بالنافبار على الشاشات الصغيرة */
+@media (max-width: 768px) {
+  .blog-title {
+    margin-top: 4rem;
+  }
+  
+  html[dir="rtl"] .breadcrumb-container {
+    margin-top: 70px;
+  }
+}
+
+/* تعديلات خاصة بالجوال في الوضع الأفقي */
+@media (max-height: 480px) and (orientation: landscape) {
+  .section-padding {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
   }
 }
