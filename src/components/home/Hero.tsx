@@ -32,7 +32,7 @@ const Hero = () => {
   }, []);
   
   return (
-    <div ref={heroRef} className="relative overflow-hidden pt-24 pb-20 md:pb-32 lg:pt-32 lg:pb-40">
+    <div ref={heroRef} className="relative overflow-hidden pt-24 pb-16 md:pb-24 lg:pt-28 lg:pb-28">
       {/* Background elements */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
         <div className="hero-float absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-ali-blue opacity-10 blur-3xl" data-speed="0.5"></div>
@@ -59,7 +59,7 @@ const Hero = () => {
               عملك على النمو في البيئة الرقمية.
             </p>
             
-            <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start animate-fade-in" style={{ animationDelay: '300ms' }}>
+            <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start animate-fade-in" style={{ animationDelay: '300ms' }}>
               <Link to="/register">
                 <CustomButton size="lg" rightIcon={<ArrowRight className="mr-1 rotate-180" />}>
                   ابدأ الآن
@@ -70,17 +70,6 @@ const Hero = () => {
                   استكشف الخدمات
                 </CustomButton>
               </Link>
-            </div>
-            
-            <div className="mt-12 animate-fade-in" style={{ animationDelay: '400ms' }}>
-              <p className="text-sm text-gray-500 mb-3">موثوق به من قبل شركات في جميع أنحاء العالم</p>
-              <div className="flex flex-wrap justify-center lg:justify-end gap-6">
-                {['جوجل', 'مايكروسوفت', 'أدوبي', 'شوبيفاي', 'سلاك'].map((company) => (
-                  <div key={company} className="text-gray-400 font-semibold">
-                    {company}
-                  </div>
-                ))}
-              </div>
             </div>
           </div>
           
