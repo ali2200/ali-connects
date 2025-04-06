@@ -9,7 +9,89 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      job_posts: {
+        Row: {
+          budget_max: number | null
+          budget_min: number | null
+          category: string
+          client_id: string
+          created_at: string
+          description: string
+          id: string
+          skills: string[]
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          budget_max?: number | null
+          budget_min?: number | null
+          category: string
+          client_id: string
+          created_at?: string
+          description: string
+          id?: string
+          skills: string[]
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          budget_max?: number | null
+          budget_min?: number | null
+          category?: string
+          client_id?: string
+          created_at?: string
+          description?: string
+          id?: string
+          skills?: string[]
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      job_proposals: {
+        Row: {
+          created_at: string
+          freelancer_id: string
+          id: string
+          job_id: string
+          price: number
+          proposal_text: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          freelancer_id: string
+          id?: string
+          job_id: string
+          price: number
+          proposal_text: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          freelancer_id?: string
+          id?: string
+          job_id?: string
+          price?: number
+          proposal_text?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "job_proposals_job_id_fkey"
+            columns: ["job_id"]
+            isOneToOne: false
+            referencedRelation: "job_posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never

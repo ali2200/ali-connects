@@ -3,202 +3,331 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import CustomButton from '../ui/CustomButton';
-import { cn } from '@/lib/utils';
-import { useIsMobile } from '@/hooks/use-mobile';
+import { supabase } from '@/integrations/supabase/client';
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [user, setUser] = useState<any>(null);
   const location = useLocation();
-  const isMobile = useIsMobile();
   
+  // Check if user is logged in
+  useEffect(() => {
+    const checkUser = async () => {
+      const { data } = await supabase.auth.getUser();
+      setUser(data.user);
+    };
+    
+    checkUser();
+    
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        setUser(session?.user ?? null);
+      }
+    );
+    
+    return () => {
+      authListener.subscription.unsubscribe();
+    };
+  }, []);
+  
+  // Handle scroll effect
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
+      if (window.scrollY > 20) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
     };
     
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
   
-  // Close mobile menu when route changes
-  useEffect(() => {
-    setIsOpen(false);
-  }, [location.pathname]);
-  
-  const navItems = [
-    { name: 'الرئيسية', path: '/' },
-    { 
-      name: 'الدورات والتدريب', 
-      path: '/courses',
-      submenu: [
-        { name: 'جميع الدورات', path: '/courses' },
-        { name: 'الشهادات والإختبارات', path: '/certifications' },
-        { name: 'مسارات التعلم', path: '/learning-paths' }
-      ]
-    },
-    { 
-      name: 'سوق الخدمات', 
-      path: '/marketplace',
-      submenu: [
-        { name: 'تصفح الخدمات', path: '/marketplace' },
-        { name: 'إدارة الطلبات', path: '/marketplace/orders' },
-      ]
-    },
-    { name: 'ابحث عن مستقل', path: '/freelancers' },
-    { 
-      name: 'من نحن', 
-      path: '/about',
-      submenu: [
-        { name: 'عن المنصة', path: '/about' },
-        { name: 'تواصل معنا', path: '/contact' },
-        { name: 'الأسئلة الشائعة', path: '/faq' },
-        { name: 'شروط الإستخدام', path: '/terms' },
-        { name: 'المدونة', path: '/blog' },
-      ]
-    },
-  ];
-  
-  // Determine if we're on the blog page to add extra spacing
-  const isBlogPage = location.pathname === '/blog';
+  // Check if the link matches current location
+  const isActive = (path: string) => {
+    if (path === '/' && location.pathname !== '/') return false;
+    return location.pathname.startsWith(path);
+  };
   
   return (
     <nav 
-      className={cn(
-        'fixed top-0 inset-x-0 z-50 transition-all duration-300 safe-area-inset',
-        isScrolled || isOpen ? 'glass shadow-sm py-2 md:py-3' : 'bg-transparent py-3 md:py-5'
-      )}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 safe-area-inset ${
+        scrolled 
+          ? 'bg-white shadow-md py-3' 
+          : 'bg-transparent py-5'
+      }`}
     >
       <div className="container-custom">
-        <div className="flex justify-between items-center h-12 md:h-14">
-          {/* Logo - Positioned on the right side for RTL */}
-          <div className="order-2 md:order-1">
-            <Link to="/" className="flex items-center">
-              <h1 className="text-xl md:text-2xl font-bold text-ali-blue">
-                علي<span className="text-gray-800">للأعمال</span>
-              </h1>
+        <div className="flex items-center justify-between">
+          {/* Logo */}
+          <Link to="/" className="flex items-center">
+            <span className={`text-2xl font-bold ${scrolled ? 'text-gray-900' : 'text-gray-900'}`}>
+              علي
+              <span className="text-ali-blue">.</span>
+            </span>
+          </Link>
+          
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-0 space-x-reverse space-x-5">
+            <Link 
+              to="/" 
+              className={`relative px-1.5 py-1 transition-colors ${
+                isActive('/') 
+                  ? 'text-gray-900 font-medium' 
+                  : 'text-gray-600 hover:text-gray-900'
+              }`}
+            >
+              الرئيسية
+              {isActive('/') && <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-ali-blue"></span>}
+            </Link>
+            
+            <Link 
+              to="/courses" 
+              className={`relative px-1.5 py-1 transition-colors ${
+                isActive('/courses') 
+                  ? 'text-gray-900 font-medium' 
+                  : 'text-gray-600 hover:text-gray-900'
+              }`}
+            >
+              الدورات
+              {isActive('/courses') && <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-ali-blue"></span>}
+            </Link>
+            
+            <Link 
+              to="/marketplace" 
+              className={`relative px-1.5 py-1 transition-colors ${
+                isActive('/marketplace') 
+                  ? 'text-gray-900 font-medium' 
+                  : 'text-gray-600 hover:text-gray-900'
+              }`}
+            >
+              سوق الخدمات
+              {isActive('/marketplace') && <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-ali-blue"></span>}
+            </Link>
+            
+            <Link 
+              to="/jobs" 
+              className={`relative px-1.5 py-1 transition-colors ${
+                isActive('/jobs') 
+                  ? 'text-gray-900 font-medium' 
+                  : 'text-gray-600 hover:text-gray-900'
+              }`}
+            >
+              الوظائف
+              {isActive('/jobs') && <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-ali-blue"></span>}
+            </Link>
+            
+            <Link 
+              to="/books" 
+              className={`relative px-1.5 py-1 transition-colors ${
+                isActive('/books') 
+                  ? 'text-gray-900 font-medium' 
+                  : 'text-gray-600 hover:text-gray-900'
+              }`}
+            >
+              الكتب
+              {isActive('/books') && <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-ali-blue"></span>}
+            </Link>
+            
+            <Link 
+              to="/about" 
+              className={`relative px-1.5 py-1 transition-colors ${
+                isActive('/about') 
+                  ? 'text-gray-900 font-medium' 
+                  : 'text-gray-600 hover:text-gray-900'
+              }`}
+            >
+              من نحن
+              {isActive('/about') && <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-ali-blue"></span>}
             </Link>
           </div>
           
-          {/* Desktop Navigation - In the middle */}
-          <div className="hidden md:flex order-1 md:order-2 items-center justify-center flex-grow">
-            <div className="flex items-center space-x-4 md:space-x-8 space-x-reverse">
-              {navItems.map((item) => (
-                item.submenu ? (
-                  <div key={item.name} className="relative group">
-                    <button className="flex items-center text-gray-700 hover:text-ali-blue transition-colors">
-                      {item.name}
-                      <ChevronDown className="mr-1 h-4 w-4" />
+          {/* Auth Buttons */}
+          <div className="hidden md:flex items-center space-x-0 space-x-reverse space-x-4">
+            {user ? (
+              <div className="relative group">
+                <button className="flex items-center space-x-1 space-x-reverse bg-gray-100 rounded-full px-4 py-2 text-gray-700 hover:bg-gray-200 transition">
+                  <span>حسابي</span>
+                  <ChevronDown size={16} />
+                </button>
+                
+                <div className="absolute left-0 top-full mt-1 w-48 bg-white rounded-md shadow-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                  <div className="py-1">
+                    <Link 
+                      to="/dashboard/freelancer" 
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    >
+                      لوحة التحكم
+                    </Link>
+                    <Link 
+                      to="/dashboard/freelancer/proposals" 
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    >
+                      عروضي المقدمة
+                    </Link>
+                    <Link 
+                      to="/dashboard/client/manage-jobs" 
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    >
+                      إدارة المشاريع
+                    </Link>
+                    <Link 
+                      to="/settings" 
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    >
+                      الإعدادات
+                    </Link>
+                    <button 
+                      onClick={() => supabase.auth.signOut()}
+                      className="block w-full text-right px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                    >
+                      تسجيل الخروج
                     </button>
-                    <div className="absolute top-full right-0 transform -translate-y-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-300 min-w-[200px] glass rounded-lg shadow-lg mt-2 py-2 z-50 bg-white/90">
-                      {item.submenu.map((subitem) => (
-                        <Link 
-                          key={subitem.name}
-                          to={subitem.path}
-                          className="block px-4 py-2 hover:bg-white/60 text-gray-700 hover:text-ali-blue transition-colors text-right"
-                        >
-                          {subitem.name}
-                        </Link>
-                      ))}
-                    </div>
                   </div>
-                ) : (
-                  <Link 
-                    key={item.name}
-                    to={item.path}
-                    className={cn(
-                      "text-gray-700 hover:text-ali-blue transition-colors",
-                      location.pathname === item.path && "text-ali-blue font-semibold"
-                    )}
-                  >
-                    {item.name}
-                  </Link>
-                )
-              ))}
-            </div>
-          </div>
-          
-          {/* Authentication Buttons - Now positioned on the left */}
-          <div className="md:flex hidden order-3 items-center space-x-4 space-x-reverse">
-            <Link to="/register">
-              <CustomButton variant="primary" size="sm">
-                إنشاء حساب
-              </CustomButton>
-            </Link>
-            <Link to="/login">
-              <CustomButton variant="ghost" size="sm">
-                تسجيل الدخول
-              </CustomButton>
-            </Link>
+                </div>
+              </div>
+            ) : (
+              <>
+                <Link to="/login">
+                  <CustomButton variant="outline" size="sm">
+                    دخول
+                  </CustomButton>
+                </Link>
+                <Link to="/register">
+                  <CustomButton size="sm">
+                    التسجيل
+                  </CustomButton>
+                </Link>
+              </>
+            )}
           </div>
           
           {/* Mobile Menu Button */}
           <button 
-            className="md:hidden order-3 text-gray-700 p-2"
-            onClick={() => setIsOpen(!isOpen)}
-            aria-label={isOpen ? "إغلاق القائمة" : "فتح القائمة"}
+            className="md:hidden text-gray-500 hover:text-gray-700"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
-            {isOpen ? (
-              <X className="h-5 w-5" />
-            ) : (
-              <Menu className="h-5 w-5" />
-            )}
+            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
-        
-        {/* Mobile Navigation */}
-        {isOpen && (
-          <div className="md:hidden mt-4 py-4 glass-card">
-            <div className="flex flex-col space-y-3 px-2">
-              {navItems.map((item) => (
-                <React.Fragment key={item.name}>
-                  {item.submenu ? (
-                    <div className="space-y-2">
-                      <div className="font-medium px-3 py-2 text-right">
-                        {item.name}
-                      </div>
-                      <div className="pr-4 border-r-2 border-gray-200 mr-3 space-y-1">
-                        {item.submenu.map((subitem) => (
-                          <Link 
-                            key={subitem.name}
-                            to={subitem.path}
-                            className="block px-3 py-2 text-sm text-gray-600 hover:text-ali-blue transition-colors text-right"
-                            onClick={() => setIsOpen(false)}
-                          >
-                            {subitem.name}
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
-                  ) : (
-                    <Link 
-                      to={item.path}
-                      className={cn(
-                        "block px-3 py-2 hover:bg-white/60 rounded-lg text-right",
-                        location.pathname === item.path && "text-ali-blue font-semibold bg-white/40"
-                      )}
-                      onClick={() => setIsOpen(false)}
-                    >
-                      {item.name}
-                    </Link>
-                  )}
-                </React.Fragment>
-              ))}
-              
-              <div className="pt-4 mt-2 border-t border-gray-200">
-                <div className="flex flex-col space-y-3 px-3">
-                  <Link to="/login" onClick={() => setIsOpen(false)}>
-                    <CustomButton variant="outline" isFullWidth>تسجيل الدخول</CustomButton>
+      </div>
+      
+      {/* Mobile Navigation */}
+      {isMenuOpen && (
+        <div className="md:hidden bg-white shadow-lg absolute top-full left-0 right-0">
+          <div className="flex flex-col px-4 py-4">
+            <Link 
+              to="/" 
+              className={`py-2 ${isActive('/') ? 'text-ali-blue font-medium' : 'text-gray-600'}`}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              الرئيسية
+            </Link>
+            <Link 
+              to="/courses" 
+              className={`py-2 ${isActive('/courses') ? 'text-ali-blue font-medium' : 'text-gray-600'}`}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              الدورات
+            </Link>
+            <Link 
+              to="/marketplace" 
+              className={`py-2 ${isActive('/marketplace') ? 'text-ali-blue font-medium' : 'text-gray-600'}`}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              سوق الخدمات
+            </Link>
+            <Link 
+              to="/jobs" 
+              className={`py-2 ${isActive('/jobs') ? 'text-ali-blue font-medium' : 'text-gray-600'}`}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              الوظائف
+            </Link>
+            <Link 
+              to="/books" 
+              className={`py-2 ${isActive('/books') ? 'text-ali-blue font-medium' : 'text-gray-600'}`}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              الكتب
+            </Link>
+            <Link 
+              to="/about" 
+              className={`py-2 ${isActive('/about') ? 'text-ali-blue font-medium' : 'text-gray-600'}`}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              من نحن
+            </Link>
+            
+            <div className="border-t border-gray-200 mt-2 pt-2">
+              {user ? (
+                <>
+                  <Link 
+                    to="/dashboard/freelancer" 
+                    className="block py-2 text-gray-600"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    لوحة التحكم
                   </Link>
-                  <Link to="/register" onClick={() => setIsOpen(false)}>
-                    <CustomButton variant="primary" isFullWidth>إنشاء حساب</CustomButton>
+                  <Link 
+                    to="/dashboard/freelancer/proposals" 
+                    className="block py-2 text-gray-600"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    عروضي المقدمة
+                  </Link>
+                  <Link 
+                    to="/dashboard/client/manage-jobs" 
+                    className="block py-2 text-gray-600"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    إدارة المشاريع
+                  </Link>
+                  <Link 
+                    to="/settings" 
+                    className="block py-2 text-gray-600"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    الإعدادات
+                  </Link>
+                  <button 
+                    onClick={() => {
+                      supabase.auth.signOut();
+                      setIsMenuOpen(false);
+                    }}
+                    className="block py-2 text-red-600"
+                  >
+                    تسجيل الخروج
+                  </button>
+                </>
+              ) : (
+                <div className="flex flex-col space-y-2 mt-2">
+                  <Link 
+                    to="/login" 
+                    className="w-full"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <CustomButton variant="outline" isFullWidth>
+                      دخول
+                    </CustomButton>
+                  </Link>
+                  <Link 
+                    to="/register" 
+                    className="w-full"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <CustomButton isFullWidth>
+                      التسجيل
+                    </CustomButton>
                   </Link>
                 </div>
-              </div>
+              )}
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </nav>
   );
 };

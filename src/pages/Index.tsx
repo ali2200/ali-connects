@@ -1,79 +1,38 @@
 
-import React, { useEffect } from 'react';
+import React from 'react';
+import { Helmet } from 'react-helmet-async';
 import Navbar from '@/components/layout/Navbar';
-import Footer from '@/components/layout/Footer';
 import Hero from '@/components/home/Hero';
-import VideoIntro from '@/components/home/VideoIntro';
 import Features from '@/components/home/Features';
 import CoursePreview from '@/components/home/CoursePreview';
-import BookPreview from '@/components/home/BookPreview';
 import MarketplacePreview from '@/components/home/MarketplacePreview';
 import FreelancerShowcase from '@/components/home/FreelancerShowcase';
+import BookPreview from '@/components/home/BookPreview';
 import CTASection from '@/components/home/CTASection';
-import '@/styles/rtl.css';
+import Footer from '@/components/layout/Footer';
+import JobPreview from '@/components/home/JobPreview';
 
 const Index: React.FC = () => {
-  console.log("Index component rendering");
-  
-  useEffect(() => {
-    console.log("Index useEffect running");
-    
-    // Set RTL direction on html element
-    document.documentElement.setAttribute('dir', 'rtl');
-    document.documentElement.classList.add('rtl');
-    
-    // Animation for elements with animate-on-scroll class
-    const observerCallback = (entries: IntersectionObserverEntry[]) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('animate-visible');
-        }
-      });
-    };
-    
-    const observer = new IntersectionObserver(observerCallback, {
-      threshold: 0.1
-    });
-    
-    // Safely check if elements exist before observing
-    const elements = document.querySelectorAll('.animate-on-scroll');
-    if (elements.length > 0) {
-      elements.forEach(element => {
-        observer.observe(element);
-      });
-    }
-    
-    return () => {
-      // Safely unobserve elements
-      if (elements.length > 0) {
-        elements.forEach(element => {
-          observer.unobserve(element);
-        });
-      }
-      
-      // Remove RTL direction when component unmounts
-      document.documentElement.removeAttribute('dir');
-      document.documentElement.classList.remove('rtl');
-    };
-  }, []);
-  
   return (
-    <div className="min-h-screen flex flex-col">
+    <>
+      <Helmet>
+        <title>علي للأعمال - منصة شاملة للتعلم والعمل المستقل</title>
+        <meta name="description" content="علي للأعمال - منصة شاملة للتعلم والعمل المستقل، تقدم دورات تعليمية، سوق خدمات، وفرص عمل بين أصحاب الأعمال والمستقلين" />
+      </Helmet>
+
       <Navbar />
-      
-      <main className="flex-grow">
+      <main>
         <Hero />
-        <VideoIntro />
         <Features />
         <CoursePreview />
-        <BookPreview />
-        <MarketplacePreview />
         <FreelancerShowcase />
+        <MarketplacePreview />
+        <JobPreview />
+        <BookPreview />
         <CTASection />
       </main>
-      
       <Footer />
-    </div>
+    </>
   );
 };
 

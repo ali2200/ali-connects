@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -16,6 +17,7 @@ import FreelancerProjects from "./pages/dashboard/freelancer/Projects";
 import FreelancerServices from "./pages/dashboard/freelancer/Services";
 import FreelancerEarnings from "./pages/dashboard/freelancer/Earnings";
 import FreelancerReviews from "./pages/dashboard/freelancer/Reviews";
+import MyProposals from "./pages/dashboard/freelancer/MyProposals";
 
 // لوحة التحكم - أصحاب الأعمال
 import ClientDashboard from "./pages/dashboard/client/Dashboard";
@@ -23,6 +25,8 @@ import ClientProfile from "./pages/dashboard/client/Profile";
 import ClientProjects from "./pages/dashboard/client/Projects";
 import ClientNewProject from "./pages/dashboard/client/NewProject";
 import ClientPayments from "./pages/dashboard/client/Payments";
+import ManageJobs from "./pages/dashboard/client/ManageJobs";
+import PostJob from "./pages/dashboard/client/PostJob";
 
 // لوحة التحكم - المحاضرين
 import LecturerDashboard from "./pages/dashboard/lecturer/Dashboard";
@@ -78,6 +82,10 @@ import Freelancers from "./pages/Freelancers";
 import Books from "./pages/books/Books";
 import BookDetail from "./pages/books/BookDetail";
 
+// صفحات الوظائف
+import Jobs from "./pages/jobs/Jobs";
+import JobDetail from "./pages/jobs/JobDetail";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -118,6 +126,10 @@ const App = () => (
             <Route path="/freelancers" element={<Freelancers />} />
             <Route path="/freelancers/:id" element={<FreelancerProfile />} />
             
+            {/* صفحات الوظائف */}
+            <Route path="/jobs" element={<Jobs />} />
+            <Route path="/jobs/:id" element={<JobDetail />} />
+            
             {/* الإشعارات المشتركة */}
             <Route path="/dashboard/notifications" element={<Notifications />} />
             
@@ -129,6 +141,7 @@ const App = () => (
             <Route path="/dashboard/freelancer/services" element={<FreelancerServices />} />
             <Route path="/dashboard/freelancer/earnings" element={<FreelancerEarnings />} />
             <Route path="/dashboard/freelancer/reviews" element={<FreelancerReviews />} />
+            <Route path="/dashboard/freelancer/proposals" element={<MyProposals />} />
             
             {/* لوحة تحكم أصحاب الأعمال */}
             <Route path="/dashboard/client" element={<ClientDashboard />} />
@@ -137,6 +150,8 @@ const App = () => (
             <Route path="/dashboard/client/projects/:id" element={<ClientProjects />} />
             <Route path="/dashboard/client/projects/new" element={<ClientNewProject />} />
             <Route path="/dashboard/client/payments" element={<ClientPayments />} />
+            <Route path="/dashboard/client/manage-jobs" element={<ManageJobs />} />
+            <Route path="/dashboard/client/post-job" element={<PostJob />} />
             
             {/* لوحة تحكم المحاضرين */}
             <Route path="/dashboard/lecturer" element={<LecturerDashboard />} />
